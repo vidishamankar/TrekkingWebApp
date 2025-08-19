@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Trail & Trek Safety - Auth</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #34b3a0 0%, #347bb3 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-auth {
+      max-width: 430px;
+      margin: 2rem auto;
+      border: none;
+      border-radius: 1.5rem;
+      box-shadow: 0 10px 28px rgba(52,123,179,0.10),0 2px 4px rgba(52,179,160,0.10);
+      overflow: hidden;
+      background: #fff;
+    }
+    .auth-header {
+      background: linear-gradient(90deg, #34b3a0 75%, #347bb3 100%);
+      color: #fff;
+      padding: 1.5rem 0 .8rem;
+      text-align: center;
+      border-bottom-left-radius: 1.2rem;
+      border-bottom-right-radius: 1.2rem;
+    }
+    .auth-header i {
+      font-size: 2.8rem;
+      margin-bottom: .5rem;
+      color: #eef8f8;
+    }
+    .nav-pills .nav-link.active {
+      background-color: #34b3a0 !important;
+      color: #fff !important;
+      border-radius: 2em;
+    }
+    .nav-pills .nav-link {
+      color: #107503;
+      font-weight: 500;
+      transition: background .2s;
+    }
+    .btn-auth {
+      background: linear-gradient(90deg,#34b3a0,#107503);
+      color: #fff;
+      border: none;
+      font-weight: 600;
+      font-size: 1.08rem;
+      transition: opacity .2s, box-shadow .2s;
+      border-radius: 1.2em;
+      box-shadow: 0 2px 8px rgba(52,123,179,0.10);
+    }
+    .btn-auth:hover {
+      opacity: 0.87;
+      box-shadow: 0 6px 24px rgba(52,123,179,0.13);
+    }
+    .form-floating label {
+      color: #347bb3;
+    }
+    .form-check-label {
+      font-size: 0.97rem;
+    }
+    .auth-link {
+      color: #347bb3;
+      text-decoration: none;
+      transition: text-decoration .15s;
+    }
+    .auth-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body>
+  <div class="card card-auth">
+    <div class="auth-header">
+      <i class="bi bi-compass"></i>
+      <h3>Trail & Trek Safety</h3>
+      <div class="small mt-1">Your journey starts here</div>
+    </div>
+    <div class="container px-4 py-3">
+      <ul class="nav nav-pills nav-justified mb-4" id="authTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="login-tab" data-bs-toggle="pill" data-bs-target="#login" type="button" role="tab" aria-controls="login" aria-selected="true">Login</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="register-tab" data-bs-toggle="pill" data-bs-target="#register" type="button" role="tab" aria-controls="register" aria-selected="false">Sign Up</button>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <!-- Login Form -->
+        <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
+          <form>
+            <div class="form-floating mb-3">
+              <input type="email" class="form-control" id="loginEmail" placeholder="name@example.com" required>
+              <label for="loginEmail"><i class="bi bi-envelope me-1"></i>Email address</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="password" class="form-control" id="loginPassword" placeholder="Password" required>
+              <label for="loginPassword"><i class="bi bi-lock me-1"></i>Password</label>
+            </div>
+            <div class="mb-2 form-check">
+              <input type="checkbox" class="form-check-input" id="rememberMe">
+              <label class="form-check-label" for="rememberMe">Remember me</label>
+            </div>
+            <button type="submit" class="btn btn-auth w-100 mt-3">Login</button>
+            <div class="text-center mt-3">
+              <a href="#" class="auth-link">Forgot password?</a>
+            </div>
+          </form>
+        </div>
+        <!-- Registration Form -->
+        <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
+          <form>
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="registerName" placeholder="Full Name" required>
+              <label for="registerName"><i class="bi bi-person me-1"></i>Full Name</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="email" class="form-control" id="registerEmail" placeholder="name@example.com" required>
+              <label for="registerEmail"><i class="bi bi-envelope me-1"></i>Email address</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="password" class="form-control" id="registerPassword" placeholder="Password" required>
+              <label for="registerPassword"><i class="bi bi-lock me-1"></i>Password</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="password" class="form-control" id="registerConfirm" placeholder="Confirm Password" required>
+              <label for="registerConfirm"><i class="bi bi-unlock me-1"></i>Confirm Password</label>
+            </div>
+            <div class="mb-2 form-check">
+              <input type="checkbox" class="form-check-input" id="termsCheck" required>
+              <label class="form-check-label" for="termsCheck">Agree to terms and conditions</label>
+            </div>
+            <button type="submit" class="btn btn-auth w-100 mt-3">Sign Up</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      background: #f8fafc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    .form-container {
+      background: #fff;
+      padding: 32px 28px 28px 28px;
+      border-radius: 10px;
+      box-shadow: 0 6px 32px #0001;
+      width: 320px;
+      max-width: 90vw;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 28px;
+      color:  #254d23;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      margin-top: 14px;
+    }
+    input[type="email"], input[type="password"] {
+      width: 100%;
+      padding: 9px 12px;
+      margin-bottom: 10px;
+      border: 1px solid #dddddd;
+      border-radius: 5px;
+      font-size: 1rem;
+      outline: none;
+      transition: border .2s;
+    }
+    input[type="email"]:focus, input[type="password"]:focus {
+      border: 1.6px solid #228B22;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background:  #254d23;
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background .2s;
+    }
+    button:hover {
+      background: #176d1a;
+    }
+    .switch {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 0.97rem;
+    }
+    .switch a {
+      color:  #254d23 ;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 3px;
+    }
+    .switch a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Sign Up</h2>
+    <form>
+      <label for="email">Gmail Address</label>
+      <input type="email" id="email" placeholder="you@gmail.com" required>
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Enter password" required>
+      <label for="Confirm password">Confirm Password</label>
+      <input type="password" id="password" placeholder="Confirm password" required>
+      <button type="submit">Create Account</button>
+    </form>
+    <div class="switch">
+      Already a member?
+      <a href="login.html">Login now</a>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TrekSafe – Start Your Adventure!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --main-green: #228B22;
+      --main-green-dark: #033607;
+      --background: #f8fafc;
+      --white: #fff;
+    }
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--background);
+      color: #212a30;
+      min-height: 100vh;
+    }
+    header {
+      background: var(--main-green);
+      color: var(--white);
+      padding: 22px 0 14px 0;
+      text-align: center;
+      letter-spacing: 2px;
+      font-size: 2rem;
+      font-weight: bold;
+      box-shadow: 0 2px 10px #0001;
+    }
+    .intro-container {
+      max-width: 470px;
+      margin: 60px auto 0 auto;
+      background: var(--white);
+      padding: 40px 32px 36px 32px;
+      border-radius: 14px;
+      box-shadow: 0 8px 48px 4px #11941a12;
+      text-align: center;
+    }
+    .catchy-text {
+      font-size: 1.25rem;
+      margin: 16px 0 36px 0;
+      line-height: 1.7;
+      color: #222;
+    }
+    .cta-btns {
+      display: flex;
+      justify-content: center;
+      gap: 22px;
+      margin-top: 20px;
+    }
+    .cta-btns a {
+      padding: 12px 36px;
+      border-radius: 6px;
+      border: none;
+      outline: none;
+      font-size: 1.07rem;
+      font-weight: 600;
+      color: var(--white);
+      background: var(--main-green);
+      cursor: pointer;
+      text-decoration: none;
+      transition: background .2s;
+      display: inline-block;
+    }
+    .cta-btns a:hover {
+      background: var(--main-green-dark);
+    }
+    .adventure-img {
+      margin: 0 auto 28px auto;
+      width: 110px;
+      height: 110px;
+      background: linear-gradient(120deg, #e0efe0 60%, #bbeebb 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .adventure-img svg {
+      width: 65px;
+      height: 65px;
+    }
+
+    /* Forms */
+    .form-section {
+      max-width: 320px;
+      margin: 60px auto 0 auto;
+      background: var(--white);
+      padding: 32px 28px 28px 28px;
+      border-radius: 10px;
+      box-shadow: 0 6px 32px #0001;
+      position: relative;
+    }
+    .form-section h2 {
+      text-align: center;
+      color: var(--main-green);
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      margin-top: 14px;
+    }
+    input[type="email"], input[type="password"] {
+      width: 100%;
+      padding: 9px 12px;
+      margin-bottom: 9px;
+      border: 1px solid #dddddd;
+      border-radius: 5px;
+      font-size: 1rem;
+      outline: none;
+      transition: border .22s;
+    }
+    input[type="email"]:focus, input[type="password"]:focus {
+      border: 1.6px solid var(--main-green);
+    }
+    .form-section button[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      background: var(--main-green);
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      cursor: pointer;
+      margin-top: 12px;
+      transition: background .2s;
+    }
+    .form-section button[type="submit"]:hover {
+      background: var(--main-green-dark);
+    }
+    .switch {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.98rem;
+    }
+    .switch a {
+      color: var(--main-green);
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 3px;
+    }
+    .switch a:hover {
+      text-decoration: underline;
+    }
+    /* For in-page navigation smoothness */
+    html {
+      scroll-behavior: smooth;
+    }
+    @media (max-width: 512px) {
+      .intro-container { padding: 24px 9px 24px 9px; }
+      .form-section { padding: 17px 6px 24px 6px; }
+      .cta-btns { flex-direction: column; gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    TrekSafe
+  </header>
+
+  <div class="intro-container">
+    <div class="adventure-img">
+      <!-- Simple wilderness SVG icon -->
+      <svg fill="none" viewBox="0 0 60 60">
+        <ellipse cx="30" cy="49" rx="23" ry="11" fill="#b7e2b7"/>
+        <path d="M30 36 L13 54 L47 54 Z" fill="#228B22" stroke="#145a15" stroke-width="2"/>
+        <path d="M30 24 L21 41 L39 41 Z" fill="#5dc25d" stroke="#145a15" stroke-width="1"/>
+        <circle cx="30" cy="19" r="5" fill="#83d183" stroke="#228B22" stroke-width="2"/>
+      </svg>
+    </div>
+    <h1>Begin Your Trekking Adventure!</h1>
+    <p class="catchy-text">
+      Ready to answer the call of the wild? <b>TrekSafe</b> is your trusted companion for exploring trekking trails, staying connected, and ensuring your journey is safe and memorable.<br><br>
+      <span style="color:#176d1a;font-weight:600;">Unlock your adventurous life!</span>
+    </p>
+    <div class="cta-btns">
+      <a href="#login-section">Login</a>
+      <a href="#signup-section">Sign Up</a>
+    </div>
+  </div>
+
+  <!-- Login Form Section -->
+  <div id="login-section" class="form-section">
+    <h2>Login</h2>
+    <form>
+      <label for="login-email">Gmail Address</label>
+      <input type="email" id="login-email" placeholder="you@gmail.com" required>
+      <label for="login-password">Password</label>
+      <input type="password" id="login-password" placeholder="Enter password" required>
+      <button type="submit">Login</button>
+    </form>
+    <div class="switch">
+      New user?
+      <a href="#signup-section">Create an account</a>
+    </div>
+  </div>
+
+  <!-- Signup Form Section -->
+  <div id="signup-section" class="form-section">
+    <h2>Sign Up</h2>
+    <form>
+      <label for="signup-email">Gmail Address</label>
+      <input type="email" id="signup-email" placeholder="you@gmail.com" required>
+      <label for="signup-password">Password</label>
+      <input type="password" id="signup-password" placeholder="Enter password" required>
+      <button type="submit">Create Account</button>
+    </form>
+    <div class="switch">
+      Already a member?
+      <a href="#login-section">Login now</a>
+    </div>
+  </div>
+</body>
+</html>
