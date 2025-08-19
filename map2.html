@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TrekSafe Trails Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f3faf6;
+      color: #222;
+    }
+    header {
+      background: #228B22;
+      color: #fff;
+      font-size: 1.6rem;
+      padding: 22px 0 14px 0;
+      text-align: center;
+      font-weight: bold;
+      letter-spacing: 2px;
+      box-shadow: 0 2px 12px #0001;
+    }
+    .map-controls {
+      max-width: 900px;
+      margin: 18px auto 0 auto;
+      padding: 10px 18px 16px 18px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 12px #b1e2b650;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+    }
+    .btn {
+      background: #228B22;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 9px 23px;
+      font-size: 1.07rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.18s;
+      margin-right: 4px;
+    }
+    .btn:hover {
+      background: #176d1a;
+    }
+    #map {
+      width: 100vw;
+      max-width: 100%;
+      height: 72vh;
+      min-height: 320px;
+      margin: 0 auto 24px auto;
+      border-radius: 13px;
+      box-shadow: 0 6px 32px #b1e2b628;
+    }
+    @media (max-width: 700px) {
+      .map-controls { flex-direction: column; gap: 9px;}
+    }
+    label[for="trail-upload"] {
+      font-weight: 600;
+      margin-right: 7px;
+      color: #176d1a;
+    }
+    .info {
+      margin-top: 11px;
+      font-size: 0.97em;
+      color: #29501d;
+      line-height: 1.55;
+    }
+  </style>
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <!-- Optional: leaflet-gpx for GPX (add after Leaflet) -->
+  <script src="https://unpkg.com/leaflet-gpx"></script>
+</head>
+<body>
+  <header>
+    TrekSafe Trail Map
+  </header>
+  <div class="map-controls">
+    <div>
+      <button class="btn" id="start-mark">Mark Trail</button>
+      <button class="btn" id="finish-mark" style="display:none;">Save Trail</button>
+    </div>
+    <div>
+      <label for="trail-upload">Upload Trail:&nbsp;</label>
+      <input type="file" id="trail-upload" accept=".geojson,.gpx"/>
+    </div>
+  </div>
+  <div id="map"></div>
+  <div class="info" style="max-width:900px;margin:0 auto 24px auto;">
+    <b>Instructions:</b>
+    Click <b>Mark Trail</b> and then click on the map to add points; finish with "Save Trail". Upload recorded trails (GPX or GeoJSON); they appear instantly.
+  </div>
+  <script>
+    // Define base layers
+    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    });
+    var topo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+      maxZoom: 17,
+      attribution: 'Map data: © OpenStreetMap contributors, SRTM | Map style: © OpenTopoMap (CC-BY-SA)'
+    });
+
+    // Initialize the map with both layer options
+    var map = L.map('map', {
+      center: [28.5921, 77.0460],
+      zoom: 13,
+      layers: [osm]
+    });
+
+    // Layer control
+    var baseLayers = {
+      "OpenStreetMap": osm,
+      "OpenTopoMap": topo
+    };
+    L.control.layers(baseLayers, null, {collapsed: false, position: 'topright'}).addTo(map);
+
+    // Trail marking logic
+    var drawing = false;
+    var currentPoints = [];
+    var currentLine = null;
+
+    document.getElementById('start-mark').onclick = function() {
+      drawing = true;
+      currentPoints = [];
+      if(currentLine) {
+        map.removeLayer(currentLine);
+        currentLine = null;
+      }
+      this.style.display = "none";
+      document.getElementById('finish-mark').style.display = "";
+      map.getContainer().style.cursor = 'crosshair';
+    };
+    document.getElementById('finish-mark').onclick = function() {
+      drawing = false;
+      if(currentLine && currentPoints.length > 1) {
+        currentLine.bindPopup("Your Marked Trail (" + currentPoints.length + " points)").openPopup();
+      }
+      document.getElementById('start-mark').style.display = "";
+      this.style.display = "none";
+      map.getContainer().style.cursor = '';
+    };
+
+    map.on('click', function(e) {
+      if(!drawing) return;
+      currentPoints.push([e.latlng.lat, e.latlng.lng]);
+      if(currentLine) map.removeLayer(currentLine);
+      currentLine = L.polyline(currentPoints, {color: "#228b22", weight: 5}).addTo(map);
+    });
+
+    // Upload (GeoJSON and GPX)
+    document.getElementById('trail-upload').addEventListener('change', function(e){
+      var file = e.target.files[0];
+      if(!file) return;
+      var ext = file.name.split('.').pop().toLowerCase();
+      var reader = new FileReader();
+      reader.onload = function(ev) {
+        if(ext === 'geojson' || ext==='json') {
+          var geojson = JSON.parse(ev.target.result);
+          L.geoJSON(geojson, {
+            style: {color:'#2b75b6', weight:4},
+            onEachFeature: function (feature, layer) {
+              if (feature.properties && feature.properties.name)
+                layer.bindPopup(feature.properties.name);
+            }
+          }).addTo(map);
+        } else if(ext === 'gpx') {
+          new L.GPX(ev.target.result, {
+            async: true,
+            polyline_options: {color:'#154157', weight:4}
+          }).on('loaded', function(e) {
+            var gpxLayer = e.target;
+            map.fitBounds(gpxLayer.getBounds());
+            gpxLayer.bindPopup("Uploaded GPX Trail");
+          }).addTo(map);
+        } else {
+          alert('Unsupported file type! Use .gpx or .geojson');
+        }
+      };
+      reader.readAsText(file);
+    });
+  </script>
+</body>
+</html>
