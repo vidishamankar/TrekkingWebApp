@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Emergency - Trekking Trail Safety & Assistance</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+      body {
+        background-color: #f4f7f2; /* soft earthy background */
+      }
+      .card {
+        border-radius: 1.2rem;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+        background: #ffffff;
+      }
+      .emergency-title {
+        color: #2e5339; /* deep earthy green */
+        font-weight: 700;
+      }
+      .btn-call {
+        display: block;
+        width: 100%;
+        margin: 0.5rem 0;
+        padding: 0.8rem;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 0.6rem;
+        background: #4caf50; /* natural green */
+        color: #fff;
+        text-decoration: none;
+        transition: 0.3s;
+      }
+      .btn-call:hover { background: #3d8b40; }
+      .text-muted {
+        color: #6b705c !important; /* earthy brown-grey */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+      <div class="card p-4 text-center" style="max-width: 500px; width: 100%;">
+        <h3 class="emergency-title mb-3"><i class="bi bi-exclamation-triangle-fill"></i> Emergency Assistance</h3>
+        <p class="mb-4">Updated helpline numbers based on your location:</p>
+
+        <div id="numbers">
+          <p>Fetching your location...</p>
+        </div>
+
+        <p class="text-muted mt-4">
+          <i class="bi bi-geo-alt-fill"></i> Current Location: <span id="location">Detecting...</span>
+        </p>
+      </div>
+    </div>
+
+    <script>
+      const emergencyData = {
+        "default": {
+          police: "100",
+          ambulance: "108",
+          fire: "101",
+          forest: "192"
+        },
+        "Maharashtra": {
+          police: "112",
+          ambulance: "108",
+          fire: "101",
+          forest: "1926"
+        },
+        "Himachal Pradesh": {
+          police: "100",
+          ambulance: "102",
+          fire: "101",
+          forest: "1800-180-8000"
+        }
+      };
+
+      function showNumbers(region, coords) {
+        const data = emergencyData[region] || emergencyData["default"];
+        document.getElementById("numbers").innerHTML = `
+          <a href="tel:${data.police}" class="btn-call"><i class="bi bi-shield-fill me-2"></i> Police (${data.police})</a>
+          <a href="tel:${data.ambulance}" class="btn-call"><i class="bi bi-hospital-fill me-2"></i> Ambulance (${data.ambulance})</a>
+          <a href="tel:${data.fire}" class="btn-call"><i class="bi bi-fire me-2"></i> Fire & Rescue (${data.fire})</a>
+          <a href="tel:${data.forest}" class="btn-call"><i class="bi bi-tree-fill me-2"></i> Forest Dept (${data.forest})</a>
+        `;
+        document.getElementById("location").textContent = coords;
+      }
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async function(position) {
+          const coords = position.coords.latitude.toFixed(4) + ", " + position.coords.longitude.toFixed(4);
+          let region = "Maharashtra"; // fallback
+
+          try {
+            let res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${position.coords.latitude}&lon=${position.coords.longitude}&format=json`);
+            let data = await res.json();
+            region = data.address.state || "default";
+          } catch(e) {
+            console.log("Geocoding failed, using default");
+          }
+
+          showNumbers(region, coords);
+        }, function() {
+          document.getElementById("numbers").innerHTML = "<p>Unable to fetch your location. Showing default numbers.</p>";
+          showNumbers("default", "N/A");
+        });
+      } else {
+        document.getElementById("numbers").innerHTML = "<p>Geolocation not supported. Showing default numbers.</p>";
+        showNumbers("default", "N/A");
+      }
+    </script>
+  </body>
+</html>
