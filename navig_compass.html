@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation & Compass - TrekSafe</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS for advanced styling and animations -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            touch-action: none; /* Prevents scrolling on touch devices */
+        }
+        .compass {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            position: relative;
+            background: radial-gradient(circle, #4a5568 0%, #2d3748 100%);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), inset 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.1s linear;
+        }
+        .compass-rose {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .compass-rose .marker {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            transform-origin: center;
+        }
+        .compass-rose .marker::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -1px;
+            width: 100%;
+            height: 10px;
+            background: #a0aec0;
+        }
+        /* Style for cardinal direction markers */
+        .marker.marker-cardinal {
+            width: 3px;
+        }
+        .marker.marker-cardinal::before {
+            height: 15px;
+            background: #f1f5f9;
+        }
+        /* Cardinal directions */
+        .direction {
+            position: absolute;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #e2e8f0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        .north { top: 10px; left: 50%; transform: translateX(-50%); color: #ef4444; }
+        .south { bottom: 10px; left: 50%; transform: translateX(-50%); }
+        .east { top: 50%; right: 10px; transform: translateY(-50%); }
+        .west { top: 50%; left: 10px; transform: translateY(-50%); }
+
+        .compass-needle {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: transform 0.2s ease-out; /* Smooth needle rotation */
+        }
+        /* The red part of the needle pointing North */
+        .needle-north {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 150px solid #ef4444; /* Red for North */
+        }
+        /* The gray part of the needle pointing South */
+        .needle-south {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 150px solid #a0aec0; /* Lighter gray for South */
+        }
+        .compass-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: #1a202c;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid #718096;
+            z-index: 10;
+        }
+        /* SOS button animation */
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 20px rgba(239, 68, 68, 0);
+            }
+        }
+        .sos-button {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen p-4">
+
+<div class="w-full max-w-md mx-auto text-center">
+    <!-- Header -->
+    <header class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-200">Navigation</h1>
+        <p class="text-gray-400">Stay on track and stay safe.</p>
+    </header>
+
+    <!-- Compass Display -->
+    <div class="compass-container mb-8 flex flex-col items-center">
+        <div id="compass" class="compass">
+            <!-- Compass Rose with degree markers -->
+            <div class="compass-rose">
+                <!-- Generate markers with JS -->
+            </div>
+            <!-- Cardinal Directions -->
+            <div class="direction north">N</div>
+            <div class="direction south">S</div>
+            <div class="direction east">E</div>
+            <div class="direction west">W</div>
+            <!-- Compass Needle -->
+            <div id="compass-needle" class="compass-needle">
+                <div class="needle-north"></div>
+                <div class="needle-south"></div>
+            </div>
+            <div class="compass-center"></div>
+        </div>
+    </div>
+
+    <!-- Data Readouts -->
+    <div class="bg-gray-800 rounded-lg p-6 shadow-lg w-full">
+        <div class="flex justify-around items-center">
+            <!-- Heading -->
+            <div class="text-center">
+                <div class="text-sm text-gray-400 uppercase tracking-wider">Heading</div>
+                <div id="heading" class="text-3xl font-semibold text-red-400">---</div>
+            </div>
+            <!-- Degrees -->
+            <div class="text-center">
+                <div class="text-sm text-gray-400 uppercase tracking-wider">Degrees</div>
+                <div id="degrees" class="text-3xl font-semibold text-gray-200">--°</div>
+            </div>
+        </div>
+        <!-- Coordinates -->
+        <div class="mt-6 pt-4 border-t border-gray-700 text-center">
+            <div class="text-sm text-gray-400 uppercase tracking-wider mb-1">Coordinates</div>
+            <div id="coords" class="text-lg font-mono text-gray-300">Fetching...</div>
+        </div>
+    </div>
+
+    <!-- SOS Button -->
+    <div class="mt-10">
+        <button id="sos-button" class="sos-button bg-red-600 text-white font-bold rounded-full w-24 h-24 flex items-center justify-center text-3xl shadow-2xl hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-500 focus:ring-opacity-50 transition-transform duration-200 ease-in-out">
+            SOS
+        </button>
+    </div>
+
+    <!-- Fallback Message -->
+    <div id="error-message" class="mt-6 text-yellow-400 bg-yellow-900 bg-opacity-50 p-4 rounded-lg hidden">
+        <p><strong>Device Feature Not Supported.</strong></p>
+        <p class="text-sm" id="error-details">Your browser or device does not support the necessary features.</p>
+    </div>
+</div>
+
+<!-- JavaScript for functionality -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const compass = document.getElementById('compass');
+        const compassNeedle = document.getElementById('compass-needle');
+        const headingDisplay = document.getElementById('heading');
+        const degreesDisplay = document.getElementById('degrees');
+        const coordsDisplay = document.getElementById('coords');
+        const sosButton = document.getElementById('sos-button');
+        const errorMessage = document.getElementById('error-message');
+        const errorDetails = document.getElementById('error-details');
+        const compassRose = document.querySelector('.compass-rose');
+
+        // --- Generate Compass Markers ---
+        for (let i = 0; i < 360; i += 10) {
+            const marker = document.createElement('div');
+            marker.className = 'marker';
+            marker.style.transform = `translateX(-1px) rotate(${i}deg)`;
+            // Add a special class for cardinal direction markers
+            if (i % 90 === 0) {
+                marker.classList.add('marker-cardinal');
+            }
+            compassRose.appendChild(marker);
+        }
+
+        // --- Device Orientation (Compass) ---
+        const handleOrientation = (event) => {
+            // webkitCompassHeading is for iOS Safari
+            let heading = event.webkitCompassHeading || (360 - event.alpha);
+
+            if (typeof heading === 'undefined' || heading === null) {
+                errorMessage.classList.remove('hidden');
+                errorDetails.textContent = 'Could not determine device heading.';
+                return;
+            }
+
+            const orientation = window.orientation || 0;
+            heading += orientation;
+
+            const roundedHeading = Math.round(heading);
+
+            if (compass) {
+                compass.style.transform = `rotate(${-roundedHeading}deg)`;
+            }
+
+            degreesDisplay.textContent = `${roundedHeading}°`;
+            headingDisplay.textContent = getCardinalDirection(roundedHeading);
+        };
+
+        if (window.DeviceOrientationEvent) {
+            if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+                DeviceOrientationEvent.requestPermission()
+                    .then(permissionState => {
+                        if (permissionState === 'granted') {
+                            window.addEventListener('deviceorientation', handleOrientation);
+                        } else {
+                            errorMessage.classList.remove('hidden');
+                            errorDetails.textContent = 'Permission for device orientation was denied.';
+                        }
+                    })
+                    .catch(console.error);
+            } else {
+                window.addEventListener('deviceorientation', handleOrientation);
+            }
+        } else {
+            errorMessage.classList.remove('hidden');
+            errorDetails.textContent = 'Device orientation is not supported by your browser.';
+        }
+
+        // --- Geolocation (Coordinates) ---
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(
+                (position) => {
+                    const { latitude, longitude } = position.coords;
+                    coordsDisplay.textContent = `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
+                },
+                (error) => {
+                    let errorText = 'Location unavailable.';
+                    if (error.code === 1) { // PERMISSION_DENIED
+                        errorText = 'Location access denied.';
+                    }
+                    coordsDisplay.textContent = errorText;
+                    console.error(`Geolocation error: ${error.code} - ${error.message}`);
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+        } else {
+            coordsDisplay.textContent = 'Geolocation not supported.';
+        }
+
+        // --- SOS Button ---
+        sosButton.addEventListener('click', () => {
+            // Using a custom modal would be better, but confirm/alert are simple for a demo.
+            const isConfirmed = confirm('Are you sure you want to send an SOS signal? This should only be used in a real emergency.');
+            if (isConfirmed) {
+                alert('SOS Signal Sent! \nYour location has been shared with emergency contacts.');
+            }
+        });
+
+        // --- Helper Function ---
+        function getCardinalDirection(angle) {
+            const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+            const index = Math.round(angle / 45) % 8;
+            return directions[index];
+        }
+    });
+</script>
+</body>
+</html>
