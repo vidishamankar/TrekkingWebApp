@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrekSafe Blog - Tips & Stories from India</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Consistent light background */
+            color: #254d23; /* Primary dark green text */
+        }
+        .blog-header {
+            color: #254d23;
+            font-weight: 700;
+        }
+        .blog-card {
+            border: none;
+            border-radius: 1rem;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: #ffffff;
+        }
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(37, 77, 35, 0.1);
+        }
+        .blog-card-title a {
+            color: #254d23;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .blog-card-title a:hover {
+            color: #a9744f; /* Earthy brown accent on hover */
+        }
+        .sidebar-widget {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        }
+        .sidebar-widget h3 {
+            color: #254d23;
+            font-weight: 600;
+            border-bottom: 2px solid #e0f2e0;
+            padding-bottom: 0.5rem;
+        }
+        .sidebar-widget a {
+            color: #795845; /* Earthy brown for links */
+            text-decoration: none;
+        }
+        .sidebar-widget a:hover {
+            text-decoration: underline;
+        }
+        .badge-category {
+            background-color: rgba(169, 116, 79, 0.1);
+            color: #a9744f;
+            font-weight: 500;
+        }
+        .btn-read-more {
+            background-color: #254d23;
+            border-color: #254d23;
+            color: #fff;
+            border-radius: 0.75rem;
+        }
+        .btn-read-more:hover {
+            background-color: #1c3a1a;
+            border-color: #1c3a1a;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container py-5">
+    <!-- Header -->
+    <header class="text-center mb-5">
+        <h1 class="display-4 blog-header">TrekSafe India Blog</h1>
+        <p class="lead text-muted">Your guide to safer adventures on the subcontinent's most beautiful trails.</p>
+    </header>
+
+    <!-- Search Section -->
+    <section class="row justify-content-center mb-5">
+        <div class="col-lg-8">
+            <div class="sidebar-widget">
+                <h3 class="mb-3">Search Articles</h3>
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Enter keywords like 'Himalayas', 'First Aid', etc.">
+                    <button class="btn btn-read-more" type="button"><i class="bi bi-search"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="row g-5">
+
+        <!-- Main Blog Posts Section -->
+        <main class="col-lg-8">
+            <div class="vstack gap-5">
+
+                <!-- Blog Post Card 1 -->
+                <article class="blog-card">
+                    <img src="https://placehold.co/800x400/2d3748/e2e8f0?text=Himalayan+Trek" alt="Himalayan landscape" class="card-img-top" style="border-top-left-radius: 1rem; border-top-right-radius: 1rem;">
+                    <div class="card-body p-4">
+                        <span class="badge rounded-pill badge-category mb-2">Himalayas</span>
+                        <h2 class="h3 fw-bold blog-card-title"><a href="#">10 Safety Essentials for a Himalayan Solo Trek</a></h2>
+                        <p class="text-muted small mb-3">By Aditya Sharma | Published on August 23, 2025</p>
+                        <p class="card-text text-secondary">
+                            The Himalayas offer unparalleled beauty but demand respect. Trekking solo here requires meticulous planning. From acclimatization to emergency protocols, here are ten crucial tips for a safe journey in the high altitudes...
+                        </p>
+                        <a href="#" class="btn btn-read-more mt-3">Read More <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </article>
+
+                <!-- Blog Post Card 2 -->
+                <article class="blog-card">
+                    <img src="https://placehold.co/800x400/4a5568/e2e8f0?text=Monsoon+Trek" alt="Lush green hills in monsoon" class="card-img-top" style="border-top-left-radius: 1rem; border-top-right-radius: 1rem;">
+                    <div class="card-body p-4">
+                        <span class="badge rounded-pill badge-category mb-2">Monsoon Trekking</span>
+                        <h2 class="h3 fw-bold blog-card-title"><a href="#">First-Aid for the Indian Monsoon Trek</a></h2>
+                        <p class="text-muted small mb-3">By Priya Patel | Published on August 18, 2025</p>
+                        <p class="card-text text-secondary">
+                            Monsoon treks in the Western Ghats are magical, but they bring specific challenges like slippery trails and leeches. Your first-aid kit needs to be prepared for these conditions. Here's how to build the perfect monsoon-ready kit...
+                        </p>
+                        <a href="#" class="btn btn-read-more mt-3">Read More <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </article>
+
+                <!-- Blog Post Card 3 -->
+                <article class="blog-card">
+                    <img src="https://placehold.co/800x400/718096/1a202c?text=Sahyadri+Trail" alt="Sahyadri trail path" class="card-img-top" style="border-top-left-radius: 1rem; border-top-right-radius: 1rem;">
+                    <div class="card-body p-4">
+                        <span class="badge rounded-pill badge-category mb-2">Trekker Stories</span>
+                        <h2 class="h3 fw-bold blog-card-title"><a href="#">Lost and Found: My Night on the Sahyadri Trail</a></h2>
+                        <p class="text-muted small mb-3">By Rohan Desai | Published on August 5, 2025</p>
+                        <p class="card-text text-secondary">
+                            The sun had set faster than I anticipated. One wrong turn was all it took. This is the story of how I spent an unexpected night in the wilderness and the lessons I learned about preparation, resilience, and the spirit of the Sahyadris...
+                        </p>
+                        <a href="#" class="btn btn-read-more mt-3">Read More <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </article>
+
+            </div>
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="col-lg-4">
+            <div class="vstack gap-4">
+                <!-- Categories -->
+                <div class="sidebar-widget">
+                    <h3 class="mb-3">Categories</h3>
+                    <ul class="list-unstyled vstack gap-2">
+                        <li><a href="#" class="d-flex justify-content-between align-items-center">Himalayan Treks <span class="badge bg-light text-secondary rounded-pill">5</span></a></li>
+                        <li><a href="#" class="d-flex justify-content-between align-items-center">Western Ghats <span class="badge bg-light text-secondary rounded-pill">8</span></a></li>
+                        <li><a href="#" class="d-flex justify-content-between align-items-center">Monsoon Trekking <span class="badge bg-light text-secondary rounded-pill">12</span></a></li>
+                        <li><a href="#" class="d-flex justify-content-between align-items-center">Trekker Stories <span class="badge bg-light text-secondary rounded-pill">3</span></a></li>
+                        <li><a href="#" class="d-flex justify-content-between align-items-center">Gear for India <span class="badge bg-light text-secondary rounded-pill">4</span></a></li>
+                    </ul>
+                </div>
+
+                <!-- Recent Posts -->
+                <div class="sidebar-widget">
+                    <h3 class="mb-3">Recent Posts</h3>
+                    <ul class="list-unstyled vstack gap-3">
+                        <li>
+                            <a href="#" class="fw-medium">10 Safety Essentials for a Himalayan Solo Trek</a>
+                            <p class="small text-muted mb-0">August 23, 2025</p>
+                        </li>
+                        <li>
+                            <a href="#" class="fw-medium">First-Aid for the Indian Monsoon Trek</a>
+                            <p class="small text-muted mb-0">August 18, 2025</p>
+                        </li>
+                        <li>
+                            <a href="#" class="fw-medium">Navigating the Sahyadris with a Map and Compass</a>
+                            <p class="small text-muted mb-0">August 10, 2025</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
