@@ -4,116 +4,138 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SOS Setup - TrekSafe</title>
-    <!-- Tailwind CSS for styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #254d23;
         }
-        /* Custom styles for better form appearance */
-        .form-input {
-            background-color: #2d3748; /* bg-gray-800 */
-            border-color: #4a5568; /* border-gray-600 */
-            color: #e2e8f0; /* text-gray-200 */
+        .form-header {
+            color: #254d23;
+            font-weight: 700;
         }
-        .form-input:focus {
-            outline: none;
-            border-color: #63b3ed; /* border-blue-400 */
-            box-shadow: 0 0 0 2px rgba(99, 179, 237, 0.5);
+        .form-section-card {
+            background-color: #ffffff;
+            border: none;
+            border-radius: 1rem;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            padding: 2rem;
         }
-        .btn-primary {
-            background-color: #4299e1; /* bg-blue-500 */
+        .form-label {
+            font-weight: 600;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #254d23;
+            box-shadow: 0 0 0 0.25rem rgba(37, 77, 35, 0.25);
+        }
+        .btn-primary-trek {
+            background-color: #254d23;
+            border-color: #254d23;
+            color: #fff;
+            border-radius: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
             transition: background-color 0.2s;
         }
-        .btn-primary:hover {
-            background-color: #3182ce; /* bg-blue-600 */
+        .btn-primary-trek:hover {
+            background-color: #1c3a1a;
+            border-color: #1c3a1a;
         }
-        .btn-danger {
-            background-color: #e53e3e; /* bg-red-600 */
-            transition: background-color 0.2s;
+        .btn-outline-trek {
+            color: #254d23;
+            border-color: #254d23;
+            border-radius: 0.75rem;
         }
-        .btn-danger:hover {
-            background-color: #c53030; /* bg-red-700 */
+        .btn-outline-trek:hover {
+            background-color: #254d23;
+            color: #fff;
+        }
+        .remove-contact-btn {
+            color: #dc3545;
+            cursor: pointer;
+            font-size: 1.2rem;
         }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-200">
+<body>
 
-<div class="container mx-auto p-4 md:p-8 max-w-2xl">
+<div class="container py-5">
     <!-- Header -->
-    <header class="text-center mb-8">
-        <h1 class="text-4xl font-bold text-white mb-2">SOS Settings</h1>
-        <p class="text-gray-400">Prepare your emergency information before you go. This data will be sent to rescuers when you activate SOS.</p>
+    <header class="text-center mb-5">
+        <h1 class="display-5 form-header">SOS Settings</h1>
+        <p class="lead text-muted">Prepare your emergency information before you go. This data will be sent to rescuers when you activate SOS.</p>
     </header>
 
-    <!-- Emergency Contacts Section -->
-    <section class="bg-gray-800 rounded-lg p-6 mb-8 shadow-lg">
-        <h2 class="text-2xl font-semibold mb-4 border-b border-gray-700 pb-2 flex items-center">
-            <i class="fas fa-users mr-3 text-blue-400"></i> Emergency Contacts
-        </h2>
-        <div id="contacts-list" class="space-y-3 mb-4">
-            <!-- Example Contact -->
-            <div class="flex items-center justify-between bg-gray-700 p-3 rounded-md">
-                <div>
-                    <p class="font-medium">Jane Doe</p>
-                    <p class="text-sm text-gray-400">+1 (555) 123-4567</p>
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Emergency Contacts Section -->
+            <section class="form-section-card mb-4">
+                <h2 class="h4 mb-4"><i class="bi bi-people-fill me-2"></i>Emergency Contacts</h2>
+                <div id="contacts-list" class="vstack gap-3 mb-3">
+                    <!-- Example Contact -->
+                    <div class="d-flex justify-content-between align-items-center bg-light p-3 rounded-3">
+                        <div>
+                            <p class="fw-medium mb-0">Jane Doe</p>
+                            <p class="text-muted small mb-0">+1 (555) 123-4567</p>
+                        </div>
+                        <i class="bi bi-trash-fill remove-contact-btn" title="Remove Contact"></i>
+                    </div>
+                    <!-- Contacts will be added here by JS -->
                 </div>
-                <button class="btn-danger text-white font-bold py-1 px-3 rounded-full text-xs">
-                    <i class="fas fa-trash-alt"></i>
+                <div class="row g-2">
+                    <div class="col-sm-5">
+                        <input type="text" id="contact-name" class="form-control" placeholder="Contact Name">
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="tel" id="contact-phone" class="form-control" placeholder="Phone Number">
+                    </div>
+                    <div class="col-sm-2 d-grid">
+                        <button id="add-contact-btn" type="button" class="btn btn-outline-trek">Add</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Medical Information Section -->
+            <section class="form-section-card mb-4">
+                <h2 class="h4 mb-4"><i class="bi bi-heart-pulse-fill me-2"></i>Medical Information</h2>
+                <p class="text-muted small">Include allergies, conditions, or medications. This is vital for first responders.</p>
+                <textarea id="medical-info" rows="5" class="form-control" placeholder="e.g., Allergic to penicillin, Asthma, Type 1 Diabetes..."></textarea>
+            </section>
+
+            <!-- SOS Message Preview Section -->
+            <section class="form-section-card mb-4">
+                <h2 class="h4 mb-4"><i class="bi bi-envelope-exclamation-fill me-2"></i>SOS Message Preview</h2>
+                <p class="text-muted small">This message will be sent along with your precise coordinates.</p>
+                <div class="bg-light p-3 rounded-3 border">
+                    <p class="font-monospace small">
+                        <span class="text-danger fw-bold">EMERGENCY SOS:</span> I am in distress and need immediate assistance.
+                        <br><br>
+                        My location is: <span class="text-primary">[Your Coordinates]</span>
+                        <br>
+                        Medical Info Attached.
+                        <br><br>
+                        <em class="text-muted">Your custom note will appear here.</em>
+                    </p>
+                </div>
+                <label for="custom-note" class="form-label mt-3">Add a custom note (optional):</label>
+                <input type="text" id="custom-note" class="form-control" placeholder="e.g., I have a twisted ankle.">
+            </section>
+
+            <!-- Save Button -->
+            <div class="text-center">
+                <button id="save-all-btn" type="button" class="btn btn-primary-trek btn-lg">
+                    <i class="bi bi-save-fill me-2"></i> Save All Information
                 </button>
             </div>
-            <!-- Contacts will be added here by JS -->
         </div>
-        <div class="space-y-4 md:flex md:space-y-0 md:space-x-4">
-            <input type="text" id="contact-name" placeholder="Contact Name" class="form-input w-full rounded-md p-2">
-            <input type="tel" id="contact-phone" placeholder="Phone Number" class="form-input w-full rounded-md p-2">
-            <button id="add-contact-btn" class="btn-primary text-white font-bold py-2 px-4 rounded-md w-full md:w-auto">
-                <i class="fas fa-plus mr-2"></i>Add
-            </button>
-        </div>
-    </section>
-
-    <!-- Medical Information Section -->
-    <section class="bg-gray-800 rounded-lg p-6 mb-8 shadow-lg">
-        <h2 class="text-2xl font-semibold mb-4 border-b border-gray-700 pb-2 flex items-center">
-            <i class="fas fa-briefcase-medical mr-3 text-red-400"></i> Medical Information
-        </h2>
-        <p class="text-sm text-gray-400 mb-3">Include allergies, pre-existing conditions, or medications. This is vital for first responders.</p>
-        <textarea id="medical-info" rows="5" placeholder="e.g., Allergic to penicillin, Asthma, Type 1 Diabetes..." class="form-input w-full rounded-md p-2"></textarea>
-    </section>
-
-    <!-- SOS Message Preview Section -->
-    <section class="bg-gray-800 rounded-lg p-6 shadow-lg">
-        <h2 class="text-2xl font-semibold mb-4 border-b border-gray-700 pb-2 flex items-center">
-            <i class="fas fa-envelope-open-text mr-3 text-green-400"></i> SOS Message
-        </h2>
-        <p class="text-sm text-gray-400 mb-3">This message will be sent along with your precise coordinates.</p>
-        <div class="bg-gray-900 p-4 rounded-md border border-gray-700">
-            <p class="font-mono text-sm">
-                <span class="text-red-400 font-bold">EMERGENCY SOS:</span> I am in distress and need immediate assistance.
-                <br><br>
-                My location is: <span class="text-blue-400">[Your Coordinates]</span>
-                <br>
-                Medical Info Attached.
-                <br><br>
-                <span class="text-gray-500 italic">Your custom note will appear here.</span>
-            </p>
-        </div>
-        <p class="text-sm text-gray-400 mt-4 mb-2">Add a custom note (optional):</p>
-        <input type="text" id="custom-note" placeholder="e.g., I have a twisted ankle." class="form-input w-full rounded-md p-2">
-    </section>
-
-    <!-- Save Button -->
-    <div class="mt-8 text-center">
-        <button id="save-all-btn" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg text-lg shadow-lg transition-transform duration-200 hover:scale-105">
-            <i class="fas fa-save mr-2"></i> Save All Information
-        </button>
     </div>
 </div>
 
@@ -125,7 +147,6 @@
         const contactPhoneInput = document.getElementById('contact-phone');
         const saveAllBtn = document.getElementById('save-all-btn');
 
-        // --- Function to add a contact to the list ---
         const addContact = (name, phone) => {
             if (!name || !phone) {
                 alert('Please enter both a name and a phone number.');
@@ -133,66 +154,53 @@
             }
 
             const contactDiv = document.createElement('div');
-            contactDiv.className = 'flex items-center justify-between bg-gray-700 p-3 rounded-md animate-fade-in';
+            contactDiv.className = 'd-flex justify-content-between align-items-center bg-light p-3 rounded-3';
 
             contactDiv.innerHTML = `
-                    <div>
-                        <p class="font-medium">${name}</p>
-                        <p class="text-sm text-gray-400">${phone}</p>
-                    </div>
-                    <button class="btn-danger text-white font-bold py-1 px-3 rounded-full text-xs">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                `;
+                <div>
+                    <p class="fw-medium mb-0">${name}</p>
+                    <p class="text-muted small mb-0">${phone}</p>
+                </div>
+                <i class="bi bi-trash-fill remove-contact-btn" title="Remove Contact"></i>
+            `;
 
-            // Add to the top of the list
             contactsList.prepend(contactDiv);
 
-            // Add event listener to the new delete button
-            contactDiv.querySelector('button').addEventListener('click', () => {
+            contactDiv.querySelector('.remove-contact-btn').addEventListener('click', () => {
                 contactDiv.remove();
             });
 
-            // Clear input fields
             contactNameInput.value = '';
             contactPhoneInput.value = '';
         };
 
-        // --- Event Listeners ---
         addContactBtn.addEventListener('click', () => {
             addContact(contactNameInput.value.trim(), contactPhoneInput.value.trim());
         });
 
-        // Allow adding contact by pressing Enter
         contactPhoneInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 addContact(contactNameInput.value.trim(), contactPhoneInput.value.trim());
             }
         });
 
-        // Handle deleting the example contact
-        contactsList.querySelector('button').addEventListener('click', (e) => {
-            e.currentTarget.parentElement.remove();
+        contactsList.addEventListener('click', (e) => {
+            if (e.target.classList.contains('remove-contact-btn')) {
+                e.target.parentElement.remove();
+            }
         });
 
-        // --- Save All Information ---
         saveAllBtn.addEventListener('click', () => {
-            // In a real application, you would save this data to localStorage,
-            // a cookie, or send it to a server database.
-
-            // 1. Collect all contacts
             const contacts = [];
             document.querySelectorAll('#contacts-list > div').forEach(contactEl => {
-                const name = contactEl.querySelector('p.font-medium').textContent;
-                const phone = contactEl.querySelector('p.text-sm').textContent;
+                const name = contactEl.querySelector('p.fw-medium').textContent;
+                const phone = contactEl.querySelector('p.small').textContent;
                 contacts.push({ name, phone });
             });
 
-            // 2. Collect medical info and custom note
             const medicalInfo = document.getElementById('medical-info').value;
             const customNote = document.getElementById('custom-note').value;
 
-            // 3. Create a data object
             const sosData = {
                 contacts,
                 medicalInfo,
@@ -200,13 +208,7 @@
             };
 
             console.log('Saving data:', sosData);
-
-            // For demonstration, we'll just show an alert.
-            // In a real app, replace this with your save logic.
             alert('Information Saved!\n(This is a demo. Data will not persist on page reload.)');
-
-            // Example of saving to localStorage:
-            // localStorage.setItem('trekSafeSOSData', JSON.stringify(sosData));
         });
     });
 </script>
