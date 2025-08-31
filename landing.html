@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TrekSafe - Your Adventure, Secured</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Animate On Scroll Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #254d23;
+            --light-green: #e8ede5;
+            --dark-text: #343a40;
+            --light-text: #f8fafc;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-text);
+            color: var(--dark-text);
+        }
+        /* --- Navigation Bar --- */
+        .navbar {
+            transition: background-color 0.3s ease-in-out, padding 0.3s ease-in-out;
+            padding: 1rem 0;
+        }
+        .navbar.scrolled {
+            background-color: var(--primary-green) !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 0.5rem 0;
+        }
+        .navbar-brand, .nav-link {
+            color: var(--light-text) !important;
+            font-weight: 500;
+        }
+        .btn-nav {
+            border: 2px solid var(--light-text);
+            color: var(--light-text);
+            border-radius: 50px;
+            padding: 0.5rem 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .btn-nav:hover {
+            background-color: var(--light-text);
+            color: var(--primary-green);
+        }
+
+        /* --- Hero Section --- */
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light-text);
+            text-align: center;
+            background: url('https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
+        }
+        .hero-section::after { /* Overlay */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.4));
+            z-index: 1;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        .hero-title {
+            font-size: 4.5rem;
+            font-weight: 800;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.6);
+        }
+        .hero-subtitle {
+            font-size: 1.4rem;
+            max-width: 700px;
+            margin: 1rem auto 2rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+        }
+        .btn-cta {
+            background-color: var(--light-text);
+            color: var(--primary-green);
+            font-weight: 700;
+            padding: 0.9rem 2.5rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .btn-cta:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        /* --- General Section Styling --- */
+        .section {
+            padding: 6rem 0;
+        }
+        .section-title {
+            color: var(--primary-green);
+            font-weight: 700;
+            margin-bottom: 3rem;
+        }
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary-green);
+        }
+        .popular-trek-card {
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .popular-trek-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
+        .popular-trek-card img {
+            height: 400px;
+            object-fit: cover;
+        }
+        .popular-trek-card .card-body {
+            background: #fff;
+        }
+        .testimonial-card {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .testimonial-card img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--primary-green);
+        }
+
+        /* --- Footer --- */
+        .footer {
+            background-color: var(--primary-green);
+            color: #e0f2e0;
+            padding: 3rem 0;
+        }
+        .footer a {
+            color: var(--light-text);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer a:hover {
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.8rem; }
+            .hero-subtitle { font-size: 1.1rem; }
+            .section { padding: 4rem 0; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-transparent">
+    <div class="container">
+        <a class="navbar-brand fw-bold fs-4" href="#"><i class="bi bi-shield-check me-2"></i>TrekSafe</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+                <li class="nav-item ms-lg-3"><a class="btn btn-nav" href="signup.html">Sign Up</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<header class="hero-section">
+    <div class="hero-content" data-aos="fade-up">
+        <h1 class="hero-title">Your Adventure, Secured</h1>
+        <p class="hero-subtitle">
+            Explore India's most breathtaking trails with the confidence of real-time safety alerts and a community of fellow trekkers.
+        </p>
+        <a href="signup.html" class="btn btn-cta">Start Your Journey <i class="bi bi-arrow-right"></i></a>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main>
+    <!-- Features Section -->
+    <section id="features" class="section">
+        <div class="container text-center">
+            <h2 class="section-title" data-aos="fade-up">Everything You Need for a Safe Trek</h2>
+            <div class="row g-5">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <i class="bi bi-map-fill feature-icon mb-3"></i>
+                    <h4 class="fw-bold mb-2">Precision Mapping</h4>
+                    <p class="text-muted">Navigate with confidence using detailed topographic maps and live elevation profiles for any trail.</p>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <i class="bi bi-shield-fill-check feature-icon mb-3"></i>
+                    <h4 class="fw-bold mb-2">Real-Time Safety</h4>
+                    <p class="text-muted">Get live safety alerts from the trekking community about trail conditions and potential hazards.</p>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <i class="bi bi-people-fill feature-icon mb-3"></i>
+                    <h4 class="fw-bold mb-2">Community Wisdom</h4>
+                    <p class="text-muted">Leverage authentic reviews and pro-tips from a network of passionate Indian trekkers before you go.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Treks Section -->
+    <section id="popular-treks" class="section bg-light">
+        <div class="container">
+            <h2 class="section-title text-center" data-aos="fade-up">Popular Treks</h2>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card popular-trek-card">
+                        <img src="https://images.unsplash.com/photo-1609279761321-2e6569121d5a?q=80&w=1974&auto=format&fit=crop" class="card-img-top" alt="Triund Trek">
+                        <div class="card-body p-4">
+                            <h5 class="card-title fw-bold">Triund Trek, Himachal</h5>
+                            <p class="card-text text-muted">A beginner-friendly trek offering panoramic views of the Dhauladhar range.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card popular-trek-card">
+                        <img src="https://images.unsplash.com/photo-1616128613521-8a35c542e7b3?q=80&w=1964&auto=format&fit=crop" class="card-img-top" alt="Kalsubai Peak">
+                        <div class="card-body p-4">
+                            <h5 class="card-title fw-bold">Kalsubai Peak, Maharashtra</h5>
+                            <p class="card-text text-muted">Conquer the highest peak in Maharashtra for an unforgettable sunrise experience.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card popular-trek-card">
+                        <img src="https://images.unsplash.com/photo-1620984181932-517855365522?q=80&w=1968&auto=format&fit=crop" class="card-img-top" alt="Valley of Flowers">
+                        <div class="card-body p-4">
+                            <h5 class="card-title fw-bold">Valley of Flowers, Uttarakhand</h5>
+                            <p class="card-text text-muted">A vibrant alpine valley that comes alive with a carpet of blooming flowers.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="section">
+        <div class="container">
+            <h2 class="section-title text-center" data-aos="fade-up">What Our Trekkers Say</h2>
+            <div class="row g-4">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="testimonial-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://images.unsplash.com/photo-1515961896339-4f7f6363a5f1?q=80&w=2070&auto=format&fit=crop" alt="Trekking gear" class="me-3">
+                            <div class="testimonial-author">Anjali Rao</div>
+                        </div>
+                        <p class="mb-1"><em>"The issue reporting feature is a game-changer. We avoided a blocked trail on our last trek thanks to a live update."</em></p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="testimonial-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://images.unsplash.com/photo-1536924940846-227afb31e2a5?q=80&w=2066&auto=format&fit=crop" alt="Mountain lake" class="me-3">
+                            <div class="testimonial-author">Rohan Verma</div>
+                        </div>
+                        <p class="mb-1"><em>"Finally, an app that understands Indian trails. The map details are incredibly accurate for the Himalayas."</em></p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="testimonial-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://images.unsplash.com/photo-1531229742948-3a6d7f0236a2?q=80&w=2070&auto=format&fit=crop" alt="Campsite under stars" class="me-3">
+                            <div class="testimonial-author">Priya Sharma</div>
+                        </div>
+                        <p class="mb-1"><em>"Planned our entire family trip to Harishchandragad using this app. The community reviews were spot on!"</em></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container text-center">
+        <p class="fs-5 fw-bold mb-2">TrekSafe</p>
+        <p>Your Adventure, Secured</p>
+        <div class="mt-3">
+            <a href="#" class="mx-2 fs-4"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="mx-2 fs-4"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="mx-2 fs-4"><i class="bi bi-twitter"></i></a>
+        </div>
+        <p class="mt-4 mb-0 small">&copy; 2025 TrekSafe. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Animate On Scroll JS -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    // Initialize AOS
+    AOS.init({
+        duration: 800,
+        once: true,
+    });
+
+    // Navbar scroll effect
+    const navbar = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+</script>
+</body>
+</html>
+
