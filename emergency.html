@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emergency Assistance</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f3ef; /* light earthy background */
+      color: #2f3e2f;
+    }
+
+    header {
+      background: #2e5339; /* deep forest green */
+      color: #fdfcf9;
+      text-align: center;
+      padding: 1.2rem;
+      font-size: 1.6rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    .container {
+      padding: 1.5rem;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .section {
+      background: #ffffff;
+      padding: 1.2rem;
+      margin-bottom: 1.5rem;
+      border-radius: 14px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    }
+
+    .section h2 {
+      font-size: 1.3rem;
+      margin-bottom: 0.8rem;
+      color: #3b4d3b;
+      border-left: 4px solid #6a994e; /* earthy accent */
+      padding-left: 0.5rem;
+    }
+
+    .location-box {
+      background: #eaf1ea;
+      padding: 1rem;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: 500;
+      color: #2e5339;
+      margin-bottom: 1rem;
+    }
+
+    .contacts div {
+      margin: 0.6rem 0;
+      padding: 0.9rem;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      background: #f0f4f0;
+      border-left: 6px solid;
+    }
+
+    .police { border-color: #6a994e; }
+    .medical { border-color: #bc4749; }
+    .forest { border-color: #f4a261; }
+    .rescue { border-color: #386641; }
+
+    .contacts button {
+      background: #6a994e;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 14px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+
+    .contacts button:hover {
+      background: #52734d;
+    }
+
+    .alert-btn {
+      display: block;
+      width: 100%;
+      background: #bc4749; /* muted earthy red for emergency */
+      color: white;
+      font-size: 1.3rem;
+      font-weight: bold;
+      padding: 1.2rem;
+      text-align: center;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .alert-btn:hover {
+      background: #a63a3c;
+    }
+  </style>
+</head>
+<body>
+  <header>Emergency Assistance</header>
+  <div class="container">
+
+    <!-- Location Info -->
+    <div class="location-box" id="locationBox">
+      📍 Detecting your location...
+    </div>
+
+    <!-- Emergency Contacts -->
+    <div class="section">
+      <h2>Emergency Contacts</h2>
+      <div class="contacts">
+        <div class="police">
+          Police Helpline
+          <button onclick="callNumber('100')">Call</button>
+        </div>
+        <div class="medical">
+          Medical Emergency
+          <button onclick="callNumber('108')">Call</button>
+        </div>
+        <div class="forest">
+          Forest Dept.
+          <button onclick="callNumber('1926')">Call</button>
+        </div>
+        <div class="rescue">
+          Rescue / Disaster Mgmt
+          <button onclick="callNumber('112')">Call</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Emergency Beacon -->
+    <div class="section">
+      <h2>Quick SOS</h2>
+      <button class="alert-btn" onclick="sendAlert()">🚨 SOS</button>
+    </div>
+
+  </div>
+
+  <script>
+    function callNumber(number) {
+      window.location.href = `tel:${number}`;
+    }
+
+    function sendAlert() {
+      alert("🚨 SOS Alert triggered! Your location will be shared with rescuers.");
+      // Future: integrate GPS + server API to send location
+    }
+
+    // Get location
+    function getLocation() {
+      const locationBox = document.getElementById("locationBox");
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            const lat = pos.coords.latitude.toFixed(4);
+            const lon = pos.coords.longitude.toFixed(4);
+            locationBox.innerHTML = `📍 Current Location: <br> Latitude ${lat}, Longitude ${lon}`;
+          },
+          () => {
+            locationBox.innerHTML = "⚠️ Unable to detect location. Please enable GPS.";
+          }
+        );
+      } else {
+        locationBox.innerHTML = "❌ Geolocation not supported by your device.";
+      }
+    }
+
+    getLocation();
+  </script>
+</body>
+</html>
