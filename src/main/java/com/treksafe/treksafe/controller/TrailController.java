@@ -1,35 +1,41 @@
 package com.treksafe.treksafe.controller;
 
+import com.treksafe.treksafe.model.Trail;
+import com.treksafe.treksafe.service.TrailService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Optional;
 
-/**
- * This class serves as the API entry point for trail-related requests.
- * @RestController combines @Controller and @ResponseBody, meaning the returned
- * objects are automatically converted to JSON format for the web response.
- */
 @RestController
+@RequestMapping("/api/trails") // Base path for all trail-related APIs
 public class TrailController {
 
-    /**
-     * Handles HTTP GET requests to the path /api/v1/status.
-     * This is a simple health check to confirm the backend is running.
-     *
-     * @return A map containing a status message.
-     */
-    @GetMapping("/api/v1/status")
-    public Map<String, String> getAppStatus() {
-        Map<String, String> response = new HashMap<>();
-        response.put("service", "TrekSafe Backend API");
-        response.put("status", "Running successfully!");
-        response.put("version", "1.0");
-        return response;
+    private final TrailService trailService;
+
+    @Autowired
+    public TrailController(TrailService trailService) {
+        this.trailService = trailService;
     }
 
-    // In the future, you will add methods like:
-    // @GetMapping("/api/v1/trails") public List<Trail> getAllTrails() {...}
-    // @PostMapping("/api/v1/reports") public SafetyReport submitSafetyReport(@RequestBody SafetyReport report) {...}
+    /**
+     * Endpoint to fetch the detailed information for a specific trail.
+     * URL: /api/trails/{id}
+     * Method: GET
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<Trail> getTrailDetails(@PathVariable Long id) {
+        Optional<Trail> trail = trailService.getTrailDetails(id);
+
+        // Check if the trail exists
+        if (trail.isPresent()) {
+            return ResponseEntity.ok(trail.get()); // Return 200 OK with the Trail data
+        } else {
+            return ResponseEntity.notFound().build(); // Return 404 Not Found
+        }
+    }
 }
