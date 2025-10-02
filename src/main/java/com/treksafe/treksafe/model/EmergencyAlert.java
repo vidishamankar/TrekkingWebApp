@@ -47,6 +47,7 @@ public class EmergencyAlert {
     }
 
     public Long getUserId() {
+
         return userId;
     }
 
