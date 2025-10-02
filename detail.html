@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trek Details - Kalsubai Peak Traverse</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Leaflet CSS for map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #333;
+        }
+        .trek-header {
+            position: relative;
+            height: 60vh;
+            background: url('https://placehold.co/1600x900/002B47/C8D8ED?text=Kalsubai+Peak') center center / cover no-repeat;
+            color: white;
+            display: flex;
+            align-items: flex-end;
+            padding: 2rem;
+            border-radius: 0 0 1.5rem 1.5rem;
+        }
+        .trek-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.1));
+            border-radius: 0 0 1.5rem 1.5rem;
+        }
+        .trek-header-content {
+            position: relative;
+            z-index: 2;
+        }
+        .trek-title {
+            font-weight: 700;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+        }
+        .info-bar {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            margin-top: -3rem;
+            position: relative;
+            z-index: 3;
+        }
+        .info-item {
+            color: #254d23;
+        }
+        .info-item i {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #a9744f;
+        }
+        .section-title {
+            color: #254d23;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #a9744f;
+        }
+        .details-card {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            border: 1px solid #e0f2e0;
+        }
+        .btn-primary-trek {
+            background-color: #254d23;
+            border-color: #254d23;
+            color: #fff;
+            border-radius: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+        .btn-primary-trek:hover {
+            background-color: #1c3a1a;
+            border-color: #1c3a1a;
+        }
+        #map {
+            height: 300px;
+            border-radius: 0.75rem;
+            z-index: 1;
+        }
+        .rating-stars {
+            color: #ffc107; /* Bootstrap yellow */
+        }
+        .review-card {
+            border-bottom: 1px solid #e0f2e0;
+        }
+        /* Difficulty Badge Styles */
+        .difficulty-badge {
+            display: inline-block;
+            padding: 0.25em 0.6em;
+            font-size: 0.9rem;
+            font-weight: 600;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 0.5rem;
+        }
+        .difficulty-difficult {
+            color: #fff;
+            background-color: #dc3545; /* Bootstrap danger red */
+        }
+        .difficulty-moderate {
+            color: #000;
+            background-color: #ffc107; /* Bootstrap warning yellow */
+        }
+        .difficulty-easy {
+            color: #fff;
+            background-color: #198754; /* Bootstrap success green */
+        }
+    </style>
+</head>
+<body>
+
+<!-- Trek Header Image -->
+<header class="trek-header">
+    <div class="trek-header-content">
+        <h1 class="display-3 trek-title">Kalsubai Peak Traverse</h1>
+        <p class="lead"><i class="bi bi-geo-alt-fill"></i> Igatpuri, Maharashtra</p>
+    </div>
+</header>
+
+<div class="container">
+    <!-- Quick Info Bar -->
+    <div class="info-bar p-4 mb-5">
+        <div class="row text-center">
+            <div class="col-6 col-md-3 info-item">
+                <i class="bi bi-bar-chart-line-fill"></i>
+                <div><strong>Difficulty</strong></div>
+                <div><span class="difficulty-badge difficulty-difficult">Difficult</span></div>
+            </div>
+            <div class="col-6 col-md-3 info-item">
+                <i class="bi bi-clock-history"></i>
+                <div><strong>Duration</strong></div>
+                <div>2 Days / 1 Night</div>
+            </div>
+            <div class="col-6 col-md-3 info-item mt-3 mt-md-0">
+                <i class="bi bi-calendar-check-fill"></i>
+                <div><strong>Best Season</strong></div>
+                <div>Sept - Feb</div>
+            </div>
+            <div class="col-6 col-md-3 info-item mt-3 mt-md-0">
+                <i class="bi bi-arrow-up-right-circle-fill"></i>
+                <div><strong>Max Altitude</strong></div>
+                <div>1,646 m (5,400 ft)</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-5">
+        <!-- Main Content -->
+        <div class="col-lg-8">
+            <section>
+                <h2 class="section-title">About the Trek</h2>
+                <p class="text-secondary">
+                    Kalsubai Peak is the highest point in Maharashtra, rightfully earning its title as the 'Everest of Maharashtra'. The trek is a challenging yet rewarding journey that takes you through lush fields, rocky patches, and iron ladders. The summit offers a breathtaking 360-degree view of the surrounding Bhandardara region and several prominent forts like Alang, Madan, and Kulang. It's a must-do for any serious trekker in India, offering a true test of endurance and spirit.
+                </p>
+            </section>
+
+            <section class="mt-5">
+                <h2 class="section-title">Itinerary</h2>
+                <div class="accordion" id="itineraryAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                <strong>Day 1: Base Village to Summit Camp</strong>
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#itineraryAccordion">
+                            <div class="accordion-body text-secondary">
+                                Meet at Kasara railway station and proceed to the base village of Bari. After a quick briefing and breakfast, we begin the ascent. The trail is steep and involves navigating multiple iron ladders. We'll reach the camping spot near the summit by late afternoon. Enjoy the sunset and a campfire dinner.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                <strong>Day 2: Summit Sunrise and Descend</strong>
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#itineraryAccordion">
+                            <div class="accordion-body text-secondary">
+                                Wake up early for a short climb to the Kalsubai temple at the summit to witness a spectacular sunrise. After soaking in the views, we'll descend back to the campsite for breakfast. Post breakfast, we begin our descent to the base village. Reach Bari by afternoon, have lunch, and then depart for Kasara.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Required Equipment Section -->
+            <section class="mt-5">
+                <h2 class="section-title">Required Equipment</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class="fw-bold" style="color: #254d23;">Clothing & Footwear</h5>
+                        <ul class="list-unstyled text-secondary">
+                            <li><i class="bi bi-check-circle-fill me-2 text-success"></i>Trekking shoes with good grip</li>
+                            <li><i class="bi bi-check-circle-fill me-2 text-success"></i>2-3 pairs of quick-dry t-shirts</li>
+                            <li><i class="bi bi-check-circle-fill me-2 text-success"></i>One warm jacket or fleece</li>
+                            <li><i class="bi bi-check-circle-fill me-2 text-success"></i>Poncho or rain jacket (for monsoon)</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="fw-bold" style="color: #254d23;">Gear & Safety</h5>
+                        <ul class="list-unstyled text-secondary">
+                            <li><i class="bi bi-check-circle-fill me-2 text-success"></i>A 30-40 litre backpack</li>
+                            <li><i class="bi bi-check-circle-fill me-2 text-success"></i>Headlamp or torch with extra batteries</li>
+                            <li><i class="bi bi-check-circle-fill me-2 text-success"></i>Personal first-aid kit</li>
+                            <li><i class="bi bi-check-circle-fill me-2 text-success"></i>2 litres water bottle & energy snacks</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- User Reviews Section -->
+            <section class="mt-5">
+                <h2 class="section-title">Reviews & Ratings</h2>
+                <div class="details-card p-4 mb-4">
+                    <div class="d-flex align-items-center">
+                        <div class="h1 fw-bold me-3">4.8</div>
+                        <div>
+                            <div class="rating-stars">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-half"></i>
+                            </div>
+                            <div class="text-muted">Based on 210 reviews</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="vstack gap-3">
+                    <div class="review-card pb-3">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="fw-bold">Arya Dharmadhikari</h6>
+                            <div class="rating-stars small">
+                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                            </div>
+                        </div>
+                        <p class="text-secondary mb-0">An absolutely breathtaking trek. The final ladder climb is a bit scary but totally worth it for the view from the top. A must-do for every trekker!</p>
+                    </div>
+                    <div class="review-card pb-3">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="fw-bold">Omkar Joshi</h6>
+                            <div class="rating-stars small">
+                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i>
+                            </div>
+                        </div>
+                        <p class="text-secondary mb-0">Challenging but manageable. The trail is well-marked. Be prepared for a crowd on weekends. The sunrise view is something I'll never forget.</p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="col-lg-4">
+            <div class="details-card">
+                <h3 class="section-title" style="margin-bottom: 1rem;">Trek Details</h3>
+                <ul class="list-unstyled vstack gap-3 text-secondary">
+                    <li><i class="bi bi-geo-alt-fill me-2 text-primary"></i><strong>Start Point:</strong> Bari Village</li>
+                    <li><i class="bi bi-signpost-split-fill me-2 text-primary"></i><strong>Trek Distance:</strong> ~6.6 km (one way)</li>
+                    <li><i class="bi bi-graph-up-arrow me-2 text-primary"></i><strong>Trek Type:</strong> High-endurance, steep ascent</li>
+                </ul>
+                <hr>
+                <h4 class="h6 fw-bold" style="color: #254d23;">Getting There</h4>
+                <p class="small text-secondary">The most common way is to take a local train to Kasara station from Mumbai and then hire a local jeep or taxi to Bari village, which is the base for the trek.</p>
+                <div id="map" class="mt-3"></div>
+                <div class="d-grid gap-2 mt-4">
+                    <button class="btn btn-primary-trek"><i class="bi bi-plus-circle-fill me-2"></i>Add to My Treks</button>
+                    <button class="btn btn-outline-secondary"><i class="bi bi-download me-2"></i>Download GPX Trail</button>
+                </div>
+            </div>
+        </aside>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="text-center py-4 mt-5" style="background-color: #e0f2e0;">
+    <p class="mb-0 text-muted">&copy; 2025 TrekSafe Trails. All rights reserved.</p>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize Leaflet map
+        // Coordinates for Kalsubai Peak
+        const kalsubaiCoords = [19.6011, 73.7139];
+        var map = L.map('map').setView(kalsubaiCoords, 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        L.marker(kalsubaiCoords).addTo(map)
+            .bindPopup('<b>Kalsubai Peak</b><br>Highest point in Maharashtra.')
+            .openPopup();
+    });
+</script>
+</body>
+</html>

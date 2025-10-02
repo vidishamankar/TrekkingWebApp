@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Emergency Assistance - TrekSafe</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Standard light background */
+        }
+        .navbar-custom {
+            background-color: #254d23; /* Standard dark green for header */
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: #e0f2e0;
+            font-weight: 500;
+        }
+        .navbar-custom .navbar-brand:hover,
+        .navbar-custom .nav-link:hover,
+        .navbar-custom .nav-link.active {
+            color: #ffffff;
+        }
+        .content-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 56px); /* Full height minus navbar */
+            padding: 2rem 1rem;
+        }
+        .card {
+            border-radius: 1rem;
+            border: none;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        }
+        .emergency-title {
+            color: #254d23; /* Standard dark green text */
+            font-weight: 700;
+        }
+        .btn-call {
+            background-color: #254d23;
+            border-color: #254d23;
+            color: #fff;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+        .btn-call:hover {
+            background-color: #1c3a1a;
+            border-color: #1c3a1a;
+        }
+        .text-muted {
+            color: #795845 !important; /* Standard earthy brown text */
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top">
+    <div class="container-fluid px-md-5">
+        <a class="navbar-brand fw-bold" href="#">
+            <i class="bi bi-shield-check me-2"></i>TrekSafe
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Map</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Plan</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">SOS</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Emergency</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="content-wrapper">
+    <div class="card p-4 p-md-5 text-center" style="max-width: 500px; width: 100%;">
+        <h2 class="emergency-title mb-3"><i class="bi bi-exclamation-triangle-fill"></i> Emergency Assistance</h2>
+        <p class="mb-4">Updated helpline numbers based on your current location:</p>
+
+        <div id="numbers">
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border text-success" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            <p class="mt-2">Fetching your location...</p>
+        </div>
+
+        <p class="text-muted mt-4">
+            <i class="bi bi-geo-alt-fill"></i> Current Location: <strong id="location">Detecting...</strong>
+        </p>
+    </div>
+</div>
+
+<script>
+    const emergencyData = {
+        "default": {
+            police: "100",
+            ambulance: "108",
+            fire: "101",
+            forest: "192"
+        },
+        "Maharashtra": {
+            police: "112",
+            ambulance: "108",
+            fire: "101",
+            forest: "1926"
+        },
+        "Himachal Pradesh": {
+            police: "100",
+            ambulance: "102",
+            fire: "101",
+            forest: "1800-180-8000"
+        },
+        // Add more states here
+        "Uttarakhand": {
+            police: "112",
+            ambulance: "108",
+            fire: "101",
+            forest: "1926"
+        }
+    };
+
+    function showNumbers(region, coords) {
+        const data = emergencyData[region] || emergencyData["default"];
+        document.getElementById("numbers").innerHTML = `
+          <div class="d-grid gap-2">
+            <a href="tel:${data.police}" class="btn btn-call"><i class="bi bi-shield-fill me-2"></i> Police (${data.police})</a>
+            <a href="tel:${data.ambulance}" class="btn btn-call"><i class="bi bi-hospital-fill me-2"></i> Ambulance (${data.ambulance})</a>
+            <a href="tel:${data.fire}" class="btn btn-call"><i class="bi bi-fire me-2"></i> Fire & Rescue (${data.fire})</a>
+            <a href="tel:${data.forest}" class="btn btn-call"><i class="bi bi-tree-fill me-2"></i> Forest Dept (${data.forest})</a>
+          </div>
+        `;
+        document.getElementById("location").textContent = `${coords} (${region})`;
+    }
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async function(position) {
+            const coords = position.coords.latitude.toFixed(4) + ", " + position.coords.longitude.toFixed(4);
+            let region = "default"; // fallback
+
+            try {
+                // Using OpenStreetMap's Nominatim API for reverse geocoding
+                let res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${position.coords.latitude}&lon=${position.coords.longitude}&format=json`);
+                let data = await res.json();
+                region = data.address.state || "default";
+            } catch(e) {
+                console.log("Geocoding failed, using default numbers.", e);
+                region = "default";
+            }
+
+            showNumbers(region, coords);
+        }, function(error) {
+            document.getElementById("numbers").innerHTML = `<p class="text-danger">Could not fetch location. Please enable location services.</p>`;
+            showNumbers("default", "N/A");
+        });
+    } else {
+        document.getElementById("numbers").innerHTML = "<p>Geolocation is not supported by your browser.</p>";
+        showNumbers("default", "N/A");
+    }
+</script>
+</body>
+</html>

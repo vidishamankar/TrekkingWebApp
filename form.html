@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit a Trek Review - TrekSafe</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #254d23;
+        }
+        .form-header {
+            color: #254d23;
+            font-weight: 700;
+        }
+        .form-section-card {
+            background-color: #ffffff;
+            border: none;
+            border-radius: 1rem;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            padding: 2rem;
+        }
+        .form-label {
+            font-weight: 600;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #254d23;
+            box-shadow: 0 0 0 0.25rem rgba(37, 77, 35, 0.25);
+        }
+        .btn-primary-trek {
+            background-color: #254d23;
+            border-color: #254d23;
+            color: #fff;
+            border-radius: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+        .btn-primary-trek:hover {
+            background-color: #1c3a1a;
+            border-color: #1c3a1a;
+        }
+        /* Star Rating Styles */
+        .star-rating {
+            font-size: 2.5rem;
+            color: #d1d5db; /* Gray stars */
+            cursor: pointer;
+        }
+        .star-rating .bi-star-fill {
+            color: #ffc107; /* Yellow stars */
+        }
+        .form-check-input:checked {
+            background-color: #254d23;
+            border-color: #254d23;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container py-5">
+    <!-- Header -->
+    <header class="text-center mb-5">
+        <h1 class="display-5 form-header">Share Your Experience</h1>
+        <p class="lead text-muted">Your review helps other trekkers prepare for their adventure.</p>
+    </header>
+
+    <form id="review-form">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+
+                <div class="form-section-card">
+                    <div class="row g-4">
+                        <!-- Select Trek -->
+                        <div class="col-12">
+                            <label for="trek-selection" class="form-label">Which trek are you reviewing?</label>
+                            <select class="form-select" id="trek-selection" required>
+                                <option selected disabled value="">Choose a trail from the list...</option>
+                                <option value="Kalsubai Peak Traverse">Kalsubai Peak Traverse</option>
+                                <option value="Rajgad Fort Trek">Rajgad Fort Trek</option>
+                                <option value="Lohagad Fort Trail">Lohagad Fort Trail</option>
+                                <option value="Harishchandragad Trek">Harishchandragad Trek</option>
+                                <option value="Tiger's Leap Ascent">Tiger's Leap Ascent</option>
+                                <option value="Green Valley Loop">Green Valley Loop</option>
+                            </select>
+                        </div>
+
+                        <!-- Star Rating -->
+                        <div class="col-12 text-center">
+                            <label class="form-label d-block mb-2">Your Overall Rating</label>
+                            <div id="star-rating-container" class="star-rating">
+                                <i class="bi bi-star" data-value="1"></i>
+                                <i class="bi bi-star" data-value="2"></i>
+                                <i class="bi bi-star" data-value="3"></i>
+                                <i class="bi bi-star" data-value="4"></i>
+                                <i class="bi bi-star" data-value="5"></i>
+                            </div>
+                            <input type="hidden" name="rating" id="rating-value" required>
+                        </div>
+
+                        <hr>
+
+                        <!-- Specific Trail Condition Ratings -->
+                        <div class="col-12">
+                            <label class="form-label">Specific Trail Conditions</label>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label class="form-label small">Trail Markings</label>
+                                    <select class="form-select form-select-sm">
+                                        <option>Well-marked</option>
+                                        <option>Average</option>
+                                        <option>Poorly Marked</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small">Crowd Levels</label>
+                                    <select class="form-select form-select-sm">
+                                        <option>Secluded</option>
+                                        <option>Moderate</option>
+                                        <option>Crowded</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small">Cleanliness</label>
+                                    <select class="form-select form-select-sm">
+                                        <option>Clean</option>
+                                        <option>Some Litter</option>
+                                        <option>Very Dirty</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- "Best For" Tags -->
+                        <div class="col-12">
+                            <label class="form-label">This trek is best for...</label>
+                            <div class="d-flex flex-wrap gap-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="solo" id="tag-solo">
+                                    <label class="form-check-label" for="tag-solo"><i class="bi bi-person-fill"></i> Solo</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="groups" id="tag-groups">
+                                    <label class="form-check-label" for="tag-groups"><i class="bi bi-people-fill"></i> Groups</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="families" id="tag-families">
+                                    <label class="form-check-label" for="tag-families"><i class="bi bi-hearts"></i> Families</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="photography" id="tag-photo">
+                                    <label class="form-check-label" for="tag-photo"><i class="bi bi-camera-fill"></i> Photography</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <!-- Difficulty Assessment -->
+                        <div class="col-md-6">
+                            <label class="form-label">How difficult did you find it?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="difficulty" id="diff-easy" value="Easy">
+                                <label class="form-check-label" for="diff-easy">Easy</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="difficulty" id="diff-moderate" value="Moderate">
+                                <label class="form-check-label" for="diff-moderate">Moderate</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="difficulty" id="diff-difficult" value="Difficult">
+                                <label class="form-check-label" for="diff-difficult">Difficult</label>
+                            </div>
+                        </div>
+
+                        <!-- Duration Assessment -->
+                        <div class="col-md-6">
+                            <label for="actual-duration" class="form-label">Your Actual Duration</label>
+                            <input type="text" class="form-control" id="actual-duration" placeholder="e.g., 6 hours, 2 days">
+                        </div>
+
+                        <!-- Review Title -->
+                        <div class="col-12">
+                            <label for="review-title" class="form-label">Review Title</label>
+                            <input type="text" class="form-control" id="review-title" placeholder="A short, catchy title for your review" required>
+                        </div>
+
+                        <!-- Detailed Review -->
+                        <div class="col-12">
+                            <label for="review-details" class="form-label">Your Detailed Review</label>
+                            <textarea class="form-control" id="review-details" rows="5" placeholder="Share your experience, tips for other trekkers, and what you liked or disliked..." required></textarea>
+                        </div>
+
+                        <!-- Pro Tip Field -->
+                        <div class="col-12">
+                            <label for="pro-tip" class="form-label"><i class="bi bi-lightbulb-fill text-warning"></i> Share One Pro Tip</label>
+                            <input type="text" class="form-control" id="pro-tip" placeholder="e.g., Start before 6 AM to get parking!">
+                        </div>
+
+                        <!-- Date of Trek -->
+                        <div class="col-md-6">
+                            <label for="trek-date" class="form-label">Date of Trek</label>
+                            <input type="date" class="form-control" id="trek-date" required>
+                        </div>
+
+                        <!-- Photo Upload -->
+                        <div class="col-md-6">
+                            <label for="trek-photo" class="form-label">Upload Photos (Optional)</label>
+                            <input class="form-control" type="file" id="trek-photo" accept="image/*" multiple>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary-trek btn-lg">
+                            <i class="bi bi-send-check-fill me-2"></i>Submit Review
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const starContainer = document.getElementById('star-rating-container');
+        const ratingInput = document.getElementById('rating-value');
+        const stars = starContainer.querySelectorAll('.bi');
+
+        starContainer.addEventListener('click', e => {
+            if (e.target.matches('.bi')) {
+                const rating = e.target.dataset.value;
+                ratingInput.value = rating;
+                updateStars(rating);
+            }
+        });
+
+        starContainer.addEventListener('mouseover', e => {
+            if (e.target.matches('.bi')) {
+                const rating = e.target.dataset.value;
+                updateStars(rating);
+            }
+        });
+
+        starContainer.addEventListener('mouseout', () => {
+            updateStars(ratingInput.value);
+        });
+
+        function updateStars(rating) {
+            stars.forEach(star => {
+                if (star.dataset.value <= rating) {
+                    star.classList.remove('bi-star');
+                    star.classList.add('bi-star-fill');
+                } else {
+                    star.classList.remove('bi-star-fill');
+                    star.classList.add('bi-star');
+                }
+            });
+        }
+
+        // Form Submission
+        document.getElementById('review-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (!ratingInput.value) {
+                alert('Please provide a star rating.');
+                return;
+            }
+            // In a real app, you would collect all the form data here and send it to your backend.
+            alert('Review Submitted! Thank you for your contribution. (This is a demo)');
+            console.log('Form submitted. Data would be sent to the server here.');
+            this.reset();
+            ratingInput.value = '';
+            updateStars(0);
+        });
+    });
+</script>
+</body>
+</html>
