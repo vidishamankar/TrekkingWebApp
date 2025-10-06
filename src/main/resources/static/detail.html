@@ -16,11 +16,99 @@
             background-color: #f8fafc;
             color: #333;
         }
-        /* NOTE: The background URL needs to be set dynamically by JavaScript */
+
+        /* --- NAVBAR STYLES --- */
+        .navbar {
+            padding: 1rem 0;
+            transition: background-color 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease;
+            border-bottom: 1px solid transparent;
+        }
+        .navbar-scrolled {
+            background-color: rgba(37, 77, 35, 0.95) !important;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .navbar-brand,
+        .nav-link,
+        .dropdown-toggle {
+            color: #ffffff !important;
+        }
+        .navbar-brand {
+            font-size: 1.4rem;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+        .nav-link {
+            font-weight: 600;
+        }
+        .nav-link.dropdown-toggle:hover {
+            color: #f8f9fa !important;
+        }
+        .dropdown-menu {
+            border-radius: 0.5rem;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .navbar .btn {
+            border-radius: 50px;
+            font-weight: 600;
+            padding: 0.5rem 1.25rem;
+            transition: all 0.3s ease;
+            border-width: 2px;
+        }
+        .navbar .btn-outline-light:hover {
+            background-color: #fff;
+            color: #254d23;
+        }
+        .navbar .btn-warning {
+            background-color: #ffc107;
+            border-color: #ffc107;
+            color: #212529;
+        }
+        .navbar .btn-warning:hover {
+            background-color: #ffca2c;
+            border-color: #ffca2c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+        }
+        .logged-in-view {
+            display: none;
+        }
+        body.logged-in .logged-in-view {
+            display: list-item;
+        }
+        body.logged-in .logged-out-view {
+            display: none;
+        }
+        .profile-dropdown-toggle::after {
+            display: none;
+        }
+        .profile-dropdown-toggle .bi-person-circle {
+            font-size: 1.8rem;
+        }
+        .nav-search-form {
+            width: 350px;
+        }
+        .nav-search-form .form-control {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border-radius: 50px;
+        }
+        .nav-search-form .form-control::placeholder { color: #e0f2e0; }
+        .nav-search-form .form-control:focus {
+            background-color: rgba(255, 255, 255, 0.2);
+            box-shadow: none;
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* --- Page Specific Styles --- */
         .trek-header {
             position: relative;
             height: 60vh;
-            /* Placeholder background - will be replaced by JS */
             background: url('https://placehold.co/1600x900/002B47/C8D8ED?text=Loading...') center center / cover no-repeat;
             color: white;
             display: flex;
@@ -104,12 +192,11 @@
             z-index: 1;
         }
         .rating-stars {
-            color: #ffc107; /* Bootstrap yellow */
+            color: #ffc107;
         }
         .review-card {
             border-bottom: 1px solid #e0f2e0;
         }
-        /* Difficulty Badge Styles */
         .difficulty-badge {
             display: inline-block;
             padding: 0.25em 0.6em;
@@ -121,21 +208,62 @@
             vertical-align: baseline;
             border-radius: 0.5rem;
         }
-        .difficulty-difficult {
-            color: #fff;
-            background-color: #dc3545; /* Bootstrap danger red */
+        .difficulty-difficult { color: #fff; background-color: #dc3545; }
+        .difficulty-moderate { color: #000; background-color: #ffc107; }
+        .difficulty-easy { color: #fff; background-color: #198754; }
+
+        /* --- Standardized Footer --- */
+        .footer {
+            background-color: #254d23;
+            color: #e0f2e0;
         }
-        .difficulty-moderate {
-            color: #000;
-            background-color: #ffc107; /* Bootstrap warning yellow */
-        }
-        .difficulty-easy {
-            color: #fff;
-            background-color: #198754; /* Bootstrap success green */
-        }
+        .footer a { color: #e0f2e0; text-decoration: none; }
+        .footer a:hover { color: #fff; text-decoration: underline; }
     </style>
 </head>
 <body>
+
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top navbar-scrolled">
+    <div class="container">
+        <a class="navbar-brand" href="landing.html">
+            <i class="bi bi-shield-check me-2"></i>TrekSafe
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="searchsuggest.html">Explore</a>
+                </li>
+            </ul>
+
+            <form class="d-flex nav-search-form" role="search">
+                <input class="form-control form-control-sm" type="search" placeholder="Search for trails..." aria-label="Search">
+            </form>
+
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+                <li class="nav-item dropdown logged-in-view">
+                    <a class="nav-link profile-dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#">Dashboard</a></li>
+                        <li><a class="dropdown-item" href="#">Profile Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Logout</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item logged-out-view">
+                    <a class="btn btn-outline-light btn-sm" href="login.html">Login</a>
+                </li>
+                <li class="nav-item logged-out-view ms-lg-2">
+                    <a class="btn btn-warning btn-sm" href="signup.html">Sign Up</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
 <header class="trek-header" id="trek-header">
     <div class="trek-header-content">
@@ -231,21 +359,20 @@
     </div>
 </div>
 
-<footer class="text-center py-4 mt-5" style="background-color: #e0f2e0;">
-    <p class="mb-0 text-muted">&copy; 2025 TrekSafe Trails. All rights reserved.</p>
+<footer class="footer text-center py-4 mt-5">
+    <div class="container">
+        <p class="mb-0">&copy; 2025 TrekSafe Trails. All rights reserved.</p>
+    </div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
 <script>
-    // Helper function to dynamically add stars
     function displayStars(rating, elementId) {
         const starContainer = document.getElementById(elementId);
         starContainer.innerHTML = '';
         const fullStars = Math.floor(rating);
         const hasHalfStar = rating % 1 >= 0.5;
-
         for (let i = 0; i < 5; i++) {
             let iconClass = 'bi-star';
             if (i < fullStars) {
@@ -259,7 +386,6 @@
         }
     }
 
-    // Helper function to set difficulty badge style
     function getDifficultyClass(difficulty) {
         if (difficulty.toLowerCase().includes('difficult')) return 'difficulty-difficult';
         if (difficulty.toLowerCase().includes('moderate')) return 'difficulty-moderate';
@@ -267,17 +393,13 @@
         return '';
     }
 
-    // Function to render the itinerary using the Bootstrap Accordion
     function renderItinerary(itinerary) {
         const accordionContainer = document.getElementById('itineraryAccordion');
-        accordionContainer.innerHTML = ''; // Clear placeholder
-
+        accordionContainer.innerHTML = '';
         itinerary.forEach((step, index) => {
             const dayNumber = index + 1;
-            // Assuming the first line of the step is the title/heading
             const [heading, ...descriptionParts] = step.split(':');
             const description = descriptionParts.join(':').trim();
-
             const accordionItem = `
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="heading${dayNumber}">
@@ -296,30 +418,9 @@
         });
     }
 
-    // Function to render the equipment list
     function renderEquipment(equipment) {
         const listContainer = document.getElementById('equipment-list');
-        listContainer.innerHTML = ''; // Clear placeholder
-
-        // Split equipment into two columns (arbitrary split point)
-        const midpoint = Math.ceil(equipment.length / 2);
-        const col1 = equipment.slice(0, midpoint);
-        const col2 = equipment.slice(midpoint);
-
-        const buildListHTML = (list, title) => {
-            let html = `<div class="col-md-6">
-                            <h5 class="fw-bold" style="color: #254d23;">${title}</h5>
-                            <ul class="list-unstyled text-secondary">`;
-            list.forEach(item => {
-                // Assuming we can categorize them roughly
-                const iconTitle = title.includes('Clothing') ? 'text-success' : 'text-success';
-                html += `<li><i class="bi bi-check-circle-fill me-2 ${iconTitle}"></i>${item}</li>`;
-            });
-            html += `</ul></div>`;
-            return html;
-        };
-
-        // For simplicity, we'll just put all equipment under one heading for now if the list is flat
+        listContainer.innerHTML = '';
         let listHTML = `<div class="col-md-12">
                             <ul class="list-unstyled text-secondary">`;
         equipment.forEach(item => {
@@ -329,35 +430,38 @@
         listContainer.innerHTML = listHTML;
     }
 
-
-    // Main function to fetch and display data
     async function loadTrailDetails() {
-        // *** IMPORTANT: You need a way to get the actual ID. ***
-        // For development, we'll hardcode to ID 1.
-        // In a real application, you'd parse this from the URL (e.g., /detail.html?id=1)
-        const TRAIL_ID = 1;
-        const API_URL = `/api/trails/${TRAIL_ID}`;
+        const urlParams = new URLSearchParams(window.location.search);
+        const trailId = urlParams.get('trailId');
+
+        if (!trailId) {
+            document.getElementById('trek-title').textContent = 'No Trail Specified';
+            document.getElementById('trek-description').textContent = 'Please select a trail from the search page.';
+            return;
+        }
+
+        // --- FOR DEVELOPMENT ONLY ---
+        const DUMMY_TRAILS = {
+            'gv001': { name: 'Green Valley Loop', location: 'Pune, Maharashtra', difficulty: 'Easy', duration: 'Half Day', bestSeason: 'Monsoon, Winter', maxAltitude: '1,500 ft', description: 'A serene loop through lush forests perfect for beginners and families. The trail is well-marked and offers beautiful views of the surrounding hills.', itinerary: ['Start: Reach the base village by 8 AM.', 'Mid-point: Reach the viewpoint by 10 AM, rest and have snacks.', 'End: Return to base by 12 PM.'], equipment: ['Water Bottle (1L)', 'Comfortable Shoes', 'Snacks', 'Raincoat (in monsoon)'], startPoint: 'Green Valley Base', trekDistance: '5 km', trekType: 'Loop Trail', rating: 4.5, totalReviews: 120, imageUrl: 'https://images.unsplash.com/photo-1448375240586-882707db888b', latitude: 18.5204, longitude: 73.8567 },
+            'kp003': { name: 'Kalsubai Peak Traverse', location: 'Igatpuri, Maharashtra', difficulty: 'Difficult', duration: 'Full Day', bestSeason: 'Post-Monsoon', maxAltitude: '5,400 ft', description: 'Known as the "Everest of Maharashtra," this challenging trek offers breathtaking panoramic views from the highest point in the state. The route involves steep climbs and ladders.', itinerary: ['Day 1: Arrival at Bari village, start trek, and camp overnight.', 'Day 2: Summit push in the early morning for sunrise views and descend.'], equipment: ['Trekking Pole', 'Headlamp', 'Sturdy Boots', 'First-Aid Kit', 'High-energy food'], startPoint: 'Bari Village', trekDistance: '12 km', trekType: 'Point-to-Point', rating: 4.8, totalReviews: 210, imageUrl: 'https://images.unsplash.com/photo-1708867817645-db7bf6586699?q=80&w=1035&auto=format&fit=crop', latitude: 19.6011, longitude: 73.7121 },
+        };
+        // --- END DEVELOPMENT SECTION ---
 
         try {
-            const response = await fetch(API_URL);
+            // For production, you would fetch from your API:
+            // const response = await fetch(`/api/trails/${trailId}`);
+            // const trail = await response.json();
 
-            if (!response.ok) {
-                // Handle 404 or other errors
-                document.getElementById('trek-title').textContent = 'Trail Not Found';
-                document.getElementById('trek-description').textContent = 'The requested trail could not be found.';
-                return;
+            const trail = DUMMY_TRAILS[trailId];
+            if (!trail) {
+                throw new Error('Trail not found in dummy data');
             }
 
-            const trail = await response.json();
-
-            // 1. Update Header and Title
             document.getElementById('page-title').textContent = `Trek Details - ${trail.name}`;
             document.getElementById('trek-title').textContent = trail.name;
             document.getElementById('trek-location').innerHTML = `<i class="bi bi-geo-alt-fill"></i> ${trail.location}`;
             document.getElementById('trek-header').style.backgroundImage = `url('${trail.imageUrl || 'https://placehold.co/1600x900/002B47/C8D8ED?text=TrekSafe+Trail'}')`;
 
-
-            // 2. Update Quick Info Bar
             const badgeElement = document.getElementById('trek-difficulty-badge');
             badgeElement.textContent = trail.difficulty;
             badgeElement.className = `difficulty-badge ${getDifficultyClass(trail.difficulty)}`;
@@ -365,30 +469,22 @@
             document.getElementById('trek-best-season').textContent = trail.bestSeason;
             document.getElementById('trek-max-altitude').textContent = trail.maxAltitude;
 
-
-            // 3. Update Main Content
             document.getElementById('trek-description').textContent = trail.description;
 
-            // 4. Update Itinerary
             if (trail.itinerary && trail.itinerary.length > 0) {
                 renderItinerary(trail.itinerary);
             } else {
                 document.getElementById('itineraryAccordion').innerHTML = '<p class="text-secondary">Itinerary details are not available yet.</p>';
             }
 
-            // 5. Update Equipment
             if (trail.equipment && trail.equipment.length > 0) {
-                // Note: The original HTML had split columns,
-                // this simple renderEquipment function will adapt to a flat list.
                 renderEquipment(trail.equipment);
             }
 
-            // 6. Update Sidebar Details
             document.getElementById('trek-start-point').textContent = trail.startPoint;
             document.getElementById('trek-distance').textContent = trail.trekDistance;
             document.getElementById('trek-type').textContent = trail.trekType;
 
-            // 7. Update Reviews/Ratings (using current Trail model fields)
             document.getElementById('avg-rating').textContent = trail.rating ? trail.rating.toFixed(1) : 'N/A';
             document.getElementById('total-reviews').textContent = `Based on ${trail.totalReviews || 0} reviews`;
             if (trail.rating) {
@@ -397,34 +493,23 @@
                 document.getElementById('star-rating').textContent = 'No ratings yet.';
             }
 
-
-            // 8. Initialize Map (only if coordinates exist)
             if (trail.latitude && trail.longitude) {
                 const coords = [trail.latitude, trail.longitude];
                 var map = L.map('map').setView(coords, 13);
-
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(map);
-
                 L.marker(coords).addTo(map)
                     .bindPopup(`<b>${trail.name}</b><br>${trail.location}`)
                     .openPopup();
-
-                // Fix map tile loading issue if it's in a hidden tab/div
-                setTimeout(() => {
-                    map.invalidateSize();
-                }, 100);
-
+                setTimeout(() => { map.invalidateSize(); }, 100);
             } else {
                 document.getElementById('map').innerHTML = '<p class="text-muted text-center pt-5">Map coordinates not available.</p>';
             }
-
-
         } catch (error) {
             console.error('Error fetching trail data:', error);
             document.getElementById('trek-title').textContent = 'Error Loading Trail';
-            document.getElementById('trek-description').textContent = 'There was an issue connecting to the server. Please try again.';
+            document.getElementById('trek-description').textContent = 'There was an issue loading the trail data. It might not exist or there was a server problem.';
         }
     }
 
