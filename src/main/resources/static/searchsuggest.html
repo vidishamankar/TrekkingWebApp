@@ -16,13 +16,13 @@
             color: #254d23; /* Dark green text */
         }
 
-        /* --- NAVBAR STYLES (Copied from landing.html) --- */
+        /* --- NAVBAR STYLES (SYNCHRONIZED WITH LANDING PAGE) --- */
         .navbar {
             padding: 1rem 0;
             transition: background-color 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease;
+            background: transparent;
             border-bottom: 1px solid transparent;
         }
-        /* Applied by default on content pages for a solid background */
         .navbar-scrolled {
             background-color: rgba(37, 77, 35, 0.95) !important;
             backdrop-filter: blur(10px);
@@ -30,9 +30,9 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        .navbar-brand,
-        .nav-link,
-        .dropdown-toggle {
+        .navbar-scrolled .navbar-brand,
+        .navbar-scrolled .nav-link,
+        .navbar-scrolled .dropdown-toggle {
             color: #ffffff !important;
         }
         .navbar-brand {
@@ -73,6 +73,8 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
         }
+
+        /* --- Logged-In/Out Toggle Styles --- */
         .logged-in-view {
             display: none;
         }
@@ -87,6 +89,24 @@
         }
         .profile-dropdown-toggle .bi-person-circle {
             font-size: 1.8rem;
+        }
+
+        /* --- MOBILE RESPONSIVENESS (FROM LANDING PAGE) --- */
+        @media (max-width: 767.98px) {
+            .navbar-nav .nav-item {
+                margin: 0.5rem 0;
+            }
+            .navbar-nav .btn {
+                width: 100%;
+            }
+            .navbar-collapse {
+                background-color: rgba(37, 77, 35, 0.95);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                border-radius: 0.5rem;
+                padding: 1rem;
+                margin-top: 0.5rem;
+            }
         }
 
         /* --- Page Specific Styles --- */

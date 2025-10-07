@@ -6,10 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="73db9c68-bd43-4694-8c09-3817dd2c869d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/blog.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/blog.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/home.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/error.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/error.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/issue.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/issue.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/landing.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/landing.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/searchsuggest.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/searchsuggest.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/navig_compass.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/navig_compass.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/sosinfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/sosinfo.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/weather.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/weather.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,26 +31,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "feat/add-nav-pages",
-    "junie.onboarding.icon.badge.shown": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Santosh M/IdeaProjects/miniproject_sem3",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feat/add-nav-pages&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Santosh M/IdeaProjects/miniproject_sem3&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -71,7 +75,10 @@
       <workItem from="1759305900539" duration="70000" />
       <workItem from="1759341939543" duration="3714000" />
       <workItem from="1759390061237" duration="513000" />
-      <workItem from="1759761235857" duration="8414000" />
+      <workItem from="1759761235857" duration="9272000" />
+      <workItem from="1759805090345" duration="2076000" />
+      <workItem from="1759809136829" duration="7136000" />
+      <workItem from="1759824303319" duration="80000" />
     </task>
     <servers />
   </component>
