@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="73db9c68-bd43-4694-8c09-3817dd2c869d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/blog.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/blog.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/error.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/error.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/issue.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/issue.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/landing.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/landing.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/navig_compass.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/navig_compass.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/sosinfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/sosinfo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/weather.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/weather.html" afterDir="false" />
-    </list>
+    <list default="true" id="73db9c68-bd43-4694-8c09-3817dd2c869d" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
