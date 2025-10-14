@@ -15,27 +15,111 @@
             background-color: #f8fafc; /* Light background */
             color: #254d23; /* Dark green text */
         }
+
+        /* --- NAVBAR STYLES (SYNCHRONIZED WITH LANDING PAGE) --- */
         .navbar {
-            background-color: #254d23; /* Dark green for header */
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            transition: background-color 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease;
+            background: transparent;
+            border-bottom: 1px solid transparent;
         }
-        .navbar-brand, .nav-link {
-            color: #e0f2e0 !important; /* Lighter green for text */
-            font-weight: 500;
+        .navbar-scrolled {
+            background-color: rgba(37, 77, 35, 0.95) !important;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        .navbar-brand:hover, .nav-link:hover {
+        .navbar-scrolled .navbar-brand,
+        .navbar-scrolled .nav-link,
+        .navbar-scrolled .dropdown-toggle {
             color: #ffffff !important;
         }
+        .navbar-brand {
+            font-size: 1.4rem;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+        .nav-link {
+            font-weight: 600;
+        }
+        .nav-link.dropdown-toggle:hover {
+            color: #f8f9fa !important;
+        }
+        .dropdown-menu {
+            border-radius: 0.5rem;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .navbar .btn {
+            border-radius: 50px;
+            font-weight: 600;
+            padding: 0.5rem 1.25rem;
+            transition: all 0.3s ease;
+            border-width: 2px;
+        }
+        .navbar .btn-outline-light:hover {
+            background-color: #fff;
+            color: #254d23;
+        }
+        .navbar .btn-warning {
+            background-color: #ffc107;
+            border-color: #ffc107;
+            color: #212529;
+        }
+        .navbar .btn-warning:hover {
+            background-color: #ffca2c;
+            border-color: #ffca2c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+        }
+
+        /* --- Logged-In/Out Toggle Styles --- */
+        .logged-in-view {
+            display: none;
+        }
+        body.logged-in .logged-in-view {
+            display: list-item;
+        }
+        body.logged-in .logged-out-view {
+            display: none;
+        }
+        .profile-dropdown-toggle::after {
+            display: none;
+        }
+        .profile-dropdown-toggle .bi-person-circle {
+            font-size: 1.8rem;
+        }
+
+        /* --- MOBILE RESPONSIVENESS (FROM LANDING PAGE) --- */
+        @media (max-width: 767.98px) {
+            .navbar-nav .nav-item {
+                margin: 0.5rem 0;
+            }
+            .navbar-nav .btn {
+                width: 100%;
+            }
+            .navbar-collapse {
+                background-color: rgba(37, 77, 35, 0.95);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                border-radius: 0.5rem;
+                padding: 1rem;
+                margin-top: 0.5rem;
+            }
+        }
+
+        /* --- Page Specific Styles --- */
         .btn-primary-trek {
-            background-color: #228B22; /* Trekking green */
+            background-color: #228B22;
             border-color: #228B22;
             color: #fff;
-            border-radius: 0.75rem; /* Rounded corners */
+            border-radius: 0.75rem;
             padding: 0.6rem 1.5rem;
             transition: background-color 0.2s ease;
         }
         .btn-primary-trek:hover {
-            background-color: #176d1a; /* Darker green on hover */
+            background-color: #176d1a;
             border-color: #176d1a;
         }
         .form-control:focus {
@@ -43,13 +127,13 @@
             box-shadow: 0 0 0 0.25rem rgba(34,139,34,0.25);
         }
         .card {
-            border-radius: 1rem; /* More rounded cards */
+            border-radius: 1rem;
             border: none;
             box-shadow: 0 6px 20px rgba(0,0,0,0.08);
             transition: transform 0.2s ease;
         }
         .card:hover {
-            transform: translateY(-5px); /* Subtle lift on hover */
+            transform: translateY(-5px);
         }
         .card-title {
             color: #254d23;
@@ -72,15 +156,10 @@
             background-color: #228B22;
             border-color: #228B22;
         }
-        .dropdown-menu {
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
         .dropdown-item:active {
             background-color: #228B22;
             color: #fff;
         }
-        /* Loading indicator styles */
         .loading-indicator {
             display: none;
             text-align: center;
@@ -92,62 +171,79 @@
             height: 3rem;
             color: #228B22;
         }
-        /* --- Specific styles for Search & Filter section enhancement --- */
         .search-filter-card .input-group {
             border: 1px solid #ddd;
-            border-radius: 0.75rem; /* Match button radius */
-            overflow: hidden; /* Ensures contents stay within rounded border */
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Subtle shadow for the input group */
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         .search-filter-card .input-group .form-control {
-            border: none; /* Remove individual input border */
+            border: none;
         }
         .search-filter-card .input-group .input-group-text {
             background-color: #fff;
-            border-right: none; /* Remove border between icon and input */
+            border-right: none;
         }
         .search-filter-card .btn-primary-trek {
-            border-radius: 0.75rem; /* Ensure button itself is rounded */
+            border-radius: 0.75rem;
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
         }
         .filter-options-group {
-            border-top: 1px solid #eee; /* Light separator */
+            border-top: 1px solid #eee;
             padding-top: 1.5rem;
-            margin-top: 1.5rem; /* Space from search bar */
+            margin-top: 1.5rem;
         }
         .form-select.rounded-pill, .form-control.rounded-pill {
-            border-radius: 999px !important; /* Ensure full pill shape for select/input */
+            border-radius: 999px !important;
         }
     </style>
 </head>
 <body>
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-    <div class="container-fluid px-md-5">
-        <a class="navbar-brand fw-bold" href="dashboard.html">
-            <i class="bi bi-compass-fill me-2"></i>TrekSafe Trails
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top navbar-scrolled">
+    <div class="container">
+        <a class="navbar-brand" href="landing.html">
+            <i class="bi bi-shield-check me-2"></i>TrekSafe
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="searchsuggest.html"><i class="bi bi-search me-1"></i>Search Trails</a>
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Explore
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="searchsuggest.html">Search Treks</a></li>
+                        <li><a class="dropdown-item" href="map.html">Interactive Map</a></li>
+                        <li><a class="dropdown-item" href="navig_compass.html">Compass</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="emergency.html">Emergency Info</a></li>
+                        <li><a class="dropdown-item" href="blog.html">Blog</a></li>
+                    </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="plan_trek.html"><i class="bi bi-map me-1"></i>My Treks</a>
+
+                <li class="nav-item d-none d-lg-block mx-2"></li>
+
+                <li class="nav-item mb-2 mb-lg-0 logged-out-view">
+                    <a class="btn btn-outline-light btn-sm" href="login.html">Login</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="sosinfo.html"><i class="bi bi-exclamation-triangle me-1"></i>SOS</a>
+                <li class="nav-item ms-lg-2 logged-out-view">
+                    <a class="btn btn-warning btn-sm" href="signup.html">Sign Up</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="blog.html"><i class="bi bi-book me-1"></i>Safety Hub</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="profile.html"><i class="bi bi-person-circle me-1"></i>Profile</a>
+
+                <li class="nav-item dropdown logged-in-view">
+                    <a class="nav-link profile-dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#">Dashboard</a></li>
+                        <li><a class="dropdown-item" href="#">Profile Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Logout</a></li>
+                    </ul>
                 </li>
             </ul>
         </div>
@@ -158,27 +254,22 @@
     <h1 class="text-center mb-4 fw-bold">Discover Your Next Adventure</h1>
     <p class="text-center mb-5 text-muted">Find the perfect trail that matches your skill and spirit.</p>
 
-    <!-- Search and Filter Section -->
     <div class="row justify-content-center mb-5">
         <div class="col-lg-10 col-md-11">
-            <div class="card p-4 search-filter-card"> <!-- Added new class for specific styling -->
+            <div class="card p-4 search-filter-card">
                 <div class="input-group input-group-lg mb-4">
                     <span class="input-group-text bg-white border-0"><i class="bi bi-search fs-4 text-muted"></i></span>
                     <input type="text" class="form-control border-0 ps-0" placeholder="Search by keywords, location, or trail name..." id="trailSearchInput">
                     <button class="btn btn-primary-trek" type="button" id="searchButton">Search Trails</button>
                 </div>
-
-                <!-- Filters - Collapsible -->
                 <div class="d-grid mb-4">
                     <button class="btn btn-outline-secondary d-md-none rounded-pill" type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapse" aria-expanded="false" aria-controls="filterCollapse">
                         <i class="bi bi-funnel me-2"></i>Show Filters
                     </button>
                 </div>
-
                 <div class="collapse d-md-block" id="filterCollapse">
-                    <div class="filter-options-group"> <!-- Added new class for filter group styling -->
+                    <div class="filter-options-group">
                         <div class="row g-3">
-                            <!-- Difficulty Filter -->
                             <div class="col-md-4">
                                 <label for="difficultyFilter" class="form-label fw-bold">Difficulty:</label>
                                 <select class="form-select rounded-pill" id="difficultyFilter">
@@ -188,14 +279,10 @@
                                     <option value="difficult">Difficult</option>
                                 </select>
                             </div>
-
-                            <!-- Location Filter -->
                             <div class="col-md-4">
                                 <label for="locationFilter" class="form-label fw-bold">Location:</label>
                                 <input type="text" class="form-control rounded-pill" id="locationFilter" placeholder="e.g., Himalayas, Sahyadris">
                             </div>
-
-                            <!-- Duration Filter -->
                             <div class="col-md-4">
                                 <label for="durationFilter" class="form-label fw-bold">Duration:</label>
                                 <select class="form-select rounded-pill" id="durationFilter">
@@ -205,8 +292,6 @@
                                     <option value="multi-day">Multi-day (>8 hrs)</option>
                                 </select>
                             </div>
-
-                            <!-- Optional: More filters could go here in more rows if needed -->
                         </div>
                         <div class="d-flex justify-content-end mt-4">
                             <button class="btn btn-outline-secondary me-2 rounded-pill" type="button" id="clearFilters">Clear Filters</button>
@@ -218,23 +303,17 @@
         </div>
     </div>
 
-    <!-- Smart Suggestions / Featured Trails Section -->
     <h2 class="mb-4 fw-bold text-center">Featured & Suggested Trails</h2>
-
-    <!-- Loading Indicator -->
     <div class="loading-indicator" id="loadingIndicator">
         <div class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
         <p class="mt-2">Loading trails...</p>
     </div>
-
     <div id="trailResults" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-        <!-- Trail Cards will be dynamically loaded here by JavaScript -->
     </div>
 </main>
 
-<!-- Footer -->
 <footer class="footer">
     <div class="container">
         <p class="mb-0">&copy; 2025 TrekSafe Trails. All rights reserved.</p>
@@ -254,7 +333,6 @@
         const trailResultsContainer = document.getElementById('trailResults');
         const loadingIndicator = document.getElementById('loadingIndicator');
 
-        // Dummy data for demonstration. In a real app, this would come from your Spring Boot backend.
         const allTrails = [
             { id: 'gv001', name: 'Green Valley Loop', location: 'Pune, Maharashtra', difficulty: 'easy', duration: 'half-day', rating: 4.5, reviews: 120, image: 'https://placehold.co/400x250/C1D8C1/254D23?text=Green+Valley', description: 'A serene loop through lush forests.', equipment: ['Water Bottle', 'Snacks'], safetyTips: ['Stay on path', 'Beware of slippery areas'] },
             { id: 'tl002', name: 'Tiger\'s Leap Ascent', location: 'Lonavala, Maharashtra', difficulty: 'moderate', duration: 'full-day', rating: 4.2, reviews: 85, image: 'https://placehold.co/400x250/D2E8E4/154157?text=Tiger%27s+Leap', description: 'Challenging climb with rewarding views.', equipment: ['Sturdy Boots', 'First Aid Kit'], safetyTips: ['Monitor weather', 'Use proper footwear'] },
@@ -264,45 +342,30 @@
             { id: 'ht006', name: 'Harishchandragad Trek', location: 'Ahmednagar, Maharashtra', difficulty: 'difficult', duration: 'multi-day', rating: 4.9, reviews: 300, image: 'https://placehold.co/400x250/E8D1C1/002B47?text=Harishchandragad', description: 'Ancient fort with a famous Konkan Kada cliff.', equipment: ['Sleeping Bag', 'Cooking Gear'], safetyTips: ['Experienced trekkers only', 'Check route conditions'] },
         ];
 
-        /**
-         * Simulates fetching data from the backend.
-         * In a real application, this would be a 'fetch' or 'axios' call to your Spring Boot API.
-         * @param {Object} filters - Object containing search term and filter values.
-         * @returns {Promise<Array>} A promise that resolves with the filtered trail data.
-         */
         function fetchTrailsFromBackend(filters) {
-            loadingIndicator.style.display = 'block'; // Show loading indicator
-            trailResultsContainer.innerHTML = ''; // Clear existing results
-
+            loadingIndicator.style.display = 'block';
+            trailResultsContainer.innerHTML = '';
             return new Promise(resolve => {
-                setTimeout(() => { // Simulate network delay
+                setTimeout(() => {
                     let filteredTrails = allTrails.filter(trail => {
                         const searchTerm = filters.searchTerm ? filters.searchTerm.toLowerCase() : '';
                         const difficulty = filters.difficulty || '';
                         const location = filters.location ? filters.location.toLowerCase() : '';
                         const duration = filters.duration || '';
-
                         const matchesSearch = (searchTerm === '' ||
                             trail.name.toLowerCase().includes(searchTerm) ||
                             trail.location.toLowerCase().includes(searchTerm) ||
-                            trail.description.toLowerCase().includes(searchTerm)); // Added description to search
+                            trail.description.toLowerCase().includes(searchTerm));
                         const matchesDifficulty = (difficulty === '' || trail.difficulty === difficulty);
                         const matchesLocation = (location === '' || trail.location.toLowerCase().includes(location));
                         const matchesDuration = (duration === '' || trail.duration === duration);
-
                         return matchesSearch && matchesDifficulty && matchesLocation && matchesDuration;
                     });
-
-                    // Simulate AI-driven recommendation logic here if needed,
-                    // e.g., if no search term, return personalized suggestions
                     if (filters.searchTerm === '' && filters.difficulty === '' && filters.location === '' && filters.duration === '') {
-                        // This is where AI-driven smart suggestions would be fetched from the backend
-                        // For now, it defaults to allTrails as featured.
                     }
-
-                    loadingIndicator.style.display = 'none'; // Hide loading indicator
+                    loadingIndicator.style.display = 'none';
                     resolve(filteredTrails);
-                }, 700); // 700ms delay
+                }, 700);
             });
         }
 
@@ -311,7 +374,6 @@
                 trailResultsContainer.innerHTML = '<div class="col-12 text-center text-muted py-5"><p class="lead mb-3"><i class="bi bi-x-circle fs-3 d-block mb-2"></i></p><p>No trails found matching your criteria.</p><p class="small">Try adjusting your filters or search terms.</p></div>';
                 return;
             }
-
             trailsToRender.forEach(trail => {
                 const difficultyClass = `badge-difficulty-${trail.difficulty}`;
                 const trailCard = `
@@ -355,7 +417,6 @@
             renderTrails(trails);
         }
 
-        // Event Listeners
         searchButton.addEventListener('click', applyFiltersAndSearch);
         applyFiltersButton.addEventListener('click', applyFiltersAndSearch);
         clearFiltersButton.addEventListener('click', function() {
@@ -363,11 +424,10 @@
             difficultyFilter.value = '';
             locationFilter.value = '';
             durationFilter.value = '';
-            applyFiltersAndSearch(); // Re-render with all trails (featured/suggestions)
+            applyFiltersAndSearch();
         });
 
-        // Initial render of all trails (smart suggestions/featured)
-        applyFiltersAndSearch(); // Call with empty filters to get initial suggestions
+        applyFiltersAndSearch();
     });
 </script>
 </body>

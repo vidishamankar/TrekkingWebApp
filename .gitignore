@@ -12,6 +12,13 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
+# IntelliJ IDE files
+.idea/
+*.iml
+
+# Maven/Gradle build output
+target/
+
 ### Eclipse ###
 >>>>>>> f5bf65026e1f7354d212929ccafc55c0a24944b1
 .apt_generated

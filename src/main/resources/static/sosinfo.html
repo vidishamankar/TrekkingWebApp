@@ -17,10 +17,105 @@
             font-family: 'Inter', sans-serif;
             background-color: #f8fafc;
             color: #254d23;
-            padding-bottom: 50px;
         }
-        .container {
-            max-width: 800px;
+        /* --- NAVBAR STYLES (SYNCHRONIZED WITH LANDING PAGE) --- */
+        .navbar {
+            padding: 1rem 0;
+            transition: background-color 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease;
+            background: transparent;
+            border-bottom: 1px solid transparent;
+        }
+        .navbar-scrolled {
+            background-color: rgba(37, 77, 35, 0.95) !important;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .navbar-scrolled .navbar-brand,
+        .navbar-scrolled .nav-link,
+        .navbar-scrolled .dropdown-toggle {
+            color: #ffffff !important;
+        }
+        .navbar-brand {
+            font-size: 1.4rem;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+        .nav-link {
+            font-weight: 600;
+        }
+        .nav-link.dropdown-toggle:hover {
+            color: #f8f9fa !important;
+        }
+        .dropdown-menu {
+            border-radius: 0.5rem;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .navbar .btn {
+            border-radius: 50px;
+            font-weight: 600;
+            padding: 0.5rem 1.25rem;
+            transition: all 0.3s ease;
+            border-width: 2px;
+        }
+        .navbar .btn-outline-light:hover {
+            background-color: #fff;
+            color: #254d23;
+        }
+        .navbar .btn-warning {
+            background-color: #ffc107;
+            border-color: #ffc107;
+            color: #212529;
+        }
+        .navbar .btn-warning:hover {
+            background-color: #ffca2c;
+            border-color: #ffca2c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+        }
+
+        /* --- Logged-In/Out Toggle Styles --- */
+        .logged-in-view {
+            display: none;
+        }
+        body.logged-in .logged-in-view {
+            display: list-item;
+        }
+        body.logged-in .logged-out-view {
+            display: none;
+        }
+        .profile-dropdown-toggle::after {
+            display: none;
+        }
+        .profile-dropdown-toggle .bi-person-circle {
+            font-size: 1.8rem;
+        }
+
+        /* --- MOBILE RESPONSIVENESS (FROM LANDING PAGE) --- */
+        @media (max-width: 767.98px) {
+            .navbar-nav .nav-item {
+                margin: 0.5rem 0;
+            }
+            .navbar-nav .btn {
+                width: 100%;
+            }
+            .navbar-collapse {
+                background-color: rgba(37, 77, 35, 0.95);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                border-radius: 0.5rem;
+                padding: 1rem;
+                margin-top: 0.5rem;
+            }
+        }
+        .footer {
+            background-color: #254d23;
+            color: #e0f2e0;
+            padding: 1.5rem 0;
+            text-align: center;
+            margin-top: 3rem;
         }
         .form-header {
             color: #254d23;
@@ -29,310 +124,246 @@
         .form-section-card {
             background-color: #ffffff;
             border: none;
-            border-radius: 1.5rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-radius: 1rem;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
             padding: 2rem;
-            margin-bottom: 1.5rem;
         }
-        .btn-add, .btn-save {
-            background-color: #a9744f;
-            border-color: #a9744f;
-            color: #fff;
-            border-radius: 0.5rem;
+        .form-label {
             font-weight: 600;
-            transition: background-color 0.2s;
         }
-        .btn-add:hover, .btn-save:hover {
-            background-color: #926544;
-            border-color: #926544;
-        }
-        .contact-item {
-            background-color: #f1f8f0; /* Light green background */
-            border-radius: 0.75rem;
-            padding: 0.75rem 1rem;
-            margin-bottom: 0.5rem;
-        }
-        .remove-contact-btn {
-            background: none;
-            border: none;
-            color: #d9534f;
-            font-size: 1.2rem;
-            transition: color 0.2s;
-        }
-        .remove-contact-btn:hover {
-            color: #c9302c;
-        }
-        .form-control:focus, textarea:focus {
+        .form-control:focus, .form-select:focus {
             border-color: #254d23;
             box-shadow: 0 0 0 0.25rem rgba(37, 77, 35, 0.25);
         }
-        /* Message Box Styling */
-        #message-box {
-            display: none;
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1050;
-            padding: 1rem 2rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        .btn-primary-trek {
+            background-color: #254d23;
+            border-color: #254d23;
+            color: #fff;
+            border-radius: 0.75rem;
+            padding: 0.75rem 1.5rem;
             font-weight: 600;
+            transition: background-color 0.2s;
         }
-        .alert-success-custom {
-            background-color: #d1e7dd;
-            color: #0f5132;
-            border: 1px solid #badbcc;
+        .btn-primary-trek:hover {
+            background-color: #1c3a1a;
+            border-color: #1c3a1a;
         }
-        .alert-danger-custom {
-            background-color: #f8d7da;
-            color: #842029;
-            border: 1px solid #f5c2c7;
+        .btn-outline-trek {
+            color: #254d23;
+            border-color: #254d23;
+            border-radius: 0.75rem;
+        }
+        .btn-outline-trek:hover {
+            background-color: #254d23;
+            color: #fff;
+        }
+        .remove-contact-btn {
+            color: #dc3545;
+            cursor: pointer;
+            font-size: 1.2rem;
         }
     </style>
 </head>
 <body>
 
-<!-- Custom Message Box Element -->
-<div id="message-box" role="alert"></div>
-
-<div class="container my-5">
-    <h1 class="text-center mb-4 form-header">TrekSafe SOS Data Setup</h1>
-    <p class="text-center text-muted mb-5">Keep this information updated. In case of an emergency, this data will be crucial for rescue and contact.</p>
-
-    <!-- SECTION 1: Emergency Contacts -->
-    <div class="form-section-card">
-        <h3 class="mb-4">1. Emergency Contacts</h3>
-
-        <!-- Input fields for new contact -->
-        <div class="input-group mb-3">
-            <input type="text" id="contact-name" class="form-control" placeholder="Contact Name (e.g., Jane Doe)" aria-label="Contact Name">
-            <input type="tel" id="contact-phone" class="form-control" placeholder="Phone Number (e.g., 555-123-4567)" aria-label="Contact Phone">
-            <button class="btn btn-add" type="button" id="add-contact-btn">Add Contact</button>
-        </div>
-
-        <!-- List of added contacts -->
-        <div id="contacts-list" class="mt-4">
-            <!-- Contacts will be added here -->
-        </div>
-    </div>
-
-    <!-- SECTION 2: Medical and Custom Notes -->
-    <div class="form-section-card">
-        <h3 class="mb-4">2. Medical & Safety Info</h3>
-
-        <div class="mb-4">
-            <label for="medical-info" class="form-label">Medical Conditions / Allergies</label>
-            <textarea class="form-control" id="medical-info" rows="3" placeholder="e.g., Type 1 Diabetes, severe bee sting allergy, blood type O+"></textarea>
-        </div>
-
-        <div class="mb-4">
-            <label for="custom-note" class="form-label">Custom Rescue Note</label>
-            <textarea class="form-control" id="custom-note" rows="3" placeholder="Any specific instructions for first responders or family members. e.g., 'Check my GPS device for last known location.'"></textarea>
-        </div>
-    </div>
-
-    <!-- SAVE BUTTON -->
-    <div class="text-center mt-5">
-        <button id="save-all-btn" class="btn btn-save btn-lg w-100" style="max-width: 400px;">
-            <i class="bi bi-save me-2"></i> Save All SOS Data Securely
+<!-- Consistent Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top navbar-scrolled">
+    <div class="container">
+        <a class="navbar-brand" href="landing.html">
+            <i class="bi bi-shield-check me-2"></i>TrekSafe
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
         </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Explore
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="searchsuggest.html">Search Treks</a></li>
+                        <li><a class="dropdown-item" href="map.html">Interactive Map</a></li>
+                        <li><a class="dropdown-item" href="navig_compass.html">Compass</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="emergency.html">Emergency Info</a></li>
+                        <li><a class="dropdown-item" href="blog.html">Blog</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item d-none d-lg-block mx-2"></li>
+
+                <li class="nav-item mb-2 mb-lg-0 logged-out-view">
+                    <a class="btn btn-outline-light btn-sm" href="login.html">Login</a>
+                </li>
+                <li class="nav-item ms-lg-2 logged-out-view">
+                    <a class="btn btn-warning btn-sm" href="signup.html">Sign Up</a>
+                </li>
+
+                <li class="nav-item dropdown logged-in-view">
+                    <a class="nav-link profile-dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#">Dashboard</a></li>
+                        <li><a class="dropdown-item" href="#">Profile Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-5">
+    <!-- Header -->
+    <header class="text-center mb-5">
+        <h1 class="display-5 form-header">SOS Settings</h1>
+        <p class="lead text-muted">Prepare your emergency information before you go. This data will be sent to rescuers when you activate SOS.</p>
+    </header>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Emergency Contacts Section -->
+            <section class="form-section-card mb-4">
+                <h2 class="h4 mb-4"><i class="bi bi-people-fill me-2"></i>Emergency Contacts</h2>
+                <div id="contacts-list" class="vstack gap-3 mb-3">
+                    <!-- Example Contact -->
+                    <div class="d-flex justify-content-between align-items-center bg-light p-3 rounded-3">
+                        <div>
+                            <p class="fw-medium mb-0">Jane Doe</p>
+                            <p class="text-muted small mb-0">+1 (555) 123-4567</p>
+                        </div>
+                        <i class="bi bi-trash-fill remove-contact-btn" title="Remove Contact"></i>
+                    </div>
+                    <!-- Contacts will be added here by JS -->
+                </div>
+                <div class="row g-2">
+                    <div class="col-sm-5">
+                        <input type="text" id="contact-name" class="form-control" placeholder="Contact Name">
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="tel" id="contact-phone" class="form-control" placeholder="Phone Number">
+                    </div>
+                    <div class="col-sm-2 d-grid">
+                        <button id="add-contact-btn" type="button" class="btn btn-outline-trek">Add</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Medical Information Section -->
+            <section class="form-section-card mb-4">
+                <h2 class="h4 mb-4"><i class="bi bi-heart-pulse-fill me-2"></i>Medical Information</h2>
+                <p class="text-muted small">Include allergies, conditions, or medications. This is vital for first responders.</p>
+                <textarea id="medical-info" rows="5" class="form-control" placeholder="e.g., Allergic to penicillin, Asthma, Type 1 Diabetes..."></textarea>
+            </section>
+
+            <!-- SOS Message Preview Section -->
+            <section class="form-section-card mb-4">
+                <h2 class="h4 mb-4"><i class="bi bi-envelope-exclamation-fill me-2"></i>SOS Message Preview</h2>
+                <p class="text-muted small">This message will be sent along with your precise coordinates.</p>
+                <div class="bg-light p-3 rounded-3 border">
+                    <p class="font-monospace small">
+                        <span class="text-danger fw-bold">EMERGENCY SOS:</span> I am in distress and need immediate assistance.
+                        <br><br>
+                        My location is: <span class="text-primary">[Your Coordinates]</span>
+                        <br>
+                        Medical Info Attached.
+                        <br><br>
+                        <em class="text-muted">Your custom note will appear here.</em>
+                    </p>
+                </div>
+                <label for="custom-note" class="form-label mt-3">Add a custom note (optional):</label>
+                <input type="text" id="custom-note" class="form-control" placeholder="e.g., I have a twisted ankle.">
+            </section>
+
+            <!-- Save Button -->
+            <div class="text-center">
+                <button id="save-all-btn" type="button" class="btn btn-primary-trek btn-lg">
+                    <i class="bi bi-save-fill me-2"></i> Save All Information
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<footer class="footer">
+    <div class="container">
+        <p class="mb-0">&copy; 2025 TrekSafe Trails. All rights reserved.</p>
+    </div>
+</footer>
 
 <script>
-    const API_URL = 'http://localhost:8080/api/v1/sos';
-
-    // NOTE: This token is a placeholder. In the next step, we MUST implement JWT
-    // authentication so this token is retrieved from the successful login response.
-    const AUTH_TOKEN = 'dummy_token_replace_with_jwt';
-
-    // Utility function to display custom messages
-    function showMessage(message, isSuccess) {
-        const msgBox = document.getElementById('message-box');
-        msgBox.textContent = message;
-        msgBox.className = ''; // Reset classes
-
-        if (isSuccess) {
-            msgBox.classList.add('alert-success-custom');
-        } else {
-            msgBox.classList.add('alert-danger-custom');
-        }
-
-        msgBox.style.display = 'block';
-
-        // Automatically hide the message after 5 seconds
-        setTimeout(() => {
-            msgBox.style.display = 'none';
-        }, 5000);
-    }
-
-    // Function to visually add a contact to the list
-    function addContact(name, phone) {
-        const contactsList = document.getElementById('contacts-list');
-        if (!name || !phone) {
-            showMessage("Please enter both a name and a phone number.", false);
-            return;
-        }
-
-        // Basic formatting
-        const formattedPhone = phone.replace(/[^0-9]/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
-
-        const contactEl = document.createElement('div');
-        contactEl.className = 'contact-item d-flex justify-content-between align-items-center';
-        contactEl.innerHTML = `
-            <div>
-                <p class="fw-medium mb-0">${name}</p>
-                <p class="small text-muted mb-0">${formattedPhone}</p>
-            </div>
-            <button class="remove-contact-btn" type="button" aria-label="Remove contact">
-                <i class="bi bi-x-circle-fill"></i>
-            </button>
-        `;
-        contactsList.appendChild(contactEl);
-
-        // Clear inputs after adding
-        document.getElementById('contact-name').value = '';
-        document.getElementById('contact-phone').value = '';
-    }
-
-    // Function to retrieve SOS data from the server
-    async function fetchSOSData() {
-        try {
-            const response = await fetch(API_URL, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${AUTH_TOKEN}` // Requires a valid JWT
-                }
-            });
-
-            if (response.status === 401) {
-                showMessage("Authentication Required. Please log in first.", false);
-                return;
-            }
-
-            if (!response.ok) {
-                // If it's a 404, the user just hasn't saved data yet, which is fine.
-                // We only show an error if it's a real server issue.
-                if (response.status !== 404) {
-                    const errorData = await response.json();
-                    showMessage(errorData.message || `Failed to load data (Status: ${response.status})`, false);
-                }
-                return;
-            }
-
-            const data = await response.json();
-
-            // 1. Populate Medical and Notes
-            document.getElementById('medical-info').value = data.medicalInfo || '';
-            document.getElementById('custom-note').value = data.customNote || '';
-
-            // 2. Populate Contacts List
-            const contactsList = document.getElementById('contacts-list');
-            contactsList.innerHTML = ''; // Clear existing
-            if (data.contacts && Array.isArray(data.contacts)) {
-                data.contacts.forEach(contact => {
-                    addContact(contact.name, contact.phone);
-                });
-            }
-            showMessage("SOS data loaded successfully!", true);
-
-        } catch (error) {
-            console.error('Network or Server Connection Error:', error);
-            showMessage('Error: Could not connect to the backend server. Is Spring Boot running?', false);
-        }
-    }
-
-    // Function to save SOS data to the server
-    async function saveSOSData(sosData) {
-        try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${AUTH_TOKEN}` // Requires a valid JWT
-                },
-                body: JSON.stringify(sosData)
-            });
-
-            if (response.status === 401) {
-                showMessage("Authentication Required. Please log in first.", false);
-                return;
-            }
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                showMessage(errorData.message || `Failed to save data (Status: ${response.status})`, false);
-                return;
-            }
-
-            // Success response
-            showMessage("SOS Data saved successfully to the database!", true);
-
-        } catch (error) {
-            console.error('Network or Server Connection Error during save:', error);
-            showMessage('Error: Could not connect to the backend server. Is Spring Boot running?', false);
-        }
-    }
-
-
-    // --- Event Listeners and Initial Load ---
     document.addEventListener('DOMContentLoaded', () => {
         const addContactBtn = document.getElementById('add-contact-btn');
+        const contactsList = document.getElementById('contacts-list');
         const contactNameInput = document.getElementById('contact-name');
         const contactPhoneInput = document.getElementById('contact-phone');
-        const contactsList = document.getElementById('contacts-list');
         const saveAllBtn = document.getElementById('save-all-btn');
 
-        // Load existing data when the page opens
-        // This will likely fail with a 401 until JWTs are implemented, but it's the correct flow.
-        fetchSOSData();
+        const addContact = (name, phone) => {
+            if (!name || !phone) {
+                alert('Please enter both a name and a phone number.');
+                return;
+            }
 
-        // Add contact listener
+            const contactDiv = document.createElement('div');
+            contactDiv.className = 'd-flex justify-content-between align-items-center bg-light p-3 rounded-3';
+
+            contactDiv.innerHTML = `
+                <div>
+                    <p class="fw-medium mb-0">${name}</p>
+                    <p class="text-muted small mb-0">${phone}</p>
+                </div>
+                <i class="bi bi-trash-fill remove-contact-btn" title="Remove Contact"></i>
+            `;
+
+            contactsList.prepend(contactDiv);
+
+            contactDiv.querySelector('.remove-contact-btn').addEventListener('click', () => {
+                contactDiv.remove();
+            });
+
+            contactNameInput.value = '';
+            contactPhoneInput.value = '';
+        };
+
         addContactBtn.addEventListener('click', () => {
             addContact(contactNameInput.value.trim(), contactPhoneInput.value.trim());
         });
 
-        // Allow Enter key to add contact
         contactPhoneInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
-                e.preventDefault(); // Prevent default form submission on enter
                 addContact(contactNameInput.value.trim(), contactPhoneInput.value.trim());
             }
         });
 
-        // Remove contact listener (event delegation)
         contactsList.addEventListener('click', (e) => {
-            if (e.target.closest('.remove-contact-btn')) {
-                e.target.closest('.contact-item').remove();
+            if (e.target.classList.contains('remove-contact-btn')) {
+                e.target.parentElement.remove();
             }
         });
 
-        // Save Data Listener
         saveAllBtn.addEventListener('click', () => {
             const contacts = [];
-            // 1. Gather all contacts from the UI list
             document.querySelectorAll('#contacts-list > div').forEach(contactEl => {
                 const name = contactEl.querySelector('p.fw-medium').textContent;
-                const phone = contactEl.querySelector('p.small').textContent.replace(/-/g, ''); // Clean phone number before sending
+                const phone = contactEl.querySelector('p.small').textContent;
                 contacts.push({ name, phone });
             });
 
-            // 2. Gather notes
-            const medicalInfo = document.getElementById('medical-info').value.trim();
-            const customNote = document.getElementById('custom-note').value.trim();
+            const medicalInfo = document.getElementById('medical-info').value;
+            const customNote = document.getElementById('custom-note').value;
 
-            // 3. Construct the payload matching the SOSData DTO structure
             const sosData = {
                 contacts,
                 medicalInfo,
                 customNote
             };
 
-            // 4. Send to server
-            saveSOSData(sosData);
+            console.log('Saving data:', sosData);
+            alert('Information Saved!\n(This is a demo. Data will not persist on page reload.)');
         });
     });
 </script>
