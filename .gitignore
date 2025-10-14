@@ -3,9 +3,12 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
-# JetBrains IDE-specific files
-/.idea
+# IntelliJ IDE files
+.idea/
 *.iml
+
+# Maven/Gradle build output
+target/
 
 ### Eclipse ###
 .apt_generated
