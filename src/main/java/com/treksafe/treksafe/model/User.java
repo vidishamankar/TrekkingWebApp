@@ -1,72 +1,63 @@
 package com.treksafe.treksafe.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Column;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import java.time.LocalDateTime;
 
 /**
- * Represents a User entity stored in the database.
- * This will replace the hardcoded credentials in AuthController.
+ * The core data model representing a registered user in the database.
+ * @Entity indicates this class is mapped to a table.
+ * Using Lombok's @Data for automatic getters, setters, toString, equals, and hashCode.
  */
 @Entity
 @Table(name = "users")
+@Data
+@NoArgsConstructor
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
+
     @Column(nullable = false, unique = true)
-    private String email;
+    private String email; // Used as the unique identifier/username for login
 
+    // Store the HASHED password.
+    // @JsonIgnore ensures the hashed password is never accidentally sent in a JSON response.
+    @JsonIgnore
     @Column(nullable = false)
-    private String passwordHash; // Stores the securely hashed password
+    private String passwordHash;
 
-    @Column(nullable = false)
-    private String fullName;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-    // Constructors
-    public User() {}
+    // --- Spring Security Compatibility Methods ---
 
-    public User(String email, String passwordHash, String fullName) {
-        this.email = email;
-        this.passwordHash = passwordHash;
-        this.fullName = fullName;
+    /**
+     * Required by Spring Security's UserDetails contract for retrieving the password.
+     * Maps the internal 'passwordHash' field to the required 'getPassword' method name.
+     */
+    public String getPassword() {
+        return this.passwordHash;
     }
 
-    // Getters and Setters
-    public Long getId() {
-        return id;
+    /**
+     * Required by Spring Security's UserDetails contract for retrieving the username.
+     * Maps the internal 'email' field to the required 'getUsername' method name.
+     */
+    public String getUsername() {
+        return this.email;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPasswordHash() {
-        return passwordHash;
-    }
-
+    // Setter for password hash used during registration
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
     }
 }

@@ -6,17 +6,20 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
- * Configuration class to provide the global PasswordEncoder bean.
- * The BCryptPasswordEncoder is the standard, secure way to hash passwords in Spring Boot.
- *
- * Placed in: src/main/java/com/treksafe/treksafe/config/
+ * Configuration class dedicated to providing a single PasswordEncoder bean.
+ * This keeps the PasswordEncoder definition separate and clean, preventing conflicts
+ * with the main SecurityConfig.
  */
 @Configuration
 public class PasswordConfig {
 
+    /**
+     * Defines the BCryptPasswordEncoder bean, which is used by the
+     * UserService to hash user passwords before storage.
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // BCrypt is the standard, secure hashing algorithm for passwords.
+        // BCrypt is the standard, secure way to handle password hashing.
         return new BCryptPasswordEncoder();
     }
 }
