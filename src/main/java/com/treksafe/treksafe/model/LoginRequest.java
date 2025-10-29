@@ -1,5 +1,11 @@
 package com.treksafe.treksafe.model;
 
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+
 /**
  * Data Transfer Object (DTO) to hold the credentials sent from the login form.
  * The field names (email, password) must match the JSON keys sent by the frontend.
