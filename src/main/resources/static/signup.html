@@ -13,15 +13,28 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Smooth scrolling for entire page */
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             color: #254d23;
             background-color: #f8fafc; /* Light background */
-            /* Removed flex centering to fix overlap */
             min-height: 100vh;
-            padding-top: 80px; /* Crucial fix: Added padding to push content below the fixed navbar */
-            padding-bottom: 2rem; /* Keep bottom padding for aesthetics */
+            display: flex;
+            flex-direction: column;
         }
+
+        .auth-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1; /* This makes the main content fill available space */
+        }
+
         /* --- NAVBAR STYLES (SYNCHRONIZED WITH LANDING PAGE) --- */
         .navbar {
             padding: 1rem 0;
@@ -114,18 +127,6 @@
                 margin-top: 0.5rem;
             }
         }
-
-        /* New wrapper to handle centering below the fixed navbar */
-        .auth-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            padding: 1rem;
-            /* Ensures the wrapper uses the available viewport space below the header */
-            min-height: calc(100vh - 80px);
-        }
-
         .auth-card {
             background-color: #ffffff;
             border: none;
@@ -133,8 +134,6 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             max-width: 450px;
             width: 100%;
-            margin-top: auto; /* Uses auto margins for vertical centering within the wrapper */
-            margin-bottom: auto; /* Uses auto margins for vertical centering within the wrapper */
         }
         .auth-header {
             background-color: #254d23;
@@ -185,7 +184,7 @@
         #message-box {
             display: none;
             position: fixed;
-            top: 90px; /* Adjusted to be below the fixed navbar */
+            top: 20px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 1050;
@@ -208,8 +207,7 @@
 </head>
 <body>
 <!-- Consistent Navbar -->
-<!-- Changed sticky-top to fixed-top for reliable behavior -->
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-scrolled">
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top navbar-scrolled">
     <div class="container">
         <a class="navbar-brand" href="landing.html">
             <i class="bi bi-shield-check me-2"></i>TrekSafe
@@ -258,11 +256,10 @@
     </div>
 </nav>
 
-<!-- Custom Message Box Element - Adjusted top position to be below the navbar -->
-<div id="message-box" role="alert"></div>
+<main class="auth-wrapper px-3 py-5">
+    <!-- Custom Message Box Element -->
+    <div id="message-box" role="alert"></div>
 
-<!-- New Auth Wrapper to manage centering the card below the fixed header -->
-<div class="auth-wrapper">
     <div class="auth-card">
         <div class="auth-header">
             <i class="bi bi-person-plus-fill mb-3"></i>
@@ -296,7 +293,8 @@
             </div>
         </div>
     </div>
-</div>
+</main>
+
 
 <footer class="footer">
     <div class="container">
