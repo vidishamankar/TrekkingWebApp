@@ -1,6 +1,6 @@
 package com.treksafe.treksafe.controller;
 import com.treksafe.treksafe.model.LoginRequest;
-import com.treksafe.treksafe.model.RegisterRequest;
+import com.treksafe.treksafe.dto.RegisterRequest;
 import com.treksafe.treksafe.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
