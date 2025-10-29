@@ -13,16 +13,28 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Smooth scrolling for entire page */
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             color: #254d23;
             background-color: #f8fafc; /* Light background */
+            min-height: 100vh;
             display: flex;
+            flex-direction: column;
+        }
+
+        .auth-wrapper {
+            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            padding: 2rem 0;
+            flex-grow: 1; /* This makes the main content fill available space */
         }
+
         /* --- NAVBAR STYLES (SYNCHRONIZED WITH LANDING PAGE) --- */
         .navbar {
             padding: 1rem 0;
@@ -167,7 +179,6 @@
             color: #e0f2e0;
             padding: 1.5rem 0;
             text-align: center;
-            margin-top: 3rem;
         }
         /* Custom Message Box Styles */
         #message-box {
@@ -245,42 +256,45 @@
     </div>
 </nav>
 
-<!-- Custom Message Box Element -->
-<div id="message-box" role="alert"></div>
+<main class="auth-wrapper px-3 py-5">
+    <!-- Custom Message Box Element -->
+    <div id="message-box" role="alert"></div>
 
-<div class="auth-card">
-    <div class="auth-header">
-        <i class="bi bi-person-plus-fill mb-3"></i>
-        <h2 class="h3 mb-1">Create Your Account</h2>
-        <p class="small">Join our community of safe trekkers.</p>
-    </div>
-    <div class="card-body p-4 p-md-5">
-        <form id="signup-form">
-            <div class="mb-3">
-                <label for="fullName" class="form-label">Full Name</label>
-                <input type="text" class="form-control" id="fullName" placeholder="Enter your full name" required>
+    <div class="auth-card">
+        <div class="auth-header">
+            <i class="bi bi-person-plus-fill mb-3"></i>
+            <h2 class="h3 mb-1">Create Your Account</h2>
+            <p class="small">Join our community of safe trekkers.</p>
+        </div>
+        <div class="card-body p-4 p-md-5">
+            <form id="signup-form">
+                <div class="mb-3">
+                    <label for="fullName" class="form-label">Full Name</label>
+                    <input type="text" class="form-control" id="fullName" placeholder="Enter your full name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input type="email" class="form-control" id="email" placeholder="you@example.com" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="Create a strong password" required>
+                </div>
+                <div class="mb-4">
+                    <label for="confirmPassword" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm your password" required>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-auth btn-lg">Sign Up</button>
+                </div>
+            </form>
+            <div class="text-center mt-4">
+                <p class="text-muted">Already have an account? <a href="login.html" class="auth-link">Login</a></p>
             </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email Address</label>
-                <input type="email" class="form-control" id="email" placeholder="you@example.com" required>
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" placeholder="Create a strong password" required>
-            </div>
-            <div class="mb-4">
-                <label for="confirmPassword" class="form-label">Confirm Password</label>
-                <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm your password" required>
-            </div>
-            <div class="d-grid">
-                <button type="submit" class="btn btn-auth btn-lg">Sign Up</button>
-            </div>
-        </form>
-        <div class="text-center mt-4">
-            <p class="text-muted">Already have an account? <a href="login.html" class="auth-link">Login</a></p>
         </div>
     </div>
-</div>
+</main>
+
 
 <footer class="footer">
     <div class="container">
