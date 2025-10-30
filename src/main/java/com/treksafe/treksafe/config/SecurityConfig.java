@@ -2,76 +2,88 @@ package com.treksafe.treksafe.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
- * Configuration class for Spring Security.
- * Sets up which endpoints are public and which require authentication.
+ * Central configuration for Spring Security.
+ * This file sets up the security filter chain, CORS rules, and URL authorization.
+ * * NOTE: The PasswordEncoder is now defined in the separate PasswordConfig.java to avoid conflicts.
  */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
     /**
-     * Fix for "No qualifying bean of type 'PasswordEncoder' found"
-     * Defines the PasswordEncoder (using BCrypt) as a bean directly in the SecurityConfig
-     * This is required by Spring Security and our AuthService.
-     */
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        // Use the industry-standard BCrypt hashing algorithm
-        return new BCryptPasswordEncoder();
-    }
-
-    /**
-     * Defines the security rules for HTTP requests.
+     * Defines the core security filter chain for the application.
+     * 1. Enables CORS using the defined CorsConfigurationSource.
+     * 2. Disables CSRF (necessary for stateless REST APIs).
+     * 3. Sets session management to STATELESS (necessary for JWT tokens).
+     * 4. Defines authorization rules (which URLs are public/protected).
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // We use the passwordEncoder() method directly now.
-        PasswordEncoder encoder = passwordEncoder();
-
         http
-                // Disable CSRF protection for API calls from a non-server-rendered frontend
-                .csrf(csrf -> csrf.disable())
+                // Enable CORS and apply configuration from the bean below
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
-                // Configure request authorization
+                // Disable Cross-Site Request Forgery (CSRF) protection
+                // REST APIs typically rely on token-based authentication (JWT) rather than sessions/cookies.
+                .csrf(AbstractHttpConfigurer::disable)
+
+                // Configure session management to be stateless, as we use JWTs
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
+                // Define authorization rules for HTTP requests
                 .authorizeHttpRequests(auth -> auth
-                        // Allow public access to all authentication endpoints
-                        .requestMatchers("/api/v1/status", "/api/v1/login", "/api/v1/register", "/api/v1/forgot-password").permitAll()
-                        // Require authentication for all other API endpoints
+                        // Allow public access to registration, login, and forgot password endpoints
+                        // We use explicit paths here for better control, assuming the AuthController maps to /api/v1/auth
+                        .requestMatchers("/api/v1/register", "/api/v1/login", "/api/v1/forgot-password").permitAll()
+
+                        // Allow all endpoints under /api/v1/auth as public
+                        .requestMatchers("/api/v1/auth/**").permitAll()
+
+                        // Require authentication for all critical application endpoints
+                        .requestMatchers("/api/v1/trails/**", "/api/v1/sos/**", "/api/v1/emergency/**").authenticated()
+
+                        // Catch-all: all other requests must be authenticated
                         .anyRequest().authenticated()
-                )
-                // Fix for 'httpBasic() is deprecated'
-                // Use basic HTTP authentication for protected routes (good for testing)
-                .httpBasic(Customizer.withDefaults());
+                );
+
+        // NOTE: Later, we will add a filter here for processing JWT tokens.
 
         return http.build();
     }
 
     /**
-     * Provides an in-memory user detail manager for initial testing of protected routes.
-     * This uses the same passwordEncoder() bean defined above.
+     * Defines the CORS configuration allowing requests from the frontend HTML files.
+     * This is essential for the browser to allow our JavaScript to communicate with the backend API.
      */
     @Bean
-    public InMemoryUserDetailsManager userDetailsService() {
-        // Use the PasswordEncoder bean directly
-        PasswordEncoder encoder = passwordEncoder();
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
 
-        UserDetails user = User.builder()
-                .username("testuser")
-                .password(encoder.encode("password"))
-                .roles("USER")
-                .build();
-        return new InMemoryUserDetailsManager(user);
+        // IMPORTANT: In production, replace the wildcard with your specific frontend domain(s).
+        configuration.setAllowedOrigins(Collections.singletonList("*"));
+
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "Accept"));
+
+        // This is crucial for JWT authentication, allowing the Authorization header
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        // Apply this CORS configuration to all API paths
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }

@@ -1,5 +1,5 @@
 package com.treksafe.treksafe.service;
-import com.treksafe.treksafe.model.RegisterRequest;
+import com.treksafe.treksafe.dto.RegisterRequest;
 import com.treksafe.treksafe.model.User;
 import com.treksafe.treksafe.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,9 +35,10 @@ public class AuthService {
 
         // 3. Create and save the new User entity
         User newUser = new User();
+        //newUser.setFullName(request.getFullName());
         newUser.setFullName(request.getFullName());
         newUser.setEmail(request.getEmail());
-        newUser.setPasswordHash(encodedPassword);
+        newUser.setPassword(encodedPassword);
 
         userRepository.save(newUser);
         return 0;
@@ -62,6 +63,6 @@ public class AuthService {
 
         // 2. Use PasswordEncoder to check the raw password against the stored hash
         // This is secure and resistant to timing attacks.
-        return passwordEncoder.matches(password, user.getPasswordHash());
+        return passwordEncoder.matches(password, user.getPassword());
     }
 }

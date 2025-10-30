@@ -1,72 +1,83 @@
 package com.treksafe.treksafe.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
- * Represents a User entity stored in the database.
- * This will replace the hardcoded credentials in AuthController.
+ * The core User entity for the application.
+ * Implements UserDetails from Spring Security to integrate with the authentication framework.
  */
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "_user") // Ensure the import for @Table is present
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String email;
-
-    @Column(nullable = false)
-    private String passwordHash; // Stores the securely hashed password
-
-    @Column(nullable = false)
+    // Use 'fullName' for consistent naming across the DTO and Entity
     private String fullName;
 
-    // Constructors
-    public User() {}
+    @Column(unique = true) // Ensure emails are unique
+    private String email;
+    private String password;
 
-    public User(String email, String passwordHash, String fullName) {
-        this.email = email;
-        this.passwordHash = passwordHash;
-        this.fullName = fullName;
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    // --- UserDetails Methods Implementation ---
+
+    /**
+     * Returns the authorities granted to the user.
+     * Fix: Ensures the return type is Collection<? extends GrantedAuthority>
+     */
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        // Correctly wraps the single role enum into a collection of SimpleGrantedAuthority objects
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
+    /**
+     * Returns the username (which is the email in this case) used for authentication.
+     */
+    @Override
+    public String getUsername() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    /**
+     * Account status checks (always return true for simplicity in this initial setup)
+     */
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
     }
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
