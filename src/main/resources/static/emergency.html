@@ -3,182 +3,547 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emergency Assistance</title>
+    <title>TrekSafe - Emergency Center</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
+        :root {
+            --trek-green: #254d23;
+            --trek-light-green: #e0f2e0;
+            --trek-green-button: #228B22;
+            --trek-green-button-hover: #176d1a;
+            --trek-dark-text: #212529;
+            --trek-secondary-text: #6c757d;
+            --trek-light-bg: #f8fafc;
+            --trek-danger: #dc3545;
+            --trek-warning: #ffc107;
+            --trek-success: #198754;
+            --trek-primary: #0d6efd;
+            --trek-info: #0dcaf0;
+        }
+
         body {
-            font-family: "Segoe UI", Tahoma, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f5f3ef; /* light earthy background */
-            color: #2f3e2f;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--trek-light-bg);
+            color: var(--trek-green);
         }
 
-        header {
-            background: #2e5339; /* deep forest green */
-            color: #fdfcf9;
-            text-align: center;
-            padding: 1.2rem;
-            font-size: 1.6rem;
-            font-weight: bold;
-            letter-spacing: 1px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        /* --- Navbar Styles --- */
+        .navbar {
+            padding: 1rem 0;
+            transition: background-color 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease;
+            background: transparent;
+            border-bottom: 1px solid transparent;
         }
 
-        .container {
+        .navbar-scrolled {
+            background-color: rgba(37, 77, 35, 0.95) !important;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-scrolled .navbar-brand,
+        .navbar-scrolled .nav-link,
+        .navbar-scrolled .dropdown-toggle {
+            color: #ffffff !important;
+        }
+
+        .navbar-brand {
+            font-size: 1.4rem;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .nav-link {
+            font-weight: 600;
+        }
+
+        .dropdown-menu {
+            border-radius: 0.5rem;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar .btn {
+            border-radius: 50px;
+            font-weight: 600;
+            padding: 0.5rem 1.25rem;
+            transition: all 0.3s ease;
+            border-width: 2px;
+        }
+
+        .navbar .btn-outline-light:hover {
+            background-color: #fff;
+            color: var(--trek-green);
+        }
+
+        .navbar .btn-warning {
+            background-color: var(--trek-warning);
+            border-color: var(--trek-warning);
+            color: var(--trek-dark-text);
+        }
+
+        .navbar .btn-warning:hover {
+            background-color: #ffca2c;
+            border-color: #ffca2c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+        }
+
+        .logged-in-view { display: none; }
+        body.logged-in .logged-in-view { display: list-item; }
+        body.logged-in .logged-out-view { display: none; }
+        .profile-dropdown-toggle::after { display: none; }
+        .profile-dropdown-toggle .bi-person-circle { font-size: 1.8rem; }
+
+        /* --- Emergency Page Styles --- */
+        .page-header {
+            color: var(--trek-green);
+        }
+
+        /* --- SOS Status Card --- */
+        .sos-status-card {
+            border-radius: 0.75rem;
             padding: 1.5rem;
-            max-width: 900px;
-            margin: auto;
+            margin-bottom: 2.5rem;
+            border: 2px solid;
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
         }
 
-        .section {
-            background: #ffffff;
-            padding: 1.2rem;
-            margin-bottom: 1.5rem;
-            border-radius: 14px;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        .sos-status-card .status-icon {
+            font-size: 2.5rem;
+            margin-right: 1.5rem;
         }
 
-        .section h2 {
-            font-size: 1.3rem;
-            margin-bottom: 0.8rem;
-            color: #3b4d3b;
-            border-left: 4px solid #6a994e; /* earthy accent */
-            padding-left: 0.5rem;
+        .sos-status-card .status-text h4 {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
         }
 
-        .location-box {
-            background: #eaf1ea;
-            padding: 1rem;
-            border-radius: 10px;
-            text-align: center;
+        .sos-status-card .status-text p {
+            margin-bottom: 0;
             font-weight: 500;
-            color: #2e5339;
+            color: var(--trek-secondary-text);
+            font-size: 0.95rem;
+        }
+
+        .status-incomplete {
+            border-color: var(--trek-danger);
+            color: var(--trek-danger);
+        }
+
+        .status-complete {
+            border-color: var(--trek-success);
+            color: var(--trek-success);
+        }
+
+        .status-complete .status-text h4 {
+            color: var(--trek-green);
+        }
+
+        /* --- Action Cards --- */
+        .action-card {
+            border: none;
+            border-radius: 1rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            background-color: #ffffff;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+        }
+
+        .action-card .card-title {
+            font-weight: 700;
+            color: var(--trek-dark-text);
+        }
+
+        .action-card .icon-stack {
+            font-size: 2.5rem;
             margin-bottom: 1rem;
         }
 
-        .contacts div {
-            margin: 0.6rem 0;
-            padding: 0.9rem;
-            border-radius: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* Prepare Card */
+        .prepare-card .icon-stack {
+            color: var(--trek-warning);
+        }
+        .prepare-card .btn {
             font-weight: 600;
-            background: #f0f4f0;
-            border-left: 6px solid;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
         }
 
-        .police { border-color: #6a994e; }
-        .medical { border-color: #bc4749; }
-        .forest { border-color: #f4a261; }
-        .rescue { border-color: #386641; }
-
-        .contacts button {
-            background: #6a994e;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 6px 14px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background 0.2s;
+        /* SOS Card */
+        .sos-card {
+            border: 2px solid var(--trek-danger);
+            background-color: #fff8f8; /* Faint red background */
+        }
+        .sos-card .icon-stack {
+            color: var(--trek-danger);
+        }
+        .sos-card .card-title {
+            color: var(--trek-danger);
+        }
+        .sos-card .sos-button {
+            font-weight: 700;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
         }
 
-        .contacts button:hover {
-            background: #52734d;
+        /* =======================================
+          [UPDATED] Contact Card Styles
+          =======================================
+        */
+        .contact-card {
+            padding: 1.5rem 2rem;
+        }
+        .contact-card h3 {
+            color: var(--trek-green);
+            font-weight: 600;
+            border-bottom: 2px solid var(--trek-light-green);
+            padding-bottom: 0.75rem;
         }
 
-        .alert-btn {
-            display: block;
-            width: 100%;
-            background: #bc4749; /* muted earthy red for emergency */
-            color: white;
-            font-size: 1.3rem;
-            font-weight: bold;
-            padding: 1.2rem;
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem; /* Spacing between items */
+            margin-top: 1rem;
+        }
+
+        .contact-list-item {
+            display: flex;
+            flex-wrap: wrap; /* Allows wrapping on small screens */
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            background-color: #f8f9fa; /* Light grey background for each item */
+            border: 1px solid #eee;
+        }
+
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .contact-icon {
+            font-size: 2.25rem;
+            flex-shrink: 0;
+            width: 40px;
             text-align: center;
-            border-radius: 14px;
-            border: none;
-            cursor: pointer;
-            transition: background 0.2s;
+            /* Color is now set by utility classes like .text-danger */
         }
 
-        .alert-btn:hover {
-            background: #a63a3c;
+        .contact-details .contact-name {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--trek-dark-text);
+            margin-bottom: 0;
+        }
+
+        .contact-details .contact-desc {
+            font-size: 0.9rem;
+            color: var(--trek-secondary-text);
+            margin-bottom: 0;
+            line-height: 1.4;
+        }
+
+        /* Base styles for all contact buttons */
+        .contact-number-btn {
+            border: none;
+            color: #fff !important; /* Force white text on colored buttons */
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            padding: 0.5rem 1.25rem;
+            transition: all 0.3s ease;
+            flex-shrink: 0; /* Prevents button from shrinking */
+        }
+
+        /* Hover effect for all contact buttons */
+        .contact-number-btn:hover {
+            color: #fff !important;
+            transform: translateY(-2px);
+            filter: brightness(1.1); /* Simple hover effect for all colors */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .contact-number-btn .bi {
+            vertical-align: middle;
+            margin-right: 0.25rem;
+        }
+        /* --- End of Updated Contact Styles --- */
+
+
+        .footer {
+            background-color: var(--trek-green);
+            color: var(--trek-light-green);
+            padding: 1.5rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        /* --- Responsive Fixes --- */
+        @media (max-width: 767.98px) {
+            .navbar-nav .nav-item { margin: 0.5rem 0; }
+            .navbar-nav .btn { width: 100%; }
+            .navbar-collapse {
+                background-color: rgba(37, 77, 35, 0.95);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                border-radius: 0.5rem;
+                padding: 1rem;
+                margin-top: 0.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .contact-list-item {
+                justify-content: center; /* Center items when they wrap */
+            }
+            .contact-info {
+                flex-basis: 100%; /* Icon + Text takes full width */
+                justify-content: flex-start;
+            }
+            .contact-number-btn {
+                flex-basis: 100%; /* Button takes full width */
+                text-align: center;
+            }
         }
     </style>
 </head>
-<body>
-<header>Emergency Assistance</header>
-<div class="container">
 
-    <!-- Location Info -->
-    <div class="location-box" id="locationBox">
-        📍 Detecting your location...
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top navbar-scrolled">
+    <div class="container">
+        <a class="navbar-brand" href="landing.html">
+            <i class="bi bi-shield-check me-2"></i>TrekSafe
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Explore
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="searchsuggest.html">Search Treks</a></li>
+                        <li><a class="dropdown-item" href="map.html">Interactive Map</a></li>
+                        <li><a class="dropdown-item" href="navig_compass.html">Compass</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="emergency.html">Emergency Info</a></li>
+                        <li><a class="dropdown-item" href="blog.html">Blog</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item d-none d-lg-block mx-2"></li>
+                <li class="nav-item mb-2 mb-lg-0 logged-out-view">
+                    <a class="btn btn-outline-light btn-sm" href="login.html">Login</a>
+                </li>
+                <li class="nav-item ms-lg-2 logged-out-view">
+                    <a class="btn btn-warning btn-sm" href="signup.html">Sign Up</a>
+                </li>
+                <li class="nav-item dropdown logged-in-view">
+                    <a class="nav-link profile-dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        <i class="bi bi-person-circle"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#">Dashboard</a></li>
+                        <li><a class="dropdown-item" href="#">Profile Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-5">
+
+    <header class="text-center mb-5">
+        <h1 class="display-4 fw-bold page-header">Emergency Center</h1>
+        <p class="lead text-muted">Your safety hub. Prepare for your trek and get help when you need it.</p>
+    </header>
+
+    <div class="sos-status-card status-incomplete" id="status-incomplete">
+        <i class="bi bi-exclamation-triangle-fill status-icon"></i>
+        <div class="status-text">
+            <h4>Your SOS Profile is Incomplete</h4>
+            <p>Please set up your info now for a faster rescue. In an emergency, we can only send your location.</p>
+        </div>
     </div>
 
-    <!-- Emergency Contacts -->
-    <div class="section">
-        <h2>Emergency Contacts</h2>
-        <div class="contacts">
-            <div class="police">
-                Police Helpline
-                <button onclick="callNumber('100')">Call</button>
+    <div class="row g-4 mb-5">
+        <div class="col-lg-6">
+            <div class="action-card prepare-card">
+                <i class="bi bi-shield-fill-check icon-stack"></i>
+                <h2 class="h3 card-title mb-3">Prepare for Your Trek</h2>
+                <p class="text-secondary mb-4">
+                    Setting up your SOS profile is the most important step for a safe trek. By adding your
+                    emergency contacts and medical information *before* you go, you enable us to send this vital
+                    data to rescue teams instantly.
+                </p>
+                <a href="sosinfo.html" class="btn btn-warning mt-auto">
+                    <i class="bi bi-person-lines-fill me-2"></i> Set Up Your SOS Info Now
+                </a>
             </div>
-            <div class="medical">
-                Medical Emergency
-                <button onclick="callNumber('108')">Call</button>
-            </div>
-            <div class="forest">
-                Forest Dept.
-                <button onclick="callNumber('1926')">Call</button>
-            </div>
-            <div class="rescue">
-                Rescue / Disaster Mgmt
-                <button onclick="callNumber('112')">Call</button>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="action-card sos-card">
+                <i class="bi bi-broadcast icon-stack"></i>
+                <h2 class="h3 card-title mb-3">Emergency SOS</h2>
+                <p class="text-secondary mb-4">
+                    Press only in a **life-threatening emergency**. This will attempt to send your location and
+                    all prepared SOS information (if available) to the relevant authorities.
+                </p>
+                <a href="#" class="btn btn-danger sos-button mt-auto" id="sos-trigger-button">
+                    <i class="bi bi-broadcast me-2"></i> SEND SOS SIGNAL
+                </a>
             </div>
         </div>
     </div>
 
-    <!-- Emergency Beacon -->
-    <div class="section">
-        <h2>Quick SOS</h2>
-        <button class="alert-btn" onclick="sendAlert()">🚨 SOS</button>
-    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="action-card contact-card">
+                <h3 class="mb-4">Emergency Authority Contacts</h3>
 
+                <div class="contact-list">
+
+                    <div class="contact-list-item">
+                        <div class="contact-info">
+                            <i class="bi bi-shield-fill-exclamation contact-icon text-warning"></i>
+                            <div class="contact-details">
+                                <p class="contact-name">All-India Emergency</p>
+                                <p class="contact-desc">The single, all-in-one emergency number for police, fire, and ambulance.</p>
+                            </div>
+                        </div>
+                        <a href="tel:112" class="contact-number-btn btn btn-warning">
+                            <i class="bi bi-telephone-fill"></i> 112
+                        </a>
+                    </div>
+
+                    <div class="contact-list-item">
+                        <div class="contact-info">
+                            <i class="bi bi-person-badge contact-icon text-primary"></i>
+                            <div class="contact-details">
+                                <p class="contact-name">Police</p>
+                                <p class="contact-desc">For situations requiring immediate law enforcement assistance.</p>
+                            </div>
+                        </div>
+                        <a href="tel:100" class="contact-number-btn btn btn-primary">
+                            <i class="bi bi-telephone-fill"></i> 100
+                        </a>
+                    </div>
+
+                    <div class="contact-list-item">
+                        <div class="contact-info">
+                            <i class="bi bi-heart-pulse-fill contact-icon text-danger"></i>
+                            <div class="contact-details">
+                                <p class="contact-name">Ambulance</p>
+                                <p class="contact-desc">For urgent medical help and transportation to a hospital.</p>
+                            </div>
+                        </div>
+                        <a href="tel:102" class="contact-number-btn btn btn-danger">
+                            <i class="bi bi-telephone-fill"></i> 102
+                        </a>
+                    </div>
+
+                    <div class="contact-list-item">
+                        <div class="contact-info">
+                            <i class="bi bi-hurricane contact-icon text-info"></i>
+                            <div class="contact-details">
+                                <p class="contact-name">Disaster Management</p>
+                                <p class="contact-desc">For natural disasters like landslides, floods, or earthquakes.</p>
+                            </div>
+                        </div>
+                        <a href="tel:108" class="contact-number-btn btn btn-info">
+                            <i class="bi bi-telephone-fill"></i> 108
+                        </a>
+                    </div>
+
+                    <div class="contact-list-item">
+                        <div class="contact-info">
+                            <i class="bi bi-tree-fill contact-icon text-success"></i>
+                            <div class="contact-details">
+                                <p class="contact-name">Forest Department</p>
+                                <p class="contact-desc">For wildlife encounters, forest fires, or getting lost in restricted areas.</p>
+                            </div>
+                        </div>
+                        <a href="tel:1800119333" class="contact-number-btn btn btn-success">
+                            <i class="bi bi-telephone-fill"></i> 1800-11-9333
+                        </a>
+                    </div>
+
+                </div> </div>
+        </div>
+    </div>
 </div>
 
+<footer class="footer">
+    <div class="container">
+        <p class="mb-0">&copy; 2025 TrekSafe Trails. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
-    function callNumber(number) {
-        window.location.href = `tel:${number}`;
-    }
+    document.getElementById('sos-trigger-button').addEventListener('click', function (event) {
+        event.preventDefault();
 
-    function sendAlert() {
-        alert("🚨 SOS Alert triggered! Your location will be shared with rescuers.");
-        // Future: integrate GPS + server API to send location
-    }
+        const isConfirmed = confirm('EMERGENCY CONFIRMATION:\n\nAre you sure you want to send an SOS signal?\n\nUse this only in a life-threatening situation.');
 
-    // Get location
-    function getLocation() {
-        const locationBox = document.getElementById("locationBox");
+        if (isConfirmed) {
+            console.log('SOS Signal Triggered!');
+            alert('SOS Signal Triggered!\n\nAuthorities are being contacted with your location and pre-filled information (if available).\n\nStay calm. Help is on the way.');
 
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (pos) => {
-                    const lat = pos.coords.latitude.toFixed(4);
-                    const lon = pos.coords.longitude.toFixed(4);
-                    locationBox.innerHTML = `📍 Current Location: <br> Latitude ${lat}, Longitude ${lon}`;
-                },
-                () => {
-                    locationBox.innerHTML = "⚠️ Unable to detect location. Please enable GPS.";
-                }
-            );
-        } else {
-            locationBox.innerHTML = "❌ Geolocation not supported by your device.";
+            this.disabled = true;
+            this.classList.add('disabled');
+            this.innerText = 'SOS SENT...';
         }
-    }
+    });
 
-    getLocation();
+    // --- [BACKEND SIMULATION] ---
+    // You can remove this. This is just to show you the two states.
+    // Set 'isProfileComplete' to true or false to test the UI.
+    const isProfileComplete = false;
+
+    const incompleteStatus = document.getElementById('status-incomplete');
+    // const completeStatus = document.getElementById('status-complete'); // Uncomment the 'complete' card in HTML to use this
+
+    if (isProfileComplete) {
+        incompleteStatus.style.display = 'none';
+        // completeStatus.style.display = 'flex';
+    } else {
+        incompleteStatus.style.display = 'flex';
+        // completeStatus.style.display = 'none';
+    }
+    // --- End of Simulation ---
 </script>
+
 </body>
 </html>

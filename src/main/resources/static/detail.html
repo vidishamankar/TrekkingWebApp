@@ -184,8 +184,8 @@
             border: 1px solid #e0f2e0;
         }
         .btn-primary-trek {
-            background-color: #254d23;
-            border-color: #254d23;
+            background-color: #228B22;
+            border-color: #228B22;
             color: #fff;
             border-radius: 0.75rem;
             padding: 0.75rem 1.5rem;
@@ -193,8 +193,9 @@
             transition: background-color 0.2s;
         }
         .btn-primary-trek:hover {
-            background-color: #1c3a1a;
-            border-color: #1c3a1a;
+            background-color: #176d1a;
+            border-color: #176d1a;
+            color: #fff;
         }
         #map {
             height: 300px;
@@ -342,6 +343,12 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="my-4 text-end">
+                    <a href="form.html" class="btn btn-primary-trek">
+                        <i class="bi bi-pencil-square me-2"></i>Write a Review
+                    </a>
+                </div>
                 <div class="vstack gap-3" id="user-reviews">
                     <p class="text-muted">Review data requires a separate API call, using placeholders for now.</p>
                 </div>
@@ -364,6 +371,10 @@
                 <div class="d-grid gap-2 mt-4">
                     <button class="btn btn-primary-trek"><i class="bi bi-plus-circle-fill me-2"></i>Add to My Treks</button>
                     <button class="btn btn-outline-secondary"><i class="bi bi-download me-2"></i>Download GPX Trail</button>
+
+                    <a href="issue.html" class="btn btn-outline-danger">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>Report a Trail Issue
+                    </a>
                 </div>
             </div>
         </aside>
