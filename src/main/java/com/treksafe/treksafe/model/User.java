@@ -1,63 +1,83 @@
 package com.treksafe.treksafe.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
- * The core data model representing a registered user in the database.
- * @Entity indicates this class is mapped to a table.
- * Using Lombok's @Data for automatic getters, setters, toString, equals, and hashCode.
+ * The core User entity for the application.
+ * Implements UserDetails from Spring Security to integrate with the authentication framework.
  */
-@Entity
-@Table(name = "users")
 @Data
+@Builder
 @NoArgsConstructor
-public class User {
+@AllArgsConstructor
+@Entity
+@Table(name = "_user") // Ensure the import for @Table is present
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String firstName;
+    // Use 'fullName' for consistent naming across the DTO and Entity
+    private String fullName;
 
-    @Column(nullable = false)
-    private String lastName;
+    @Column(unique = true) // Ensure emails are unique
+    private String email;
+    private String password;
 
-    @Column(nullable = false, unique = true)
-    private String email; // Used as the unique identifier/username for login
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
-    // Store the HASHED password.
-    // @JsonIgnore ensures the hashed password is never accidentally sent in a JSON response.
-    @JsonIgnore
-    @Column(nullable = false)
-    private String passwordHash;
-
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    // --- Spring Security Compatibility Methods ---
+    // --- UserDetails Methods Implementation ---
 
     /**
-     * Required by Spring Security's UserDetails contract for retrieving the password.
-     * Maps the internal 'passwordHash' field to the required 'getPassword' method name.
+     * Returns the authorities granted to the user.
+     * Fix: Ensures the return type is Collection<? extends GrantedAuthority>
      */
-    public String getPassword() {
-        return this.passwordHash;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        // Correctly wraps the single role enum into a collection of SimpleGrantedAuthority objects
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     /**
-     * Required by Spring Security's UserDetails contract for retrieving the username.
-     * Maps the internal 'email' field to the required 'getUsername' method name.
+     * Returns the username (which is the email in this case) used for authentication.
      */
+    @Override
     public String getUsername() {
-        return this.email;
+        return email;
     }
 
-    // Setter for password hash used during registration
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    /**
+     * Account status checks (always return true for simplicity in this initial setup)
+     */
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
