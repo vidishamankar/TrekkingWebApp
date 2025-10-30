@@ -156,10 +156,6 @@
             background-color: #228B22;
             border-color: #228B22;
         }
-        .dropdown-item:active {
-            background-color: #228B22;
-            color: #fff;
-        }
         .loading-indicator {
             display: none;
             text-align: center;
@@ -224,16 +220,13 @@
                         <li><a class="dropdown-item" href="blog.html">Blog</a></li>
                     </ul>
                 </li>
-
                 <li class="nav-item d-none d-lg-block mx-2"></li>
-
                 <li class="nav-item mb-2 mb-lg-0 logged-out-view">
                     <a class="btn btn-outline-light btn-sm" href="login.html">Login</a>
                 </li>
                 <li class="nav-item ms-lg-2 logged-out-view">
                     <a class="btn btn-warning btn-sm" href="signup.html">Sign Up</a>
                 </li>
-
                 <li class="nav-item dropdown logged-in-view">
                     <a class="nav-link profile-dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-person-circle"></i>
@@ -250,10 +243,11 @@
     </div>
 </nav>
 
-<main class="container py-5">
-    <h1 class="text-center mb-4 fw-bold">Discover Your Next Adventure</h1>
-    <p class="text-center mb-5 text-muted">Find the perfect trail that matches your skill and spirit.</p>
-
+<main class="container py-5 main-content">
+    <header class="text-center mb-5">
+        <h1 class="display-5 form-header fw-bold">Discover Your Next Adventure</h1>
+        <p class="lead text-muted">Find the perfect trail that matches your skill and spirit.</p>
+    </header>
     <div class="row justify-content-center mb-5">
         <div class="col-lg-10 col-md-11">
             <div class="card p-4 search-filter-card">
@@ -361,8 +355,7 @@
                         const matchesDuration = (duration === '' || trail.duration === duration);
                         return matchesSearch && matchesDifficulty && matchesLocation && matchesDuration;
                     });
-                    if (filters.searchTerm === '' && filters.difficulty === '' && filters.location === '' && filters.duration === '') {
-                    }
+
                     loadingIndicator.style.display = 'none';
                     resolve(filteredTrails);
                 }, 700);
@@ -371,9 +364,21 @@
 
         function renderTrails(trailsToRender) {
             if (trailsToRender.length === 0) {
-                trailResultsContainer.innerHTML = '<div class="col-12 text-center text-muted py-5"><p class="lead mb-3"><i class="bi bi-x-circle fs-3 d-block mb-2"></i></p><p>No trails found matching your criteria.</p><p class="small">Try adjusting your filters or search terms.</p></div>';
+                // [FIX #3] Added the vertically centered "No trails" message
+                trailResultsContainer.innerHTML = `
+                <div class="col-12">
+                    <div class="d-flex flex-column justify-content-center align-items-center text-muted" style="min-height: 50vh;">
+                        <p class="lead mb-3"><i class="bi bi-x-circle fs-3 d-block mb-2"></i></p>
+                        <p class="fs-5">No trails found matching your criteria.</p>
+                        <p class="small">Try adjusting your filters or search terms.</p>
+                    </div>
+                </div>`;
                 return;
             }
+
+            // Clear previous results before adding new ones
+            trailResultsContainer.innerHTML = '';
+
             trailsToRender.forEach(trail => {
                 const difficultyClass = `badge-difficulty-${trail.difficulty}`;
                 const trailCard = `

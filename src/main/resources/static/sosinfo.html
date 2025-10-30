@@ -4,19 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SOS Setup - TrekSafe</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --trek-green: #254d23;
+            --trek-light-green: #e0f2e0;
+            --trek-green-button: #228B22;
+            --trek-green-button-hover: #176d1a;
+            --trek-dark-text: #212529;
+            --trek-secondary-text: #6c757d;
+            --trek-light-bg: #f8fafc;
+            --trek-danger: #dc3545;
+            --trek-warning: #ffc107;
+            --trek-success: #198754;
+            --trek-primary: #0d6efd; /* Added for consistency */
+            --trek-info: #0dcaf0; /* Added for consistency */
+        }
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
-            color: #254d23;
+            background-color: var(--trek-light-bg);
+            color: var(--trek-green); /* Default body text color */
         }
         /* --- NAVBAR STYLES (SYNCHRONIZED WITH LANDING PAGE) --- */
         .navbar {
@@ -62,12 +74,12 @@
         }
         .navbar .btn-outline-light:hover {
             background-color: #fff;
-            color: #254d23;
+            color: var(--trek-green); /* Use variable */
         }
         .navbar .btn-warning {
-            background-color: #ffc107;
-            border-color: #ffc107;
-            color: #212529;
+            background-color: var(--trek-warning); /* Use variable */
+            border-color: var(--trek-warning); /* Use variable */
+            color: var(--trek-dark-text); /* Use variable */
         }
         .navbar .btn-warning:hover {
             background-color: #ffca2c;
@@ -110,15 +122,20 @@
                 margin-top: 0.5rem;
             }
         }
+
+        .main-content {
+            padding-top: 90px; /* Adjust this value if navbar height changes */
+        }
+
         .footer {
-            background-color: #254d23;
-            color: #e0f2e0;
+            background-color: var(--trek-green); /* Use variable */
+            color: var(--trek-light-green); /* Use variable */
             padding: 1.5rem 0;
             text-align: center;
             margin-top: 3rem;
         }
         .form-header {
-            color: #254d23;
+            color: var(--trek-green); /* Use variable */
             font-weight: 700;
         }
         .form-section-card {
@@ -132,42 +149,65 @@
             font-weight: 600;
         }
         .form-control:focus, .form-select:focus {
-            border-color: #254d23;
+            border-color: var(--trek-green); /* Use variable */
             box-shadow: 0 0 0 0.25rem rgba(37, 77, 35, 0.25);
         }
         .btn-primary-trek {
-            background-color: #254d23;
-            border-color: #254d23;
+            background-color: var(--trek-green-button); /* Use variable */
+            border-color: var(--trek-green-button); /* Use variable */
             color: #fff;
             border-radius: 0.75rem;
             padding: 0.75rem 1.5rem;
             font-weight: 600;
             transition: background-color 0.2s;
         }
-        .btn-primary-trek:hover {
-            background-color: #1c3a1a;
-            border-color: #1c3a1a;
+        .btn-primary-trek:hover { /* Changed from .btn-read-more:hover to be more specific */
+            background-color: var(--trek-green-button-hover); /* Use variable */
+            border-color: var(--trek-green-button-hover); /* Use variable */
+            color: #fff;
         }
         .btn-outline-trek {
-            color: #254d23;
-            border-color: #254d23;
+            background-color: #228B22;
+            border-color: #228B22;
+            color: #fff;
             border-radius: 0.75rem;
+            font-weight: 600;
+            transition: background-color 0.2s;
         }
         .btn-outline-trek:hover {
-            background-color: #254d23;
+            background-color: #176d1a;
+            border-color: #176d1a;
             color: #fff;
         }
         .remove-contact-btn {
-            color: #dc3545;
+            color: var(--trek-danger); /* Use variable */
             cursor: pointer;
             font-size: 1.2rem;
         }
+
+        /* * =======================================
+         * [NEW] Colourful Icons & Text for Sections
+         * =======================================
+        */
+        .form-section-card h2 {
+            display: flex; /* Aligns icon and text */
+            align-items: center;
+            color: var(--trek-dark-text); /* Ensure text is dark */
+        }
+        .form-section-card h2 .bi {
+            font-size: 1.8rem; /* Slightly smaller than current icon-stack */
+            margin-right: 0.75rem;
+        }
+
+        /* Specific icon colors */
+        .form-section-card h2 .bi-people-fill { color: var(--trek-primary); } /* Info blue */
+        .form-section-card h2 .bi-heart-pulse-fill { color: var(--trek-danger); } /* Danger red */
+        .form-section-card h2 .bi-envelope-exclamation-fill { color: var(--trek-warning); } /* Warning orange */
     </style>
 </head>
 <body>
 
-<!-- Consistent Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark sticky-top navbar-scrolled">
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-scrolled">
     <div class="container">
         <a class="navbar-brand" href="landing.html">
             <i class="bi bi-shield-check me-2"></i>TrekSafe
@@ -190,16 +230,13 @@
                         <li><a class="dropdown-item" href="blog.html">Blog</a></li>
                     </ul>
                 </li>
-
                 <li class="nav-item d-none d-lg-block mx-2"></li>
-
                 <li class="nav-item mb-2 mb-lg-0 logged-out-view">
                     <a class="btn btn-outline-light btn-sm" href="login.html">Login</a>
                 </li>
                 <li class="nav-item ms-lg-2 logged-out-view">
                     <a class="btn btn-warning btn-sm" href="signup.html">Sign Up</a>
                 </li>
-
                 <li class="nav-item dropdown logged-in-view">
                     <a class="nav-link profile-dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-person-circle"></i>
@@ -216,83 +253,80 @@
     </div>
 </nav>
 
-<div class="container py-5">
-    <!-- Header -->
-    <header class="text-center mb-5">
-        <h1 class="display-5 form-header">SOS Settings</h1>
-        <p class="lead text-muted">Prepare your emergency information before you go. This data will be sent to rescuers when you activate SOS.</p>
-    </header>
+<main class="main-content">
+    <div class="container py-5">
+        <header class="text-center mb-5">
+            <h1 class="display-5 form-header">SOS Settings</h1>
+            <p class="lead text-muted">Prepare your emergency information before you go. This data will be sent to rescuers when you activate SOS.</p>
+        </header>
 
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <!-- Emergency Contacts Section -->
-            <section class="form-section-card mb-4">
-                <h2 class="h4 mb-4"><i class="bi bi-people-fill me-2"></i>Emergency Contacts</h2>
-                <div id="contacts-list" class="vstack gap-3 mb-3">
-                    <!-- Example Contact -->
-                    <div class="d-flex justify-content-between align-items-center bg-light p-3 rounded-3">
-                        <div>
-                            <p class="fw-medium mb-0">Jane Doe</p>
-                            <p class="text-muted small mb-0">+1 (555) 123-4567</p>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <section class="form-section-card mb-4">
+                    <h2 class="h4 mb-4"><i class="bi bi-people-fill"></i>Emergency Contacts</h2>
+                    <div id="contacts-list" class="vstack gap-3 mb-3">
+                        <div class="d-flex justify-content-between align-items-center bg-light p-3 rounded-3">
+                            <div>
+                                <p class="fw-medium mb-0">Jane Doe</p>
+                                <p class="text-muted small mb-0">+1 (555) 123-4567</p>
+                            </div>
+                            <i class="bi bi-trash-fill remove-contact-btn" title="Remove Contact"></i>
                         </div>
-                        <i class="bi bi-trash-fill remove-contact-btn" title="Remove Contact"></i>
                     </div>
-                    <!-- Contacts will be added here by JS -->
-                </div>
-                <div class="row g-2">
-                    <div class="col-sm-5">
-                        <input type="text" id="contact-name" class="form-control" placeholder="Contact Name">
+                    <div class="row g-2">
+                        <div class="col-sm-5">
+                            <input type="text" id="contact-name" class="form-control" placeholder="Contact Name">
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="tel" id="contact-phone" class="form-control" placeholder="Phone Number">
+                        </div>
+                        <div class="col-sm-2 d-grid">
+                            <button id="add-contact-btn" type="button" class="btn btn-outline-trek">Add</button>
+                        </div>
                     </div>
-                    <div class="col-sm-5">
-                        <input type="tel" id="contact-phone" class="form-control" placeholder="Phone Number">
-                    </div>
-                    <div class="col-sm-2 d-grid">
-                        <button id="add-contact-btn" type="button" class="btn btn-outline-trek">Add</button>
-                    </div>
-                </div>
-            </section>
+                </section>
 
-            <!-- Medical Information Section -->
-            <section class="form-section-card mb-4">
-                <h2 class="h4 mb-4"><i class="bi bi-heart-pulse-fill me-2"></i>Medical Information</h2>
-                <p class="text-muted small">Include allergies, conditions, or medications. This is vital for first responders.</p>
-                <textarea id="medical-info" rows="5" class="form-control" placeholder="e.g., Allergic to penicillin, Asthma, Type 1 Diabetes..."></textarea>
-            </section>
+                <section class="form-section-card mb-4">
+                    <h2 class="h4 mb-4"><i class="bi bi-heart-pulse-fill"></i>Medical Information</h2>
+                    <p class="text-muted small">Include allergies, conditions, or medications. This is vital for first responders.</p>
+                    <textarea id="medical-info" rows="5" class="form-control" placeholder="e.g., Allergic to penicillin, Asthma, Type 1 Diabetes..."></textarea>
+                </section>
 
-            <!-- SOS Message Preview Section -->
-            <section class="form-section-card mb-4">
-                <h2 class="h4 mb-4"><i class="bi bi-envelope-exclamation-fill me-2"></i>SOS Message Preview</h2>
-                <p class="text-muted small">This message will be sent along with your precise coordinates.</p>
-                <div class="bg-light p-3 rounded-3 border">
-                    <p class="font-monospace small">
-                        <span class="text-danger fw-bold">EMERGENCY SOS:</span> I am in distress and need immediate assistance.
-                        <br><br>
-                        My location is: <span class="text-primary">[Your Coordinates]</span>
-                        <br>
-                        Medical Info Attached.
-                        <br><br>
-                        <em class="text-muted">Your custom note will appear here.</em>
-                    </p>
+                <section class="form-section-card mb-4">
+                    <h2 class="h4 mb-4"><i class="bi bi-envelope-exclamation-fill"></i>SOS Message Preview</h2>
+                    <p class="text-muted small">This message will be sent along with your precise coordinates.</p>
+                    <div class="bg-light p-3 rounded-3 border">
+                        <p class="font-monospace small">
+                            <span class="text-danger fw-bold">EMERGENCY SOS:</span> I am in distress and need immediate assistance.
+                            <br><br>
+                            My location is: <span class="text-primary">[Your Coordinates]</span>
+                            <br>
+                            Medical Info Attached.
+                            <br><br>
+                            <em class="text-muted">Your custom note will appear here.</em>
+                        </p>
+                    </div>
+                    <label for="custom-note" class="form-label mt-3">Add a custom note (optional):</label>
+                    <input type="text" id="custom-note" class="form-control" placeholder="e.g., I have a twisted ankle.">
+                </section>
+
+                <div class="text-center">
+                    <button id="save-all-btn" type="button" class="btn btn-primary-trek btn-lg">
+                        <i class="bi bi-save-fill me-2"></i> Save All Information
+                    </button>
                 </div>
-                <label for="custom-note" class="form-label mt-3">Add a custom note (optional):</label>
-                <input type="text" id="custom-note" class="form-control" placeholder="e.g., I have a twisted ankle.">
-            </section>
-
-            <!-- Save Button -->
-            <div class="text-center">
-                <button id="save-all-btn" type="button" class="btn btn-primary-trek btn-lg">
-                    <i class="bi bi-save-fill me-2"></i> Save All Information
-                </button>
             </div>
         </div>
     </div>
-</div>
+</main>
 
 <footer class="footer">
     <div class="container">
         <p class="mb-0">&copy; 2025 TrekSafe Trails. All rights reserved.</p>
     </div>
 </footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
