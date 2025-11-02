@@ -4,243 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - TrekSafe</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* Smooth scrolling for entire page */
-        html {
-            scroll-behavior: smooth;
-        }
-
+        /* All your existing CSS is perfect */
+        html { scroll-behavior: smooth; }
         body {
             font-family: 'Inter', sans-serif;
             color: #254d23;
-            background-color: #f8fafc; /* Light background */
+            background-color: #f8fafc;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
-
-        /* --- NAVBAR STYLES (SYNCHRONIZED WITH LANDING PAGE) --- */
-        .navbar {
-            padding: 1rem 0;
-            transition: background-color 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease;
-            background: transparent;
-            border-bottom: 1px solid transparent;
-        }
-        .navbar-scrolled {
-            background-color: rgba(37, 77, 35, 0.95) !important;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
+        .navbar { padding: 1rem 0; transition: all 0.4s ease; background: transparent; border-bottom: 1px solid transparent; }
+        .navbar-scrolled { background-color: rgba(37, 77, 35, 0.95) !important; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .navbar-scrolled .navbar-brand,
         .navbar-scrolled .nav-link,
-        .navbar-scrolled .dropdown-toggle {
-            color: #ffffff !important;
-        }
-        .navbar-brand {
-            font-size: 1.4rem;
-            letter-spacing: 0.5px;
-            font-weight: 600;
-        }
-        .nav-link {
-            font-weight: 600;
-        }
-        .nav-link.dropdown-toggle:hover {
-            color: #f8f9fa !important;
-        }
-        .dropdown-menu {
-            border-radius: 0.5rem;
-            border: none;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        .navbar .btn {
-            border-radius: 50px;
-            font-weight: 600;
-            padding: 0.5rem 1.25rem;
-            transition: all 0.3s ease;
-            border-width: 2px;
-        }
-        .navbar .btn-outline-light:hover {
-            background-color: #fff;
-            color: #254d23;
-        }
-        .navbar .btn-warning {
-            background-color: #ffc107;
-            border-color: #ffc107;
-            color: #212529;
-        }
-        .navbar .btn-warning:hover {
-            background-color: #ffca2c;
-            border-color: #ffca2c;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
-        }
+        .navbar-scrolled .dropdown-toggle { color: #ffffff !important; }
+        .navbar-brand { font-size: 1.4rem; letter-spacing: 0.5px; font-weight: 600; }
+        .nav-link { font-weight: 600; }
+        .nav-link.dropdown-toggle:hover { color: #f8f9fa !important; }
+        .dropdown-menu { border-radius: 0.5rem; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .navbar .btn { border-radius: 50px; font-weight: 600; padding: 0.5rem 1.25rem; transition: all 0.3s ease; border-width: 2px; }
+        .navbar .btn-outline-light:hover { background-color: #fff; color: #254d23; }
+        .navbar .btn-warning { background-color: #ffc107; border-color: #ffc107; color: #212529; }
+        .navbar .btn-warning:hover { background-color: #ffca2c; border-color: #ffca2c; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3); }
 
-        /* --- Logged-In/Out Toggle Styles --- */
-        .logged-in-view {
-            display: none;
-        }
-        body.logged-in .logged-in-view {
-            display: list-item;
-        }
-        body.logged-in .logged-out-view {
-            display: none;
-        }
-        .profile-dropdown-toggle::after {
-            display: none;
-        }
-        .profile-dropdown-toggle .bi-person-circle {
-            font-size: 1.8rem;
-        }
+        /* [STYLES FOR NAV SWAP] */
+        .profile-dropdown-toggle::after { display: none; }
+        .profile-dropdown-toggle .bi-person-circle { font-size: 1.8rem; }
 
-        /* --- MOBILE RESPONSIVENESS (FROM LANDING PAGE) --- */
         @media (max-width: 767.98px) {
-            .navbar-nav .nav-item {
-                margin: 0.5rem 0;
-            }
-            .navbar-nav .btn {
-                width: 100%;
-            }
-            .navbar-collapse {
-                background-color: rgba(37, 77, 35, 0.95);
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
-                border-radius: 0.5rem;
-                padding: 1rem;
-                margin-top: 0.5rem;
-            }
+            .navbar-nav .nav-item { margin: 0.5rem 0; }
+            .navbar-nav .btn { width: 100%; }
+            .navbar-collapse { background-color: rgba(37, 77, 35, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 0.5rem; padding: 1rem; margin-top: 0.5rem; }
         }
-
-        /* --- MAIN CONTENT STYLES --- */
-        .main-content {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding-top: 100px; /* Account for fixed navbar */
-            padding-bottom: 2rem;
-        }
-
-        /* --- LOGIN FORM STYLES --- */
-        .auth-card {
-            background-color: #ffffff;
-            border: none;
-            border-radius: 1.5rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            max-width: 450px;
-            width: 100%;
-        }
-        .auth-header {
-            background-color: #254d23;
-            color: #fff;
-            padding: 2rem;
-            border-top-left-radius: 1.5rem;
-            border-top-right-radius: 1.5rem;
-            text-align: center;
-        }
-        .auth-header i {
-            font-size: 3rem;
-        }
-        .form-label {
-            font-weight: 600;
-        }
-        .form-control:focus {
-            border-color: #254d23;
-            box-shadow: 0 0 0 0.25rem rgba(37, 77, 35, 0.25);
-        }
-        .btn-auth {
-            background-color: #254d23;
-            border-color: #254d23;
-            color: #fff;
-            border-radius: 0.75rem;
-            padding: 0.75rem 1.5rem;
-            font-weight: 600;
-            transition: background-color 0.2s;
-        }
-        .btn-auth:hover {
-            background-color: #1c3a1a;
-            border-color: #1c3a1a;
-        }
-        .auth-link {
-            color: #a9744f;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        .auth-link:hover {
-            text-decoration: underline;
-        }
-        .divider-text {
-            position: relative;
-            text-align: center;
-            margin-top: 15px;
-            margin-bottom: 15px;
-        }
-        .divider-text span {
-            padding: 0 10px;
-            background-color: #ffffff;
-            position: relative;
-            z-index: 2;
-            color: #6c757d;
-        }
-        .divider-text:after {
-            content: "";
-            position: absolute;
-            width: 100%;
-            height: 1px;
-            background-color: #dee2e6;
-            left: 0;
-            top: 50%;
-            z-index: 1;
-        }
-        /* Message Box Styling */
-        .message-box {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1050;
-            padding: 15px 25px;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-            transform: translateY(-20px);
-        }
-        .message-box.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .message-box.success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        .message-box.error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        /* --- Standardized Footer --- */
-        .footer {
-            background-color: #254d23;
-            color: #e0f2e0;
-            margin-top: auto;
-        }
+        .main-content { flex: 1; display: flex; align-items: center; justify-content: center; padding-top: 100px; padding-bottom: 2rem; }
+        .auth-card { background-color: #ffffff; border: none; border-radius: 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 450px; width: 100%; }
+        .auth-header { background-color: #254d23; color: #fff; padding: 2rem; border-top-left-radius: 1.5rem; border-top-right-radius: 1.5rem; text-align: center; }
+        .auth-header i { font-size: 3rem; }
+        .form-label { font-weight: 600; }
+        .form-control:focus { border-color: #254d23; box-shadow: 0 0 0 0.25rem rgba(37, 77, 35, 0.25); }
+        .btn-auth { background-color: #254d23; border-color: #254d23; color: #fff; border-radius: 0.75rem; padding: 0.75rem 1.5rem; font-weight: 600; transition: background-color 0.2s; }
+        .btn-auth:hover { background-color: #1c3a1a; border-color: #1c3a1a; }
+        .auth-link { color: #a9744f; text-decoration: none; font-weight: 500; }
+        .auth-link:hover { text-decoration: underline; }
+        .divider-text { position: relative; text-align: center; margin-top: 15px; margin-bottom: 15px; }
+        .divider-text span { padding: 0 10px; background-color: #ffffff; position: relative; z-index: 2; color: #6c757d; }
+        .divider-text:after { content: ""; position: absolute; width: 100%; height: 1px; background-color: #dee2e6; left: 0; top: 50%; z-index: 1; }
+        .message-box { position: fixed; top: 20px; right: 20px; z-index: 1050; padding: 15px 25px; border-radius: 0.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.15); opacity: 0; transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; transform: translateY(-20px); }
+        .message-box.show { opacity: 1; transform: translateY(0); }
+        .message-box.success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .message-box.error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .footer { background-color: #254d23; color: #e0f2e0; margin-top: auto; }
         .footer a { color: #e0f2e0; text-decoration: none; }
         .footer a:hover { color: #fff; text-decoration: underline; }
     </style>
 </head>
 <body>
-<!-- Navigation Bar -->
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-scrolled">
     <div class="container">
         <a class="navbar-brand" href="landing.html">
@@ -250,7 +75,8 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto align-items-lg-center">
+
+            <ul class="navbar-nav ms-auto align-items-lg-center" id="guest-nav">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Explore
@@ -265,29 +91,46 @@
                     </ul>
                 </li>
                 <li class="nav-item d-none d-lg-block mx-2"></li>
-                <li class="nav-item mb-2 mb-lg-0 logged-out-view">
+                <li class="nav-item mb-2 mb-lg-0">
                     <a class="btn btn-outline-light btn-sm" href="login.html">Login</a>
                 </li>
-                <li class="nav-item ms-lg-2 logged-out-view">
+                <li class="nav-item ms-lg-2">
                     <a class="btn btn-warning btn-sm" href="signup.html">Sign Up</a>
                 </li>
-                <li class="nav-item dropdown logged-in-view">
+            </ul>
+
+            <ul class="navbar-nav ms-auto align-items-lg-center" id="user-nav" style="display: none;">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Explore
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="searchsuggest.html">Search Treks</a></li>
+                        <li><a class="dropdown-item" href="map.html">Interactive Map</a></li>
+                        <li><a class="dropdown-item" href="navig_compass.html">Compass</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="emergency.html">Emergency Info</a></li>
+                        <li><a class="dropdown-item" href="blog.html">Blog</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item d-none d-lg-block mx-2"></li>
+                <li class="nav-item dropdown">
                     <a class="nav-link profile-dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-person-circle"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="#">Dashboard</a></li>
-                        <li><a class="dropdown-item" href="#">Profile Settings</a></li>
+                        <li><a class="dropdown-item" href="sosinfo.html">SOS Profile</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Logout</a></li>
+                        <li><a class="dropdown-item" href="#" id="logout-link">Logout</a></li>
                     </ul>
                 </li>
             </ul>
+
         </div>
     </div>
 </nav>
 
-<!-- Main Content -->
 <main class="main-content">
     <div class="auth-card">
         <div class="auth-header">
@@ -299,12 +142,10 @@
             <form id="login-form">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email Address</label>
-                    <!-- Set the default value to match the placeholder in AuthController for easy testing -->
                     <input type="email" class="form-control" id="email" placeholder="you@example.com" required value="test@example.com">
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <!-- Set the default value to match the placeholder in AuthController for easy testing -->
                     <input type="password" class="form-control" id="password" placeholder="Enter your password" required value="password123">
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-4">
@@ -321,9 +162,9 @@
                 </div>
                 <div class="divider-text"><span>OR</span></div>
                 <div class="d-grid">
-                    <button type="button" class="btn btn-light border">
-                        <i class="bi bi-google me-2"></i> Continue with Google
-                    </button>
+                    <a href="http://localhost:8080/oauth2/authorization/google" class="btn btn-light border">
+                        <i class="bi bi-google me-2 text-danger"></i> Continue with Google
+                    </a>
                 </div>
             </form>
             <div class="text-center mt-4">
@@ -333,18 +174,18 @@
     </div>
 </main>
 
-<!-- Custom Message Box Container -->
 <div id="message-container"></div>
 
-<!-- Footer -->
 <footer class="footer text-center py-4">
     <div class="container">
         <p class="mb-0">&copy; 2025 TrekSafe Trails. All rights reserved.</p>
     </div>
 </footer>
 
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="js/auth.js"></script>
+
 <script>
 
     // Utility function to display custom messages
@@ -353,16 +194,10 @@
         const box = document.createElement('div');
         box.className = `message-box ${type}`;
         box.textContent = message;
-
         container.appendChild(box);
-
-        // Show the box with transition
         setTimeout(() => box.classList.add('show'), 10);
-
-        // Auto-hide the box after 3 seconds
         setTimeout(() => {
             box.classList.remove('show');
-            // Remove the element after transition finishes
             box.addEventListener('transitionend', () => box.remove());
         }, 3000);
     }
@@ -375,39 +210,41 @@
 
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            const payload = { email: email, password: password };
 
-            // 1. Construct the payload
-            const payload = {
-                email: email,
-                password: password
-            };
-
-            const apiUrl = 'http://localhost:8080/api/v1/login'; // Spring Boot server address
+            // Ensure this URL is permitted in your SecurityConfig
+            // e.g., .requestMatchers("/api/v1/auth/login").permitAll()
+            const apiUrl = 'http://localhost:8080/login/oauth2/code/google';
 
             try {
-                // 2. Send the POST request to the Spring Boot backend
                 const response = await fetch(apiUrl, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
 
-                // 3. Process the response
                 const data = await response.json();
 
-                if (response.ok && data.status === 'success') {
-                    showMessage(data.message, 'success');
-                    // In a real app, you would redirect the user here:
-                    // window.location.href = 'dashboard.html';
+                // [UPDATED] Check for a token, save it, and redirect
+                if (response.ok && data.token) {
+
+                    // 1. Store the token so the user stays logged in
+                    localStorage.setItem('jwtToken', data.token);
+
+                    // 2. Show success message
+                    showMessage('Login successful! Redirecting...', 'success');
+
+                    // 3. Redirect to the main app page
+                    setTimeout(() => {
+                        // Redirect to your main logged-in page
+                        window.location.href = 'searchsuggest.html';
+                    }, 1000);
+
                 } else {
-                    // Handle server-side validation/login error
                     showMessage(data.message || 'Login failed. Please check your credentials.', 'error');
                 }
 
             } catch (error) {
-                // Handle network errors (e.g., server is down)
                 console.error('Network or server error:', error);
                 showMessage('Could not connect to the server. Is the backend running?', 'error');
             }

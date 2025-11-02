@@ -1,48 +1,25 @@
 package com.treksafe.treksafe.service;
 
-import com.treksafe.treksafe.dto.RegisterRequest;
-import com.treksafe.treksafe.model.Role;
 import com.treksafe.treksafe.model.User;
 import com.treksafe.treksafe.repository.UserRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-/**
- * Service class responsible for business logic related to User operations,
- * primarily registration and interaction with the UserRepository.
- */
+import java.util.Optional;
+
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    // Constructor Injection
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+    // This method fixes 'cannot find symbol method findByEmail'
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
-    /**
-     * Registers a new user with default role 'USER'.
-     *
-     * @param request The registration request DTO containing user details.
-     * @return The newly created User entity.
-     */
-    public User register(RegisterRequest request) {
-        // Build the User entity using the simplified fullName field
-        var user = User.builder()
-                // Directly use the name from the request as the full name
-                .fullName(request.getFullName())
-                .email(request.getEmail())
-                // Encode the password before storing
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER) // Default role for new users
-                .build();
-
-        // Save the user to the database
+    // This method fixes 'cannot find symbol method saveUser'
+    public User saveUser(User user) {
         return userRepository.save(user);
     }
-
-    // Add other user service methods here (e.g., findByEmail, updateUser, deleteUser)
 }
