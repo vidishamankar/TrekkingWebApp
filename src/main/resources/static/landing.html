@@ -67,17 +67,13 @@
             border-bottom: 1px solid transparent;
         }
         .navbar-scrolled {
-            background-color: rgba(37, 77, 35, 0.85) !important;
+            background-color: rgb(37, 77, 35, 0.95) !important;
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         .navbar-scrolled .navbar-brand,
-        .navbar-scrolled .nav-link,
-        .navbar-scrolled .dropdown-toggle {
-            color: #ffffff !important;
-        }
         .navbar-brand {
             font-size: 1.4rem;
             letter-spacing: 0.5px;
@@ -101,9 +97,22 @@
             transition: all 0.3s ease;
             border-width: 2px;
         }
+
+        /* --- ADD THIS RULE --- */
         .navbar .btn-outline-light:hover {
             background-color: #fff;
-            color: #254d23;
+            color: #254d23; /* This sets the text to your dark green */
+        }
+        /* --- End of new rule --- */
+
+        /* --- This existing rule for the "on-click" state is still correct --- */
+        .navbar .btn-outline-light:active,
+        .navbar .btn-outline-light:focus,
+        .navbar .btn-outline-light.active {
+            /* Override Bootstrap's active/focus state */
+            background-color: transparent;
+            color: #ffffff; /* Make text white when clicked */
+            box-shadow: none !important; /* Remove the blue focus glow */
         }
         .navbar .btn-warning {
             background-color: #ffc107;
@@ -129,6 +138,7 @@
         }
         .profile-dropdown-toggle::after {
             display: none;
+            color: #6c757d;
         }
         .profile-dropdown-toggle .bi-person-circle {
             font-size: 1.8rem;
@@ -236,8 +246,7 @@
                         <i class="bi bi-person-circle"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#">Dashboard</a></li>
-                        <li><a class="dropdown-item" href="#">Profile Settings</a></li>
+                        <li><a class="dropdown-item" href="sosinfo.html">SOS Settings</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#">Logout</a></li>
                     </ul>

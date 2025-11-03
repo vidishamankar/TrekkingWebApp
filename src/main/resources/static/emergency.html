@@ -79,10 +79,14 @@
             transition: all 0.3s ease;
             border-width: 2px;
         }
-
-        .navbar .btn-outline-light:hover {
-            background-color: #fff;
-            color: var(--trek-green);
+        /* --- This existing rule for the "on-click" state is still correct --- */
+        .navbar .btn-outline-light:active,
+        .navbar .btn-outline-light:focus,
+        .navbar .btn-outline-light.active {
+            /* Override Bootstrap's active/focus state */
+            background-color: transparent;
+            color: #ffffff; /* Make text white when clicked */
+            box-shadow: none !important; /* Remove the blue focus glow */
         }
 
         .navbar .btn-warning {
@@ -103,6 +107,13 @@
         body.logged-in .logged-out-view { display: none; }
         .profile-dropdown-toggle::after { display: none; }
         .profile-dropdown-toggle .bi-person-circle { font-size: 1.8rem; }
+        .profile-pic-nav {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
 
         /* --- Emergency Page Styles --- */
         .page-header {
@@ -369,8 +380,7 @@
                         <i class="bi bi-person-circle"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#">Dashboard</a></li>
-                        <li><a class="dropdown-item" href="#">Profile Settings</a></li>
+                        <li><a class="dropdown-item" href="sosinfo.html">SOS Settings</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#">Logout</a></li>
                     </ul>

@@ -37,6 +37,13 @@
         /* [STYLES FOR NAV SWAP] */
         .profile-dropdown-toggle::after { display: none; }
         .profile-dropdown-toggle .bi-person-circle { font-size: 1.8rem; }
+        .profile-pic-nav {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
 
         @media (max-width: 767.98px) {
             .navbar-nav .nav-item { margin: 0.5rem 0; }
@@ -155,7 +162,7 @@
                             Remember me
                         </label>
                     </div>
-                    <a href="#" class="auth-link small">Forgot Password?</a>
+                    <a href="forgotpwd.html" class="auth-link small">Forgot Password?</a>
                 </div>
                 <div class="d-grid">
                     <button type="submit" class="btn btn-auth btn-lg">Login</button>
