@@ -36,7 +36,7 @@ public class AuthService {
         // 3. Create and save the new User entity
         User newUser = new User();
         //newUser.setFullName(request.getFullName());
-        newUser.setFullName(request.getFullName());
+        newUser.setName(request.getFullName());
         newUser.setEmail(request.getEmail());
         newUser.setPassword(encodedPassword);
 

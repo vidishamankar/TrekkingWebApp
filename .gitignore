@@ -34,3 +34,6 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+# Secret properties
+src/main/resources/application-secrets.properties
