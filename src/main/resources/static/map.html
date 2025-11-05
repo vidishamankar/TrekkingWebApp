@@ -26,19 +26,16 @@
             color: #254d23; /* Dark green text */
         }
 
-        /* --- Full Screen Flex Layout --- */
         body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            height: 100vh; /* Make sure body takes full viewport height */
-            overflow: hidden; /* Prevent body scroll */
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Light background */
+            color: #254d23; /* Dark green text */
         }
 
         .main-content-wrapper {
             flex-grow: 1; /* Makes this fill all space between navbar and footer */
             display: flex;
-            flex-direction: row; /* Changed to row */
+            flex-direction: column; /* Reverted to column */
             overflow: hidden; /* Prevents internal scroll */
             height: calc(100% - 74px); /* Full height minus navbar (approx 74px) */
         }
@@ -49,15 +46,15 @@
             flex-direction: column;
             position: relative;
             height: 100%;
+            /* When elevation is visible, this will shrink */
         }
 
-        /* --- NAVBAR STYLES (FROM REFERENCE) --- */
+        /* --- NAVBAR STYLES (SYNCHRONIZED WITH LANDING PAGE) --- */
         .navbar {
             padding: 1rem 0;
             transition: background-color 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease;
             background: transparent;
             border-bottom: 1px solid transparent;
-            flex-shrink: 0; /* Prevents navbar from shrinking */
         }
         .navbar-scrolled {
             background-color: rgba(37, 77, 35, 0.95) !important;
@@ -91,12 +88,14 @@
             transition: all 0.3s ease;
             border-width: 2px;
         }
+        /* --- This existing rule for the "on-click" state is still correct --- */
         .navbar .btn-outline-light:active,
         .navbar .btn-outline-light:focus,
         .navbar .btn-outline-light.active {
+            /* Override Bootstrap's active/focus state */
             background-color: transparent;
-            color: #ffffff;
-            box-shadow: none !important;
+            color: #ffffff; /* Make text white when clicked */
+            box-shadow: none !important; /* Remove the blue focus glow */
         }
         .navbar .btn-warning {
             background-color: #ffc107;
@@ -111,11 +110,21 @@
         }
 
         /* --- Logged-In/Out Toggle Styles --- */
-        .logged-in-view { display: none; }
-        body.logged-in .logged-in-view { display: list-item; }
-        body.logged-in .logged-out-view { display: none; }
-        .profile-dropdown-toggle::after { display: none; }
-        .profile-dropdown-toggle .bi-person-circle { font-size: 1.8rem; }
+        .logged-in-view {
+            display: none;
+        }
+        body.logged-in .logged-in-view {
+            display: list-item;
+        }
+        body.logged-in .logged-out-view {
+            display: none;
+        }
+        .profile-dropdown-toggle::after {
+            display: none;
+        }
+        .profile-dropdown-toggle .bi-person-circle {
+            font-size: 1.8rem;
+        }
         .profile-pic-nav {
             width: 30px;
             height: 30px;
@@ -139,23 +148,23 @@
             z-index: 1;
         }
 
-        .elevation-sidebar {
+        .elevation-wrapper {
             /* This is now shown/hidden by JS */
-            width: 25%;
-            max-width: 400px; /* Max width for large screens */
-            height: 100%;
+            height: 300px; /* Fixed height when visible */
+            max-height: 35vh; /* Max height */
+            min-height: 200px; /* Min height */
             background-color: #ffffff;
-            box-shadow: -2px 0 10px rgba(0,0,0,0.1); /* Shadow on the left */
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1); /* Shadow on top */
             display: flex;
             flex-direction: column;
             z-index: 2; /* Above map */
             flex-shrink: 0; /* Prevents shrinking */
-            overflow: hidden;
         }
 
         #elevation-profile {
             height: 100%; /* Fill the wrapper */
             overflow: hidden;
+            box-sizing: border-box; /* Ensure padding is included in height */
         }
 
         /* --- Component Styles --- */
@@ -264,9 +273,9 @@
             .main-content-wrapper {
                 /* Full height minus navbar (approx 74px) */
                 height: calc(100% - 74px);
-                flex-direction: column; /* Stack map on top of sidebar on mobile */
+                /* flex-direction: column; is already default */
             }
-            .elevation-sidebar {
+            .elevation-wrapper {
                 width: 100%; /* Full width */
                 height: 300px; /* Fixed height on mobile */
                 max-height: 35vh;
@@ -327,7 +336,7 @@
 <!-- Main content wrapper for map and elevation -->
 <div class="main-content-wrapper">
     <!-- Map Container (now includes controls and map) -->
-    <div class="map-container">
+    <div class="map-container h-100"> <!-- Start at 100% height -->
         <!-- Map Controls Header -->
         <div class="map-controls">
             <div class="container">
@@ -369,8 +378,8 @@
         </div>
     </div>
 
-    <!-- Elevation Profile Sidebar (initially hidden) -->
-    <div class="elevation-sidebar d-none" id="elevation-container">
+    <!-- Elevation Profile Wrapper (initially hidden) -->
+    <div class="elevation-wrapper d-none" id="elevation-container">
         <div id="elevation-profile">
             <!-- Content will be generated by the plugin -->
         </div>
@@ -400,6 +409,7 @@
         const elevationProfileDiv = document.getElementById('elevation-profile');
         const gpxPrompt = document.getElementById('gpx-prompt');
         const toggleElevationBtn = document.getElementById('toggle-elevation-btn');
+        const mapContainer = document.querySelector('.map-container'); // Get map container
 
         // --- Define Map Layers ---
         const streetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -463,10 +473,9 @@
             elevationControl = L.control.elevation({
                 position: "bottomright",
                 theme: "steelblue-theme",
-                // Adjust height and margins to ensure summary is visible
-                height: profileWrapperHeight - 20, // Use most of the container height
-                width: profileWrapperWidth - 20,   // Use most of the container width
-                margins: { top: 20, right: 20, bottom: 60, left: 50 }, // Increased bottom/left margin
+                // Removed height and width to let it be responsive
+                // Set large margins to ensure summary data is visible
+                margins: { top: 20, right: 20, bottom: 50, left: 60 },
                 useHeightIndicator: true,
                 detached: true,
                 elevationDiv: "#elevation-profile",
@@ -534,6 +543,10 @@
 
             elevationContainer.classList.toggle('d-none');
 
+            // This is the key: we also toggle the map container's class
+            // to make it take full height or partial height
+            mapContainer.classList.toggle('h-100');
+
             // Resize the map
             setTimeout(() => {
                 map.invalidateSize();
@@ -559,6 +572,9 @@
                 elevationContainer.classList.remove('d-none');
                 gpxPrompt.classList.add('d-none');
                 toggleElevationBtn.classList.remove('d-none'); // Show the toggle button
+
+                // Remove h-100 from map container so elevation can show
+                mapContainer.classList.remove('h-100');
 
                 // CRITICAL: Resize map *before* building graph
                 setTimeout(() => {
@@ -613,27 +629,6 @@
     });
 </script>
 <!-- Auth script to manage login state -->
-<!-- <script src="js/auth.js"></script> -->
-<!-- Mock auth.js functionality for demo -->
-<script>
-    // Mocking the auth.js logic for demonstration
-    const user = {
-        name: "A. Trekker",
-        profilePic: "https://placehold.co/100x100/254D23/FFFFFF?text=A"
-    };
-
-    // Check if a user exists (for demo, we'll assume logged in)
-    if (user) {
-        document.body.classList.add('logged-in');
-
-        const profileDropdown = document.getElementById('userProfileDropdown');
-        if (user.profilePic) {
-            profileDropdown.innerHTML = `<img src="${user.profilePic}" alt="${user.name}" class="profile-pic-nav">`;
-        } else {
-            profileDropdown.innerHTML = `<i class="bi bi-person-circle"></i>`;
-        }
-    }
-</script>
+<script src="js/auth.js"></script>
 </body>
 </html>
-
