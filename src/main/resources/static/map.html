@@ -11,39 +11,120 @@
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
     <!-- Leaflet Elevation Plugin CSS -->
     <link rel="stylesheet" href="https://unpkg.com/@raruto/leaflet-elevation/dist/leaflet-elevation.css"/>
     <style>
+        /* --- Base & Font Styles --- */
         body, html {
             height: 100%;
             margin: 0;
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
-            overflow: hidden; /* Prevent body scroll */
-        }
-        .map-wrapper {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        #map {
-            height: 65vh; /* Adjust map height */
-            z-index: 1;
-        }
-        .elevation-wrapper {
-            height: 35vh; /* Space for elevation profile */
-            background-color: #ffffff;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-            display: flex;
-            flex-direction: column;
-        }
-        #elevation-profile {
-            flex-grow: 1;
+            background-color: #f8fafc; /* Light background */
+            color: #254d23; /* Dark green text */
         }
 
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Light background */
+            color: #254d23; /* Dark green text */
+        }
+
+        .main-content-wrapper {
+            flex-grow: 1; /* Makes this fill all space between navbar and footer */
+            display: flex;
+            flex-direction: column; /* Reverted to column */
+            overflow: hidden; /* Prevents internal scroll */
+            height: calc(100% - 74px); /* Full height minus navbar (approx 74px) */
+        }
+
+        .map-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            height: 100%;
+            /* When elevation is visible, this will shrink */
+        }
+
+        /* --- NAVBAR STYLES (SYNCHRONIZED WITH LANDING PAGE) --- */
+        .navbar {
+            padding: 1rem 0;
+            transition: background-color 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease;
+            background: transparent;
+            border-bottom: 1px solid transparent;
+        }
+        .navbar-scrolled {
+            background-color: rgba(37, 77, 35, 0.95) !important;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .navbar-scrolled .navbar-brand,
+        .navbar-scrolled .nav-link,
+        .navbar-scrolled .dropdown-toggle {
+            color: #ffffff !important;
+        }
+        .navbar-brand {
+            font-size: 1.4rem;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+        .nav-link {
+            font-weight: 600;
+        }
+        .dropdown-menu {
+            border-radius: 0.5rem;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .navbar .btn {
+            border-radius: 50px;
+            font-weight: 600;
+            padding: 0.5rem 1.25rem;
+            transition: all 0.3s ease;
+            border-width: 2px;
+        }
+        /* --- This existing rule for the "on-click" state is still correct --- */
+        .navbar .btn-outline-light:active,
+        .navbar .btn-outline-light:focus,
+        .navbar .btn-outline-light.active {
+            /* Override Bootstrap's active/focus state */
+            background-color: transparent;
+            color: #ffffff; /* Make text white when clicked */
+            box-shadow: none !important; /* Remove the blue focus glow */
+        }
+        .navbar .btn-warning {
+            background-color: #ffc107;
+            border-color: #ffc107;
+            color: #212529;
+        }
+        .navbar .btn-warning:hover {
+            background-color: #ffca2c;
+            border-color: #ffca2c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+        }
+
+        /* --- Logged-In/Out Toggle Styles --- */
+        .logged-in-view {
+            display: none;
+        }
+        body.logged-in .logged-in-view {
+            display: list-item;
+        }
+        body.logged-in .logged-out-view {
+            display: none;
+        }
+        .profile-dropdown-toggle::after {
+            display: none;
+        }
+        .profile-dropdown-toggle .bi-person-circle {
+            font-size: 1.8rem;
+        }
         .profile-pic-nav {
             width: 30px;
             height: 30px;
@@ -52,26 +133,61 @@
             border: 1px solid rgba(255, 255, 255, 0.5);
         }
 
+        /* --- Map & Elevation Layout --- */
         .map-controls {
             background-color: #ffffff;
             padding: 1rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             z-index: 2;
             border-bottom: 1px solid #dee2e6;
+            flex-shrink: 0; /* Prevents controls from shrinking */
         }
+
+        #map {
+            flex-grow: 1; /* Map takes up all available vertical space */
+            z-index: 1;
+        }
+
+        .elevation-wrapper {
+            /* This is now shown/hidden by JS */
+            height: 300px; /* Fixed height when visible */
+            max-height: 35vh; /* Max height */
+            min-height: 200px; /* Min height */
+            background-color: #ffffff;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1); /* Shadow on top */
+            display: flex;
+            flex-direction: column;
+            z-index: 2; /* Above map */
+            flex-shrink: 0; /* Prevents shrinking */
+        }
+
+        #elevation-profile {
+            height: 100%; /* Fill the wrapper */
+            overflow: hidden;
+            box-sizing: border-box; /* Ensure padding is included in height */
+        }
+
+        /* --- Component Styles --- */
         .btn-primary-trek {
-            background-color: #254d23;
-            border-color: #254d23;
+            background-color: #228B22;
+            border-color: #228B22;
             color: #fff;
+            transition: background-color 0.2s ease;
         }
         .btn-primary-trek:hover {
-            background-color: #1c3a1a;
-            border-color: #1c3a1a;
+            background-color: #176d1a;
+            border-color: #176d1a;
         }
+        .form-control:focus {
+            border-color: #228B22;
+            box-shadow: 0 0 0 0.25rem rgba(34,139,34,0.25);
+        }
+
         .upload-btn-wrapper {
             position: relative;
             overflow: hidden;
             display: inline-block;
+            width: 100%; /* Make wrapper fill column */
         }
         .btn-upload {
             width: 100%;
@@ -84,6 +200,30 @@
             opacity: 0;
             cursor: pointer;
         }
+
+        /* GPX Upload Prompt */
+        .gpx-prompt-overlay {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000; /* Above map, below controls */
+            background-color: rgba(37, 77, 35, 0.9); /* TrekSafe dark green */
+            color: #ffffff;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            pointer-events: none; /* Don't block map clicks */
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            opacity: 1;
+            visibility: visible;
+        }
+        .gpx-prompt-overlay.d-none {
+            opacity: 0;
+            visibility: hidden;
+        }
+
         /* Elevation Profile Customization */
         .elevation-summary a, .elevation-summary {
             color: #254d23 !important;
@@ -92,59 +232,156 @@
         .elevation-summary .summary-icon {
             fill: #a9744f !important;
         }
+        /* Ensure summary data is visible */
+        #elevation-profile .elevation-summary {
+            font-size: 12px !important;
+            color: #333 !important;
+        }
+
         /* Pulsing Glow Animation */
         @keyframes pulse-glow {
-            0% {
-                filter: drop-shadow(0 0 4px #8B008B) drop-shadow(0 0 8px #8B008B);
-            }
-            50% {
-                filter: drop-shadow(0 0 8px #8B008B) drop-shadow(0 0 16px #8B008B);
-            }
-            100% {
-                filter: drop-shadow(0 0 4px #8B008B) drop-shadow(0 0 8px #8B008B);
-            }
+            0% { filter: drop-shadow(0 0 4px #8B008B) drop-shadow(0 0 8px #8B008B); }
+            50% { filter: drop-shadow(0 0 8px #8B008B) drop-shadow(0 0 16px #8B008B); }
+            100% { filter: drop-shadow(0 0 4px #8B008B) drop-shadow(0 0 8px #8B008B); }
         }
         .glow-path {
             animation: pulse-glow 2.5s infinite;
+        }
+
+        /* --- Mobile Responsiveness --- */
+        @media (max-width: 767.98px) {
+            .navbar-nav .nav-item { margin: 0.5rem 0; }
+            .navbar-nav .btn { width: 100%; }
+            .navbar-collapse {
+                background-color: rgba(37, 77, 35, 0.95);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                border-radius: 0.5rem;
+                padding: 1rem;
+                margin-top: 0.5rem;
+            }
+            .map-controls .col-md-5, .map-controls .col-md-3, .map-controls .col-md-2 {
+                margin-bottom: 0.5rem; /* Add spacing when stacked */
+            }
+            .gpx-prompt-overlay {
+                bottom: 1rem;
+                padding: 0.75rem 1rem;
+                font-size: 0.85rem;
+                width: 90%;
+                text-align: center;
+            }
+            .main-content-wrapper {
+                /* Full height minus navbar (approx 74px) */
+                height: calc(100% - 74px);
+                /* flex-direction: column; is already default */
+            }
+            .elevation-wrapper {
+                width: 100%; /* Full width */
+                height: 300px; /* Fixed height on mobile */
+                max-height: 35vh;
+                box-shadow: 0 -2px 10px rgba(0,0,0,0.1); /* Shadow on top */
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="map-wrapper">
-    <!-- Map Controls Header -->
-    <div class="map-controls">
-        <div class="container">
-            <div class="row g-2 align-items-center">
-                <div class="col-md-5">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for a place..." id="search-input">
-                        <button class="btn btn-primary-trek" type="button" id="search-btn"><i class="bi bi-search"></i></button>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top navbar-scrolled">
+    <div class="container">
+        <a class="navbar-brand" href="landing.html">
+            <i class="bi bi-shield-check me-2"></i>TrekSafe
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Explore
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="searchsuggest.html">Search Treks</a></li>
+                        <li><a class="dropdown-item" href="map.html">Interactive Map</a></li>
+                        <li><a class="dropdown-item" href="navig_compass.html">Compass</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="emergency.html">Emergency Info</a></li>
+                        <li><a class="dropdown-item" href="blog.html">Blog</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item d-none d-lg-block mx-2"></li>
+                <li class="nav-item mb-2 mb-lg-0 logged-out-view">
+                    <a class="btn btn-outline-light btn-sm" href="login.html">Login</a>
+                </li>
+                <li class="nav-item ms-lg-2 logged-out-view">
+                    <a class="btn btn-warning btn-sm" href="signup.html">Sign Up</a>
+                </li>
+                <li class="nav-item dropdown logged-in-view">
+                    <!-- Profile picture/icon will be loaded by auth.js -->
+                    <a class="nav-link profile-dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="userProfileDropdown">
+                        <i class="bi bi-person-circle"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userProfileDropdown">
+                        <li><a class="dropdown-item" href="sosinfo.html">SOS Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#" id="logout-button">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Main content wrapper for map and elevation -->
+<div class="main-content-wrapper">
+    <!-- Map Container (now includes controls and map) -->
+    <div class="map-container h-100"> <!-- Start at 100% height -->
+        <!-- Map Controls Header -->
+        <div class="map-controls">
+            <div class="container">
+                <div class="row g-2 align-items-center">
+                    <!-- Adjusted column layout for better spacing -->
+                    <div class="col-md-5">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search for a place..." id="search-input">
+                            <button class="btn btn-primary-trek" type="button" id="search-btn"><i class="bi bi-search"></i></button>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-5 d-grid">
-                    <div class="upload-btn-wrapper">
-                        <button class="btn btn-secondary btn-upload" type="button"><i class="bi bi-upload me-1"></i> Upload GPX Trail</button>
-                        <input type="file" id="gpx-upload" accept=".gpx"/>
+                    <div class="col-md-3 d-grid">
+                        <div class="upload-btn-wrapper">
+                            <button class="btn btn-secondary btn-upload" type="button"><i class="bi bi-upload me-1"></i> Upload GPX Trail</button>
+                            <input type="file" id="gpx-upload" accept=".gpx"/>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-2 d-grid">
-                    <button class="btn btn-outline-secondary" type="button" id="locate-btn">
-                        <i class="bi bi-geo-alt-fill me-1"></i> My Location
-                    </button>
+                    <div class="col-md-2 d-grid">
+                        <button class="btn btn-outline-secondary" type="button" id="locate-btn">
+                            <i class="bi bi-geo-alt-fill me-1"></i> My Location
+                        </button>
+                    </div>
+                    <div class="col-md-2 d-grid">
+                        <button class="btn btn-outline-secondary d-none" type="button" id="toggle-elevation-btn">
+                            <i class="bi bi-bar-chart-line me-1"></i> Elevation
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <!-- Map Container -->
+        <div id="map"></div>
+
+        <!-- GPX Upload Prompt (initially visible) -->
+        <div id="gpx-prompt" class="gpx-prompt-overlay">
+            <i class="bi bi-upload me-2"></i>
+            Upload a GPX file to see the trail and its elevation profile.
+        </div>
     </div>
 
-    <!-- Map Container -->
-    <div id="map"></div>
-    <!-- Elevation Profile Container -->
-    <div class="elevation-wrapper">
+    <!-- Elevation Profile Wrapper (initially hidden) -->
+    <div class="elevation-wrapper d-none" id="elevation-container">
         <div id="elevation-profile">
-            <div class="d-flex justify-content-center align-items-center h-100">
-                <p class="text-muted">Upload a GPX file to see the elevation profile.</p>
-            </div>
+            <!-- Content will be generated by the plugin -->
         </div>
     </div>
 </div>
@@ -161,6 +398,19 @@
 <script src="https://unpkg.com/leaflet-polylinedecorator@1.6.0/dist/leaflet.polylineDecorator.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+
+        // --- Navbar Scroll Effect ---
+        const navbar = document.querySelector('.navbar');
+        // This page doesn't scroll, so we'll just make it 'scrolled' by default
+        navbar.classList.add('navbar-scrolled');
+
+        // --- Get DOM Elements ---
+        const elevationContainer = document.getElementById('elevation-container');
+        const elevationProfileDiv = document.getElementById('elevation-profile');
+        const gpxPrompt = document.getElementById('gpx-prompt');
+        const toggleElevationBtn = document.getElementById('toggle-elevation-btn');
+        const mapContainer = document.querySelector('.map-container'); // Get map container
+
         // --- Define Map Layers ---
         const streetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OpenStreetMap contributors'
@@ -193,36 +443,47 @@
         let elevationControl = null;
         let currentTrailLayer = null;
         let animationInterval = null;
+        let elevationLoaded = false;
+        let lastGpxData = null; // Store the last loaded GPX data
 
-        // --- Function to draw the trail ---
-        const drawTrail = (gpxData) => {
-            // Clear previous layers and animations
-            if (currentTrailLayer) {
-                map.removeLayer(currentTrailLayer);
-            }
+        // --- Function to REBUILD the elevation control ---
+        // This is called on load and on resize
+        function rebuildElevationControl(gpxData) {
             if (elevationControl) {
                 elevationControl.remove();
             }
             if (animationInterval) {
                 clearInterval(animationInterval);
             }
-            document.getElementById('elevation-profile').innerHTML = '';
+            if (currentTrailLayer) {
+                map.removeLayer(currentTrailLayer);
+            }
 
-            // Initialize elevation control
+            elevationProfileDiv.innerHTML = ''; // Clear placeholder
+
+            // Get the *actual* dimensions of the container *after* it's visible
+            const profileWrapperHeight = elevationProfileDiv.clientHeight;
+            const profileWrapperWidth = elevationProfileDiv.clientWidth;
+
+            if (profileWrapperHeight === 0 || profileWrapperWidth === 0) {
+                // Failsafe if the container is not visible yet
+                return;
+            }
+
             elevationControl = L.control.elevation({
                 position: "bottomright",
                 theme: "steelblue-theme",
-                width: document.querySelector('.elevation-wrapper').clientWidth,
-                height: 200,
-                margins: { top: 10, right: 20, bottom: 30, left: 50 },
+                // Removed height and width to let it be responsive
+                // Set large margins to ensure summary data is visible
+                margins: { top: 20, right: 20, bottom: 50, left: 60 },
                 useHeightIndicator: true,
-                // interpolation: d3.interpolateLinear, // REMOVED: Let plugin use defaults compatible with D3 v7
                 detached: true,
                 elevationDiv: "#elevation-profile",
+                summary: 'all' // Explicitly request all summary data
             }).addTo(map);
 
             elevationControl.on('eledata_loaded', function(e) {
-                const layer = e.layer;
+                const layer = e.layer; // This is the base GPX layer
                 map.fitBounds(layer.getBounds().pad(0.1));
 
                 layer.eachLayer(function(l) {
@@ -250,9 +511,14 @@
                             }]
                         });
 
+                        // Clear old styled layer before adding new one
+                        if (currentTrailLayer) {
+                            map.removeLayer(currentTrailLayer);
+                        }
                         currentTrailLayer = L.layerGroup([glow, l, dots]).addTo(map);
 
                         let offset = 0;
+                        if (animationInterval) clearInterval(animationInterval);
                         animationInterval = setInterval(() => {
                             offset = (offset + 2) % 50;
                             dots.setPatterns([{
@@ -269,7 +535,27 @@
             });
 
             elevationControl.load(gpxData);
-        };
+        }
+
+        // --- Toggle Elevation Button Logic ---
+        toggleElevationBtn.addEventListener('click', () => {
+            if (!elevationLoaded) return; // Don't do anything if no GPX is loaded
+
+            elevationContainer.classList.toggle('d-none');
+
+            // This is the key: we also toggle the map container's class
+            // to make it take full height or partial height
+            mapContainer.classList.toggle('h-100');
+
+            // Resize the map
+            setTimeout(() => {
+                map.invalidateSize();
+                // If we are *showing* the container, rebuild the graph to fit
+                if (!elevationContainer.classList.contains('d-none')) {
+                    rebuildElevationControl(lastGpxData);
+                }
+            }, 100);
+        });
 
         // --- GPX Upload Logic ---
         const gpxUploadInput = document.getElementById('gpx-upload');
@@ -279,7 +565,23 @@
             const reader = new FileReader();
 
             reader.onload = function(event) {
-                drawTrail(event.target.result);
+                lastGpxData = event.target.result; // Store the data
+                elevationLoaded = true; // Flag that we have data
+
+                // Show elevation and hide prompt
+                elevationContainer.classList.remove('d-none');
+                gpxPrompt.classList.add('d-none');
+                toggleElevationBtn.classList.remove('d-none'); // Show the toggle button
+
+                // Remove h-100 from map container so elevation can show
+                mapContainer.classList.remove('h-100');
+
+                // CRITICAL: Resize map *before* building graph
+                setTimeout(() => {
+                    map.invalidateSize();
+                    // Now build the graph
+                    rebuildElevationControl(lastGpxData);
+                }, 100);
             };
 
             reader.readAsText(file);
@@ -297,6 +599,7 @@
             const query = searchInput.value;
             if (!query) return;
             try {
+                // Using Nominatim for search
                 const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`);
                 const data = await response.json();
                 if (data && data.length > 0) {
@@ -313,8 +616,19 @@
         };
         searchBtn.addEventListener('click', performSearch);
         searchInput.addEventListener('keypress', e => { if (e.key === 'Enter') performSearch(); });
+
+        // Adjust map size on window resize
+        window.addEventListener('resize', () => {
+            setTimeout(() => {
+                map.invalidateSize();
+                if (elevationLoaded && !elevationContainer.classList.contains('d-none')) {
+                    rebuildElevationControl(lastGpxData); // Rebuild graph to fit new size
+                }
+            }, 100);
+        });
     });
 </script>
+<!-- Auth script to manage login state -->
 <script src="js/auth.js"></script>
 </body>
 </html>
