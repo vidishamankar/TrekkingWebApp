@@ -60,7 +60,7 @@ public class SecurityConfig {
                         ).permitAll()
 
                         // Public API, login, and OAuth2 URLs
-                        .requestMatchers("/api/v1/auth/**").permitAll() // For email/pass login
+                        .requestMatchers("/api/v1/**").permitAll() // For email/pass login
                         .requestMatchers("/oauth2/**", "/login/oauth2/**").permitAll()
 
                         // Secure all other API endpoints

@@ -211,15 +211,14 @@
         const loginForm = document.getElementById('login-form');
 
         loginForm.addEventListener('submit', async (event) => {
-            event.preventDefault(); // Stop the default form submission
+            event.preventDefault();
 
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const payload = { email: email, password: password };
 
-            // Ensure this URL is permitted in your SecurityConfig
-            // e.g., .requestMatchers("/api/v1/auth/login").permitAll()
-            const apiUrl = 'http://localhost:8080/login/oauth2/code/google';
+            // --- CONNECTING TO YOUR BACKEND ---
+            const apiUrl = 'http://localhost:8080/api/v1/login';
 
             try {
                 const response = await fetch(apiUrl, {
@@ -228,30 +227,30 @@
                     body: JSON.stringify(payload)
                 });
 
-                const data = await response.json();
+                if (response.ok) {
+                    // Login Successful
+                    const data = await response.text(); // Your backend currently returns a plain string "Login successful."
 
-                // [UPDATED] Check for a token, save it, and redirect
-                if (response.ok && data.token) {
+                    // 1. (Optional) Simulate a token for now since AuthController doesn't return a JWT yet
+                    localStorage.setItem('jwtToken', 'simulated-token');
 
-                    // 1. Store the token so the user stays logged in
-                    localStorage.setItem('jwtToken', data.token);
+                    // 2. Show success
+                    showMessage(data || 'Login successful! Redirecting...', 'success');
 
-                    // 2. Show success message
-                    showMessage('Login successful! Redirecting...', 'success');
-
-                    // 3. Redirect to the main app page
+                    // 3. Redirect
                     setTimeout(() => {
-                        // Redirect to your main logged-in page
                         window.location.href = 'searchsuggest.html';
                     }, 1000);
 
                 } else {
-                    showMessage(data.message || 'Login failed. Please check your credentials.', 'error');
+                    // Login Failed
+                    const errorText = await response.text();
+                    showMessage(errorText || 'Invalid credentials.', 'error');
                 }
 
             } catch (error) {
-                console.error('Network or server error:', error);
-                showMessage('Could not connect to the server. Is the backend running?', 'error');
+                console.error('Network error:', error);
+                showMessage('Could not connect to server. Is the backend running?', 'error');
             }
         });
     });

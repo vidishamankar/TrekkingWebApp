@@ -344,30 +344,48 @@
             { id: 'ht006', name: 'Harishchandragad Trek', location: 'Ahmednagar, Maharashtra', difficulty: 'difficult', duration: 'multi-day', rating: 4.9, reviews: 300, image: 'https://placehold.co/400x250/E8D1C1/002B47?text=Harishchandragad', description: 'Ancient fort with a famous Konkan Kada cliff.', equipment: ['Sleeping Bag', 'Cooking Gear'], safetyTips: ['Experienced trekkers only', 'Check route conditions'] },
         ];
 
-        function fetchTrailsFromBackend(filters) {
+        async function fetchTrailsFromBackend(filters) {
+            const loadingIndicator = document.getElementById('loadingIndicator');
             loadingIndicator.style.display = 'block';
-            trailResultsContainer.innerHTML = '';
-            return new Promise(resolve => {
-                setTimeout(() => {
-                    let filteredTrails = allTrails.filter(trail => {
-                        const searchTerm = filters.searchTerm ? filters.searchTerm.toLowerCase() : '';
-                        const difficulty = filters.difficulty || '';
-                        const location = filters.location ? filters.location.toLowerCase() : '';
-                        const duration = filters.duration || '';
-                        const matchesSearch = (searchTerm === '' ||
-                            trail.name.toLowerCase().includes(searchTerm) ||
-                            trail.location.toLowerCase().includes(searchTerm) ||
-                            trail.description.toLowerCase().includes(searchTerm));
-                        const matchesDifficulty = (difficulty === '' || trail.difficulty === difficulty);
-                        const matchesLocation = (location === '' || trail.location.toLowerCase().includes(location));
-                        const matchesDuration = (duration === '' || trail.duration === duration);
-                        return matchesSearch && matchesDifficulty && matchesLocation && matchesDuration;
-                    });
 
-                    loadingIndicator.style.display = 'none';
-                    resolve(filteredTrails);
-                }, 700);
-            });
+            const resultsContainer = document.getElementById('trailResults');
+            resultsContainer.innerHTML = '';
+
+            try {
+                // --- CALLING YOUR BACKEND ---
+                // This endpoint calls TrekController.getAllTrails() which gets data from the DB
+                const response = await fetch('http://localhost:8080/api/v1/trails');
+
+                if (!response.ok) {
+                    throw new Error('Server returned ' + response.status);
+                }
+
+                const allTrails = await response.json();
+
+                // Filter the data using the frontend filters (Client-side filtering)
+                // Note: Ideally, you'd send these filters to the backend, but this works for now.
+                return allTrails.filter(trail => {
+                    const searchTerm = filters.searchTerm ? filters.searchTerm.toLowerCase() : '';
+                    const difficulty = filters.difficulty || '';
+                    const location = filters.location ? filters.location.toLowerCase() : '';
+
+                    // Note: Your Java 'Weather' model uses 'name', 'location', 'difficulty'
+                    const matchesSearch = (searchTerm === '' ||
+                        trail.name.toLowerCase().includes(searchTerm) ||
+                        trail.location.toLowerCase().includes(searchTerm));
+                    const matchesDifficulty = (difficulty === '' || trail.difficulty.toLowerCase() === difficulty.toLowerCase());
+                    const matchesLocation = (location === '' || trail.location.toLowerCase().includes(location));
+
+                    return matchesSearch && matchesDifficulty && matchesLocation;
+                });
+
+            } catch (error) {
+                console.error("Failed to fetch trails:", error);
+                resultsContainer.innerHTML = `<div class="col-12 text-center text-danger"><p>Failed to load trails. Is the backend running?</p></div>`;
+                return [];
+            } finally {
+                loadingIndicator.style.display = 'none';
+            }
         }
 
         function renderTrails(trailsToRender) {
