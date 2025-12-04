@@ -221,6 +221,8 @@
             const apiUrl = 'http://localhost:8080/api/v1/login';
 
             try {
+                // ... inside the try block ...
+
                 const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -228,22 +230,26 @@
                 });
 
                 if (response.ok) {
-                    // Login Successful
-                    const data = await response.text(); // Your backend currently returns a plain string "Login successful."
+                    // 1. Parse the JSON response from the backend
+                    const data = await response.json();
 
-                    // 1. (Optional) Simulate a token for now since AuthController doesn't return a JWT yet
-                    localStorage.setItem('jwtToken', 'simulated-token');
+                    // 2. Check if we actually got a token
+                    if (data.token) {
+                        // 3. Save the REAL token to LocalStorage
+                        localStorage.setItem('jwtToken', data.token);
 
-                    // 2. Show success
-                    showMessage(data || 'Login successful! Redirecting...', 'success');
+                        showMessage('Login successful! Redirecting...', 'success');
 
-                    // 3. Redirect
-                    setTimeout(() => {
-                        window.location.href = 'searchsuggest.html';
-                    }, 1000);
+                        // 4. Redirect
+                        setTimeout(() => {
+                            window.location.href = 'searchsuggest.html';
+                        }, 1000);
+                    } else {
+                        showMessage('Login succeeded but no token received.', 'error');
+                    }
 
                 } else {
-                    // Login Failed
+                    // Handle plain text error messages
                     const errorText = await response.text();
                     showMessage(errorText || 'Invalid credentials.', 'error');
                 }
