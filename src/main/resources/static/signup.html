@@ -338,14 +338,13 @@
     }
 
     document.getElementById('signup-form').addEventListener('submit', async function(event) {
-        event.preventDefault(); // Prevent default form submission
+        event.preventDefault();
 
         const fullName = document.getElementById('fullName').value;
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         const confirmPassword = document.getElementById('confirmPassword').value;
 
-        // --- Client-Side Validation ---
         if (password !== confirmPassword) {
             showMessage("Error: Passwords do not match.", false);
             return;
@@ -369,24 +368,30 @@
                 body: JSON.stringify(registrationData)
             });
 
-            const data = await response.json();
+            // --- FIX STARTS HERE ---
+            // The backend returns a plain string, not JSON.
+            // We use .text() instead of .json()
+            const message = await response.text();
 
             if (response.ok) {
                 // Registration was successful
-                showMessage(data.message || "Registration successful! Redirecting to login...", true);
+                showMessage(message || "Registration successful! Redirecting to login...", true);
 
-                // Optional: Redirect to login page after a short delay
                 setTimeout(() => {
                     window.location.href = 'login.html';
                 }, 2000);
 
             } else {
-                // Registration failed (e.g., email already in use, validation errors)
-                showMessage(data.message || "Registration failed due to an unknown error.", false);
+                // Registration failed
+                showMessage(message || "Registration failed.", false);
             }
+            // --- FIX ENDS HERE ---
+
         } catch (error) {
-            console.error('Network Error during registration:', error);
-            showMessage("Network error: Could not connect to the server.", false);
+            console.error('Error during registration:', error);
+            // Since we know the DB insert worked, this catch block likely triggers
+            // only if the fetch itself fails (server down) or parsing fails.
+            showMessage("Error: " + error.message, false);
         }
     });
 </script>
